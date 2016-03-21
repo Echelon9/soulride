@@ -29,3 +29,6 @@ PRODUCTS = \
 
 $(PRODUCTS): all
 	$(MAKE) -C src/installer $@
+
+installdeps:
+	apt-get install build-essential libsdl1.2-dev libsdl-mixer1.2-dev

@@ -1,0 +1,23 @@
+To compile a player from scratch, use:
+
+gamegui.cpp
+gg_actor.cpp
+gg_event.cpp
+gg_file.cpp
+gg_font.cpp
+gg_movie_impl.cpp
+gg_player_impl.cpp
+gg_psdread.cpp
+gg_resource.cpp
+gg_script.cpp
+gg_string.cpp
+gg_log.c
+
+gg_audio.cpp            [used to build standalone ggplayer.exe]
+winmain.cpp             [used to build standalone ggplayer.exe]
+winmain_hittest.cpp     [used to build hittest.exe]
+winmain_fonttest.cpp    [used to build fonttest.exe]
+
+-------------------------
+
+To use the library in an app, simply add the gamegui.lib file into your project, and include the header file "gamegui.h".

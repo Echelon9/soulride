@@ -1,0 +1,81 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON BLACK		// 1x1 black poly
+  V -1.0  1.0  1.0 0.0 0.0 1.0
+  V  1.0  1.0  1.0 0.0 0.0 1.0
+  V  1.0 -1.0  1.0 0.0 0.0 1.0
+  V -1.0 -1.0  1.0 0.0 0.0 1.0
+END
+
+POLYGON SRSHAPE
+  BITMAP "brecklogo_cut.psd"
+  V -0.5  0.5  0.0 0.0
+  V  0.5  0.5  1.0 0.0
+  V  0.5 -0.5  1.0 1.0
+  V -0.5 -0.5  0.0 1.0
+END
+
+
+//
+//  Line up logo cutout and blockers:
+//
+//  BBB
+//  BSB
+//  BBB
+//
+
+SCRIPT
+  00 SETPLAYMODE HANG
+
+  00 BLACK
+      0 SETPOS -1.5  1.5
+     END
+
+  00 BLACK
+      0 SETPOS  0.0  1.5
+      0 SETSCALE 0.5 1.0
+     END
+
+  00 BLACK
+      0 SETPOS  1.5  1.5
+     END
+
+  00 BLACK
+      0 SETPOS -1.5  0.0
+      0 SETSCALE 1.0 0.5
+     END
+
+  00 SRSHAPE
+      0 SETCOLOR 1.0 1.0 0.0 0.0
+      0 SETPOS 0.0 0.0
+     END
+
+  00 BLACK
+      0 SETPOS  1.5  0.0
+      0 SETSCALE 1.0 0.5
+     END
+
+  00 BLACK
+      0 SETPOS  -1.5  -1.5
+     END
+
+  00 BLACK
+      0 SETPOS  0.0  -1.5
+      0 SETSCALE 0.5 1.0
+     END
+
+  00 BLACK
+      0 SETPOS  1.5  -1.5
+     END
+END   //  END SCRIPT

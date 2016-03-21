@@ -1,0 +1,64 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+MOVIE BONUS_NUM
+  FILENAME "bonus-num.ggm"
+  PLAYMODE LOOP
+END
+
+TEXTLINE BONUS_DESC ID= GGID_BONUS_DESC
+  TEXT "TREMENDOUS AIR!"
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.08
+  ALIGN CENTER
+END
+
+
+SCRIPT
+
+  0000 BONUS_NUM
+        0000 SETPOS 0.0 0.3
+        0000 SETCOLOR 0.0 1.0 0.9 0.0 ^2.0
+        0000 SETSCALE 25.0 25.0 ^-1.5
+
+        1000 SETPOS 0.0 0.3 ^2.0
+        1000 SETCOLOR 0.2 1.0 0.9 0.0 ^2.0
+        1000 SETSCALE 3.0 3.0 ^-2.0
+
+        1700 SETCOLOR 1.0 1.0 0.9 0.0 ^2.0
+
+        2000 SETSCALE 1.5 1.5 ^-2.0
+        2000 SETPOS -1.1 0.8
+        2000 SETCOLOR 0.0 1.0 0.9 0.0
+       END
+
+  0000 BONUS_DESC
+        0000 SETPOS -0.2 -0.6
+
+        0000 SETSCALE 0.2 0.2 ^-2.0
+        0000 SETCOLOR 0.0 1.0 0.5 0.0 ^2.0
+        0000 SETSPACING 10.0 0.0 ^-4.0
+
+        1500 SETSCALE 1.0 1.0
+        1500 SETCOLOR 0.9 1.0 0.5 0.0
+        1500 SETSPACING 0.0 0.0
+
+        2200 SETSCALE 1.0 1.0
+        2200 SETCOLOR 1.0 1.0 1.0 0.4 ^-2.0
+        2200 SETSPACING 0.0 0.0 ^2.0
+
+        2700 SETSCALE 2.0 2.0
+        2700 SETCOLOR 0.0 1.0 0.5 0.0
+        2700 SETSPACING 10.0 0.0
+
+        2700 SETPOS 0.2 -0.4
+       END
+END

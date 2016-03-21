@@ -1,0 +1,65 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON VCR_SCREEN
+  V -0.333  0.034  1.0 1.0 1.0 1.0
+  V  0.333  0.034  1.0 1.0 1.0 1.0
+  V  0.333 -0.034  1.0 1.0 1.0 1.0
+  V -0.333 -0.034  1.0 1.0 1.0 1.0
+END
+
+POLYGON VCR_FADE
+  BITMAP "vcr.psd"
+  V -1.0  1.0  0.0039 0.3000
+  V  1.0  1.0  0.1211 0.3000
+  V  1.0 -1.0  0.1211 0.4922
+  V -1.0 -1.0  0.0039 0.4922
+END
+
+////////////////////////////////  For standalone player tests
+//POLYGON SCREENSHOT
+//  BITMAP "screenshot.psd"
+//  V -100.0%  100.0% 0.0 0.0
+//  V  100.0%  100.0% 1.0 0.0
+//  V  100.0% -100.0% 1.0 1.0
+//  V -100.0% -100.0% 0.0 1.0
+//END
+////////////////////////////////
+
+
+
+SCRIPT
+////////////////////////////////  For tests (fake background)
+//  00000 SCREENSHOT
+//         00000 SETPOS 0.0 0.0
+//        END
+////////////////////////////////
+
+  0000 VCR_SCREEN
+        000 SETPOS 1.0 -0.766
+        000 SETSCALE 1.0 1.0
+        000 SETCOLOR 1.0 0.0 0.0 0.0
+       END
+
+  0000 VCR_FADE  // docked segment for player controls
+        000 SETPOS 1.0 -0.9
+        000 SETSCALE 0.333 0.1
+        000 SETCOLOR 1.0 0.0 0.0 0.0
+       END
+
+  0000 VCR_FADE   // floating segment for load/save
+        000 SETPOS 0.54 -0.9
+        000 SETSCALE 0.111 0.1
+        000 SETCOLOR 1.0 0.0 0.0 0.0
+       END
+END

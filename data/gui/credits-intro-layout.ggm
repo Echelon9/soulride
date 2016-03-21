@@ -1,0 +1,56 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+
+#include "guidefs.h"
+
+TEXTBOX COPY1 ID= GGID_CREDITS_COPYRIGHT
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.075
+  LEADING 0.1
+  ALIGN CENTER
+  TEXT "Copyright 2003\nAll rights reserved"
+  RECT -1.0 0.075 1.0 -0.75
+END
+
+POLYGON SLINGLOGO
+  BITMAP "gui_intro.psd"
+  V -0.25  0.125 0.2539 0.0039
+  V  0.25  0.125 0.746  0.0039
+  V  0.25 -0.125 0.746  0.246
+  V -0.25 -0.125 0.2539 0.246
+END
+
+POLYGON SRLOGO
+  BITMAP "srlogo_matte.psd"
+  V -0.5  0.5  0.0  0.0        //  Not bothering to use colors, defaults to 1,1,1,1
+  V  0.5  0.5  1.0  0.0
+  V  0.5 -0.5  1.0  1.0
+  V -0.5 -0.5  0.0  1.0
+END
+
+
+SCRIPT
+
+  000000 SRLOGO
+          00000 SETPOS 0.0 0.4
+          00000 SETSCALE 0.8 0.8
+         END
+
+  000000 COPY1
+          00000 SETPOS 0.0 -0.11
+          00000 SETSCALE 1.0 1.0
+         END
+
+  000000 SLINGLOGO
+          00000 SETPOS 0.0 -0.5
+          00000 SETSCALE 1.0 1.0
+         END
+
+END

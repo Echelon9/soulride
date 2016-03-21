@@ -1,0 +1,22 @@
+# makefile for lua hierarchy
+
+# modified by Thatcher Ulrich <tu@tulrich.com> 7/24/2000 to compile under Win32
+
+MAKE = make -f Makefile.macosx
+
+all:
+	cd include; $(MAKE) $@
+	cd src; $(MAKE) $@
+	cd src/luac; $(MAKE) $@
+	cd src/lib; $(MAKE) $@
+	cd src/lua; $(MAKE) $@
+
+clean:
+	cd include; $(MAKE) $@
+	cd src; $(MAKE) $@
+	cd src/luac; $(MAKE) $@
+	cd src/lib; $(MAKE) $@
+	cd src/lua; $(MAKE) $@
+
+strip:
+	strip bin/lua*

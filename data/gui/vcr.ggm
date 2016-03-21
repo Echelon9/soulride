@@ -1,0 +1,89 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+MOVIE VCR_CHROME
+  FILENAME "vcr_chrome.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE VCR_BUTTONS
+  FILENAME "vcr_buttons.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE VCR_LABELS
+  FILENAME "vcr_labels.ggm"
+  PLAYMODE HANG
+END
+
+
+TEXTLINE VCR_TITLE
+  FONT "lcd.ggf"
+  TEXT "VCR"
+  SIZE 0.05
+  ALIGN LEFT
+END
+
+TEXTLINE VCR_DISPLAY ID= GUI_VCR_DISPLAY
+  FONT "lcd.ggf"
+  TEXT "00:00:00.00"
+  SIZE 0.05
+  ALIGN RIGHT
+END
+
+
+////////////////////////////////  For standalone player tests
+//POLYGON SCREENSHOT
+//  BITMAP "screenshot.psd"
+//  V -100.0%  100.0% 0.0 0.0
+//  V  100.0%  100.0% 1.0 0.0
+//  V  100.0% -100.0% 1.0 1.0
+//  V -100.0% -100.0% 0.0 1.0
+//END
+////////////////////////////////
+
+
+
+SCRIPT
+////////////////////////////////  For tests (fake background)
+//  00000 SCREENSHOT
+//         00000 SETPOS 0.0 0.0
+//        END
+////////////////////////////////
+
+  0000 VCR_CHROME
+//        00 SETPOS 0.0 -0.9
+        00 SETCOLOR 0.6 1.0 1.0 1.0
+       END
+
+  0000 VCR_BUTTONS
+        00 SETPOS 0.0 0.0
+        00 SETCOLOR 0.5 1.0 1.0 1.0
+       END
+
+  0000 VCR_LABELS
+       END
+
+  0000 VCR_DISPLAY
+        000 SETPOS 1.31 -0.785
+        000 SETCOLOR 1.0 1.0 0.7 0.0
+       END
+
+  0000 VCR_TITLE
+        000 SETPOS 0.68 -0.785
+        000 SETCOLOR 1.0 0.0 1.0 0.9
+       END
+
+END

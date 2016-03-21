@@ -1,0 +1,93 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+//////////////////////////////////  to test on sample bg
+//POLYGON TEST_BG
+//  BITMAP "test_bg.psd"
+//  V -100.0%  100.0% 0.0 0.0
+//  V  100.0%  100.0% 1.0 0.0
+//  V  100.0% -100.0% 1.0 1.0
+//  V -100.0% -100.0% 0.0 1.0
+//END
+/////////////////////////////
+
+MOVIE CREDITS_INTRO
+  FILENAME "credits-intro.ggm"
+END
+
+MOVIE CREDITS_TEAM
+  FILENAME "credits-team.ggm"
+END
+
+MOVIE CREDITS_PEOPLE
+  FILENAME "credits-people.ggm"
+END
+
+MOVIE CREDITS_MUSIC
+  FILENAME "credits-music.ggm"
+END
+
+//MOVIE CREDIT_LOGOS
+//  FILENAME "credits-logos.ggm"
+//END
+
+//MOVIE CREDIT_NOTICES
+//  FILENAME "credits-notices.ggm"
+//END
+
+//
+//  Movie Script
+//
+SCRIPT
+
+/////////////////////////////////////////////
+//  000000 TEST_BG
+//           000000 SETCOLOR 0.0 1.0 1.0 1.0
+//           000400 SETCOLOR 1.0 1.0 1.0 1.0
+//           099500 SETCOLOR 1.0 1.0 1.0 1.0
+//           100000 SETCOLOR 0.0 1.0 1.0 1.0
+//         END
+////////////////////////////////////////////
+
+  000000 CREDITS_INTRO
+         END
+
+
+  010000 CREDITS_TEAM  //  Shadow
+          0000 SETCOLOR 0.7 0.0 0.0 0.0
+          0000 SETPOS 0.004 -0.004
+         END
+
+  010000 CREDITS_TEAM  //  Full color type
+         END
+
+  033000 CREDITS_PEOPLE //  Shadow
+          0000 SETCOLOR 0.7 0.0 0.0 0.0
+          0000 SETPOS 0.003 -0.003
+         END
+
+  033000 CREDITS_PEOPLE
+         END
+
+  64000 CREDITS_MUSIC   //  Shadow
+          0000 SETCOLOR 0.7 0.0 0.0 0.0
+          0000 SETPOS 0.003 -0.003
+         END
+
+  64000 CREDITS_MUSIC
+         END
+END
+//
+//  END SCRIPT

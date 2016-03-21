@@ -1,0 +1,67 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON SNOWFLAKE
+  BITMAP "gui_intro.psd"
+  V -0.25  0.25  0.0039  0.0039
+  V  0.25  0.25  0.121   0.0039
+  V  0.25 -0.25  0.121   0.121
+  V -0.25 -0.25  0.0039  0.121
+END
+
+POLYGON BACKGROUND                      //  A rectangle, screen-size
+  V -100.0%  100.0% 1.0 1.0 1.0 1.0     //  Use % for percentage of screen size
+  V  100.0%  100.0% 1.0 1.0 1.0 1.0
+  V  100.0% -100.0% 1.0 1.0 1.0 1.0
+  V -100.0% -100.0% 1.0 1.0 1.0 1.0
+END
+
+
+TEXTLINE PLEASEWAIT
+  TEXT "changing terrain.."
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.06
+  ALIGN CENTER
+END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  00000 BACKGROUND
+         00000 SETCOLOR 1.0 0.0 0.0 0.0
+         00050 SETCOLOR 1.0 1.0 1.0 1.0
+         02000 SETCOLOR 1.0 0.0 0.3 1.0
+         03050 SETCOLOR 1.0 0.0 0.0 0.0
+        END
+
+  00050 SNOWFLAKE
+         00000 SETCOLOR 1.0 1.0 1.0 1.0
+         00000 SETSCALE 35.0 35.0 ^-2.0
+         00000 SETPOS 0.0 0.0
+         00000 SETROT 0.0
+
+         02000 SETSCALE 0.001 0.001
+         02000 SETROT 800.0
+        END
+
+  03050 PLEASEWAIT
+         00000 SETCOLOR 0.0 0.0 0.0 0.0
+         00000 SETPOS 0.0 -0.65
+       	 00250 SETCOLOR 1.0 1.0 1.0 1.0
+        END
+
+END   //  END SCRIPT

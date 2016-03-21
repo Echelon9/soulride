@@ -1,0 +1,53 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+TEXTLINE MENU_TITLE ID= GGID_MENU_TITLE
+  FONT "score.ggf"
+  SIZE 0.125
+  TEXT "MAIN MENU"
+  ALIGN CENTER
+  PLAYMODE LOOP
+END
+
+//MOVIE PLAYER_STATUS
+//  FILENAME "player_status.ggm"
+//  PLAYMODE LOOP
+//END
+
+POLYGON MENU_SHADE
+  V -1.0  1.0  0.0 0.0
+  V  1.0  1.0  1.0 0.0
+  V  1.0 -1.0  1.0 1.0
+  V -1.0 -1.0  0.0 0.0
+END
+
+SCRIPT
+
+//  000 PLAYER_STATUS
+//        000 SETCOLOR 0.0 1.0 1.0 1.0
+//        500 SETCOLOR 1.0 1.0 1.0 1.0
+//      END
+
+  000 MENU_TITLE
+        000 SETPOS 1.6666 0.85 ^-2.0
+        000 SETCOLOR 0.0 0.0 0.0 0.0
+        500 SETPOS 0.6666 0.85
+        500 SETCOLOR 0.25 0.0 0.0 0.0
+      END
+
+  000 MENU_SHADE
+        000 SETSCALE 0.6 1.0
+        000 SETPOS 0.6666 -2.18 ^-2.0
+        000 SETCOLOR 0.0 0.0 0.0 0.0
+        500 SETPOS 0.6666 -0.18
+        500 SETCOLOR 0.25 0.0 0.0 0.0
+      END
+END

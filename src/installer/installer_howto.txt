@@ -1,0 +1,94 @@
+HOWTO MAKE A WIN32 INSTALLER FOR SOULRIDE
+=========================================
+
+Directory layout.  $(SRC) could be anything, e.g. "c:/mysrc".
+
+    $(SRC)/soulride             contains GPL'd Soul Ride engine source
+    $(SRC)/soulride-private     contains your specific terrain data files
+
+Key files that must be available:
+
+    $(SRC)/soulride/src/Release/soulride.exe   built from source using GNU make & MSVC
+    $(SRC)/soulride/src/installer/*            scripts and file lists (.lst) for the install
+    $(SRC)/soulride-private/*                  files referred to by the .lst files
+
+Getting the source:
+
+    If you need the source code and/or the installer scripts, you can
+    retrieve it from SourceForge via anonymous CVS, with:
+
+    # cd $(SRC)
+    # cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/soulride login
+    # cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/soulride co soulride
+
+    If you have commit access to the project on SourceForge, you can
+    (and should) use cvs via SSH.  See SourceForge docs.
+
+Extra tools:
+
+    If you're going to build from source, you need:
+
+      GNU make
+
+      Microsoft Visual C/C++ (versions 6 or 7 should both work)
+
+    You make also need a bash-compatible shell.  I use cygwin as a
+    build environment; cygwin includes CVS as well.  Get cygwin from
+    http://www.cygwin.com/
+
+    To make the installer, you need:
+
+      Perl (I use the one included with cygwin, but the ActiveState
+      version will probably work as well,
+      http://www.activestate.com/).
+
+      Nullsoft Scriptable Install System ("NSIS"); get it from
+      http://nsis.sourceforge.net/ .  The soulride installer scripts
+      use Version 2.0 as of 5/21/2004.  Download it and install it to
+
+        c:/Program Files/NSIS
+
+Building from source:
+
+    If you already have a valid soulride.exe that you want to use, and
+    are just changing data files, you don't have to do this.  Just
+    make sure the soulride.exe you want to use is located at
+    $(SRC)/soulride/src/Release/soulride.exe
+
+    Otherwise, to build from source, do this:
+
+    # cd $(SRC)/soulride/src
+    # make clean
+    # make
+
+    There will be a few compile and link warnings.  If everything
+    worked, there should be a new soulride.exe in
+    $(SRC)/soulride/src/Release
+
+Testing:
+
+    To test with your data, do:
+
+    # cd $(SRC)/soulride-private
+    # ../soulride/soulride.exe
+
+    You can add command-line options to soulride as needed.
+
+To build the installer:
+
+    After you've tested to make sure everything works, do this:
+
+    # cd $(SRC)/soulride/src/installer
+    # make soulride_setup
+
+    This should generate a self-installing Windows executable, in the
+    file soulride_setup_$(VERSION).exe
+
+    $(VERSION) is defined in $(SRC)/soulride/src/config.mak; make sure
+    it's up to date.  Note that the version number is compiled into
+    the soulride.exe program, so you must rebuild from source in order
+    for the soulride launcher to show an updated version number.
+
+    Test the installer by running it.  If you install Soul Ride, and
+    discover that files are missing when you run it, check the file
+    lists in $(SRC)/soulride/src/installer/$(MOUNTAIN_NAME).lst

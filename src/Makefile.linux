@@ -1,0 +1,158 @@
+# makefile.linux	-thatcher 1/22/2001 Copyright Thatcher Ulrich
+
+#    Copyright 2000, 2001, 2002, 2003 Slingshot Game Technology, Inc.
+#
+#    This file is part of The Soul Ride Engine, see http://soulride.com
+#
+#    The Soul Ride Engine is free software; you can redistribute it
+#    and/or modify it under the terms of the GNU General Public License
+#    as published by the Free Software Foundation; either version 2 of
+#    the License, or (at your option) any later version.
+#
+#    The Soul Ride Engine is distributed in the hope that it will be
+#    useful, but WITHOUT ANY WARRANTY; without even the implied
+#    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#    See the GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with Foobar; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Soul Ride makefile, for Linux.
+
+
+cc = g++ -c
+debugflags = -g
+link = g++ $(debugflags) -fexceptions
+cflags = $(shell sdl-config --cflags) -DLINUX=1 $(debugflags) -O3 -fomit-frame-pointer -fexceptions -ffast-math -fno-default-inline
+xlibs = /usr/X11R6/lib
+make = make -f Makefile.linux
+
+
+ifeq "$(debug)" "1"
+OBJ_DIR = .
+DEBUGARG = debug=1
+else
+OBJ_DIR = .
+DEBUGARG =
+endif
+
+
+ifeq "$(static)" "1"
+proj=soulride-static
+else
+proj=soulride
+endif
+
+
+#	$(OBJ_DIR)/winmain.o	\
+#	$(OBJ_DIR)/exceptionhandler.o	\
+#	$(OBJ_DIR)/crashtest.o	\
+#	$(OBJ_DIR)/winsound.o	\
+
+OBJ_LIST = \
+	$(OBJ_DIR)/linuxmain.o	\
+	$(OBJ_DIR)/linuxsound.o	\
+	$(OBJ_DIR)/oglrender.o	\
+	$(OBJ_DIR)/ogl.o	\
+	$(OBJ_DIR)/timer.o	\
+	$(OBJ_DIR)/input.o	\
+	$(OBJ_DIR)/psdread.o	\
+	$(OBJ_DIR)/avi_tools.o	\
+				\
+	$(OBJ_DIR)/main.o	\
+	$(OBJ_DIR)/config.o	\
+	$(OBJ_DIR)/console.o	\
+	$(OBJ_DIR)/utility.o	\
+	$(OBJ_DIR)/overlay.o	\
+	$(OBJ_DIR)/imageoverlay.o	\
+	$(OBJ_DIR)/text.o	\
+	$(OBJ_DIR)/geometry.o	\
+	$(OBJ_DIR)/view.o	\
+	$(OBJ_DIR)/clip.o	\
+	$(OBJ_DIR)/model.o	\
+	$(OBJ_DIR)/mdynamic.o	\
+	$(OBJ_DIR)/terrainmodel.o	\
+	$(OBJ_DIR)/terrainmesh.o	\
+	$(OBJ_DIR)/polygonregion.o	\
+	$(OBJ_DIR)/surface.o	\
+	$(OBJ_DIR)/surfaceshader.o	\
+	$(OBJ_DIR)/weather.o	\
+	$(OBJ_DIR)/gstamp.o	\
+	$(OBJ_DIR)/mesh.o	\
+	$(OBJ_DIR)/stickman.o	\
+	$(OBJ_DIR)/staticlod.o	\
+	$(OBJ_DIR)/scylinder.o	\
+	$(OBJ_DIR)/sbox.o	\
+	$(OBJ_DIR)/collide.o	\
+	$(OBJ_DIR)/gameloop.o	\
+	$(OBJ_DIR)/game.o	\
+	$(OBJ_DIR)/player.o	\
+	$(OBJ_DIR)/highscore.o	\
+	$(OBJ_DIR)/ui.o	\
+	$(OBJ_DIR)/uimainmenu.o	\
+	$(OBJ_DIR)/uioptions.o	\
+	$(OBJ_DIR)/uiplayer.o	\
+	$(OBJ_DIR)/uihelidrop.o	\
+	$(OBJ_DIR)/uiplayback.o	\
+	$(OBJ_DIR)/attractmode.o	\
+	$(OBJ_DIR)/music.o	\
+	$(OBJ_DIR)/screenshot.o	\
+	$(OBJ_DIR)/path.o	\
+	$(OBJ_DIR)/recording.o	\
+	$(OBJ_DIR)/perftest.o	\
+	$(OBJ_DIR)/usercamera.o	\
+	$(OBJ_DIR)/camera.o	\
+	$(OBJ_DIR)/boarder.o	\
+	$(OBJ_DIR)/boarderctl.o	\
+	$(OBJ_DIR)/tree.o	\
+	$(OBJ_DIR)/orientedstatic.o	\
+	$(OBJ_DIR)/particle.o	\
+	$(OBJ_DIR)/finish.o	\
+	$(OBJ_DIR)/lift.o
+
+
+all: $(proj)
+
+
+.cpp.o :
+	$(cc) $(cdebug) $(cflags) -o $*.o $(version_switches) $*.cpp
+
+
+gamegui = gamegui/gamegui.lib
+$(gamegui):
+	cd gamegui; $(make) $(DEBUGARG)
+
+
+lua = lua/lib/lua.lib
+$(lua):
+	cd lua/src; $(make) $(DEBUGARG); cd ../..
+
+lualib = lua/lib/lualib.lib
+$(lualib):
+	cd lua/src/lib; $(make) nodebug=$(nodebug)
+
+
+
+ifeq "$(static)" "1"
+stdlibs := /usr/lib/libstdc++-libc6.2-2.a.3
+SDL_MIXER_LIBS := /usr/lib/libSDL_mixer.a /usr/lib/libsmpeg.a /usr/lib/libvorbisfile.a /usr/lib/libvorbis.a /usr/lib/libogg.a
+SDL_LDFLAGS := $(SDL_MIXER_LIBS) $(shell sdl-config --static-libs)
+SDL_LDFLAGS := $(patsubst -lSDL, /usr/lib/libSDL.a, $(SDL_LDFLAGS))
+else
+stdlibs := -lstdc++
+SDL_LDFLAGS := -lSDL_mixer $(shell sdl-config --libs)
+endif
+
+$(proj): $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
+	$(link) $(linkdebug) -o $(proj) \
+		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
+		-lGL	\
+		$(SDL_LDFLAGS)	\
+		$(STD_LIBS)
+	cp $(proj) ..
+
+clean:
+	rm *.o $(proj)
+
+# need to recurse into gamegui and lua

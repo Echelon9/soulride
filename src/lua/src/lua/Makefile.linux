@@ -1,0 +1,36 @@
+# makefile for lua interpreter
+
+# modified by Thatcher Ulrich <tu@tulrich.com> 1/26/2001 to work under Linux
+
+MAKE = make -f Makefile.linux
+
+LUA= ../..
+
+include $(LUA)/config.linux
+
+EXTRA_DEFS= $(POSIX)
+
+OBJS= lua.o
+SRCS= lua.c
+
+T= $(BIN)/lua
+
+all: $T
+
+$T: $(OBJS) $(LUALIB)/lua.lib $(LUALIB)/lualib.lib
+	$(LINK) -o $@ $(OBJS) $(LUALIB)/lua.lib $(LUALIB)/lualib.lib
+
+$(LUALIB)/lua.lib:
+	cd ..; $(MAKE)
+
+$(LIB)/lualib.lib:
+	cd ../lib; $(MAKE)
+
+clean:
+	rm -f $(OBJS) $T
+
+co:
+	co -q -f -M $(SRCS)
+
+klean:	clean
+	rm -f $(SRCS)

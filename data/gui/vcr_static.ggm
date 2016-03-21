@@ -1,0 +1,159 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON STATIC1
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.000
+  V  100.0%  18.0%  1.0  0.000
+  V  100.0% -18.0%  1.0  0.125
+  V -100.0% -18.0%  0.0  0.125
+END
+
+POLYGON STATIC2
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.125
+  V  100.0%  18.0%  1.0  0.125
+  V  100.0% -18.0%  1.0  0.250
+  V -100.0% -18.0%  0.0  0.250
+END
+
+POLYGON STATIC3
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.250
+  V  100.0%  18.0%  1.0  0.250
+  V  100.0% -18.0%  1.0  0.375
+  V -100.0% -18.0%  0.0  0.375
+END
+
+POLYGON STATIC4
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.375
+  V  100.0%  18.0%  1.0  0.375
+  V  100.0% -18.0%  1.0  0.500
+  V -100.0% -18.0%  0.0  0.500
+END
+
+POLYGON STATIC5
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.500
+  V  100.0%  18.0%  1.0  0.500
+  V  100.0% -18.0%  1.0  0.625
+  V -100.0% -18.0%  0.0  0.625
+END
+
+POLYGON STATIC6
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.625
+  V  100.0%  18.0%  1.0  0.625
+  V  100.0% -18.0%  1.0  0.750
+  V -100.0% -18.0%  0.0  0.750
+END
+
+POLYGON STATIC7
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.750
+  V  100.0%  18.0%  1.0  0.750
+  V  100.0% -18.0%  1.0  0.875
+  V -100.0% -18.0%  0.0  0.875
+END
+
+POLYGON STATIC8
+  BITMAP "static.psd"
+  V -100.0%  18.0%  0.0  0.875
+  V  100.0%  18.0%  1.0  0.875
+  V  100.0% -18.0%  1.0  1.000
+  V -100.0% -18.0%  0.0  1.000
+END
+
+
+SCRIPT
+  0000 STATIC1
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0000 STATIC8
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0050 STATIC2
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0050 STATIC7
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0100 STATIC3
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0100 STATIC6
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0150 STATIC4
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0150 STATIC5
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0200 STATIC5
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0200 STATIC4
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0250 STATIC6
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0250 STATIC3
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0250 STATIC7
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0250 STATIC2
+        000 SETPOS 0.0 -0.5
+        050
+       END
+
+  0300 STATIC8
+        000 SETPOS 0.0 0.5
+        050
+       END
+
+  0300 STATIC1
+        000 SETPOS 0.0 -0.5
+        050
+       END
+END

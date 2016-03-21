@@ -1,0 +1,29 @@
+// spinning_disk.ggm
+//
+// Game GUI movie of a spinning CD.
+
+GAMEGUIMOVIE 1.0
+
+
+// Actors
+
+POLYGON CDICON
+	BITMAP "cdicon.psd"
+	V -0.25  0.25 0 0
+	V  0.25  0.25 1 0
+	V  0.25 -0.25 1 1
+	V -0.25 -0.25 0 1
+END
+
+
+// Script
+
+SCRIPT
+	00000 CDICON
+//		00000 SETPOS 1.1 -0.8
+		00000 SETSCALE 0.5 0.5
+		00000 SETROT 0.0
+		01500 SETROT -359.0
+//		00500 SETPOS 0 0
+	END
+END	// END SCRIPT

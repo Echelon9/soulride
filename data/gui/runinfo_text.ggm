@@ -1,0 +1,163 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0     //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+TEXTLINE RUNTITLE ID= GGID_RUNTITLE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.115
+  ALIGN RIGHT
+  TEXT "Over the Edge"
+END
+
+TEXTBOX RUNDESC ID= GGID_RUNDESCRIPTION
+  FONT "swiss-xcbi.ggf"
+  RECT -0.8 0.4 0.8 -0.6
+  SIZE 0.08
+  LEADING 0.09
+  ALIGN LEFT
+  TEXT "Stay in the middle. Avoid ice patches that dump you "
+  TEXT "into gullies and watch out for rocks. Be on the alert "
+  TEXT "for avalanches, bears and trees. Break a leg!"
+END
+
+TEXTLINE PARTIME_TXT ID= GGID_PARTIME_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Par Time:"
+END
+
+TEXTLINE PARTIME_NUM ID= GGID_PARTIME
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "00:00.00"
+END
+
+TEXTLINE DROP_TXT ID= GGID_RUNDROP_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Vertical drop:"
+END
+
+TEXTLINE DROP_NUM ID= GGID_RUNDROP
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "800m"
+END
+
+
+TEXTLINE YOURHIGHSCORE_TXT ID= GGID_YOURHIGHSCORE_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Your High"
+END
+
+TEXTLINE YOURHIGHSCORE_NUM ID= GGID_YOURHIGHSCORE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "0"
+END
+
+
+TEXTLINE LOCALHIGHSCORE_TXT ID= GGID_LOCALHIGHSCORE_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Local High"
+END
+
+TEXTLINE LOCALHIGHSCORE_NUM ID= GGID_LOCALHIGHSCORE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "0"
+END
+
+TEXTLINE LOCALHIGHSCORE_NAME ID= GGID_LOCALHIGHPLAYER
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "---"
+END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  0000 RUNTITLE
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.75 0.5
+       END
+
+  0000 RUNDESC
+        0000 SETCOLOR 1.0 0.9 0.7 0.5
+        0000 SETPOS 0.0 0.0
+       END
+
+  0000 PARTIME_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS -0.1 -0.45
+       END
+  
+  0000 PARTIME_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS 0.1 -0.45
+       END
+
+  0000 DROP_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS -0.1 -0.575
+       END
+  
+  0000 DROP_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS 0.1 -0.575
+       END
+
+
+  0000 YOURHIGHSCORE_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS -0.67 -0.85
+       END
+  
+  0000 YOURHIGHSCORE_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS -0.42 -0.85
+       END
+
+
+  0000 LOCALHIGHSCORE_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.25 -0.85
+       END
+  
+  0000 LOCALHIGHSCORE_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS 0.5 -0.85
+       END
+
+  0000 LOCALHIGHSCORE_NAME
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS  0.55 -0.85
+       END
+
+END

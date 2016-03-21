@@ -1,0 +1,91 @@
+# GameGUI makefile.	-thatcher 2/17/2000 Copyright Slingshot Game Technology.
+
+#    Copyright 2000, 2001, 2002, 2003 Slingshot Game Technology, Inc.
+#
+#    This file is part of The Soul Ride Engine, see http://soulride.com
+#
+#    The Soul Ride Engine is free software; you can redistribute it
+#    and/or modify it under the terms of the GNU General Public License
+#    as published by the Free Software Foundation; either version 2 of
+#    the License, or (at your option) any later version.
+#
+#    The Soul Ride Engine is distributed in the hope that it will be
+#    useful, but WITHOUT ANY WARRANTY; without even the implied
+#    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#    See the GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with Foobar; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+cc = g++ -c
+# debugflags = -g
+link = gcc $(debugflags)
+cflags = -DMACOSX -DLINUX=1 $(debugflags) -O2 -fomit-frame-pointer
+xlibs = -L/usr/X11R6/lib -lXmu -lXt -lSM -lICE -lXext -lX11 -lXi -lm
+make = make -f Makefile.macosx
+
+RANLIB = ranlib
+
+ifeq "$(debug)" "1"
+OBJ_DIR = .
+else
+OBJ_DIR = .
+endif
+
+proj=gamegui
+
+OBJ_LIST = \
+	$(OBJ_DIR)/gamegui.o	\
+	$(OBJ_DIR)/gg_actor.o	\
+	$(OBJ_DIR)/gg_audio.o	\
+	$(OBJ_DIR)/gg_event.o	\
+	$(OBJ_DIR)/gg_file.o		\
+	$(OBJ_DIR)/gg_font_impl.o		\
+	$(OBJ_DIR)/gg_log.o	\
+	$(OBJ_DIR)/gg_movie_impl.o	\
+	$(OBJ_DIR)/gg_player_impl.o	\
+	$(OBJ_DIR)/gg_psdread.o	\
+	$(OBJ_DIR)/gg_resource.o	\
+	$(OBJ_DIR)/gg_string.o	\
+	$(OBJ_DIR)/gg_script.o	\
+
+
+VECEDIT_OBJ_LIST = \
+	$(OBJ_DIR)/vecedit_winmain.o	\
+	$(OBJ_DIR)/veceditor.o	\
+
+
+all: $(OBJ_DIR)/$(proj).lib
+
+
+.cpp.o:
+	$(cc) $(cdebug) $(cflags) -o $*.o $*.cpp
+
+
+$(OBJ_DIR)/ggplayer.exe: $(OBJ_DIR)/$(proj).lib $(OBJ_DIR)/winmain.o # $(OBJ_DIR)/$(proj).res # $(proj).def 
+	$(link) $(linkdebug) $(guiflags) -out:$(OBJ_DIR)/ggplayer.exe -map:$(OBJ_DIR)/ggplayer.map \
+	   $(OBJ_DIR)/winmain.o $(OBJ_DIR)/$(proj).lib \
+           $(guilibsmt) opengl32.lib winmm.lib dsound.lib dxguid.lib ole32.lib
+
+$(OBJ_DIR)/veceditor.exe: $(VECEDIT_OBJ_LIST) $(OBJ_DIR)/$(proj).lib # $(OBJ_DIR)/veceditor.res
+	$(link) $(linkdebug) $(guiflags) -out:$(OBJ_DIR)/veceditor.exe -map:$(OBJ_DIR)/veceditor.map \
+	   $(VECEDIT_OBJ_LIST) $(OBJ_DIR)/$(proj).lib \
+           $(guilibsmt) opengl32.lib winmm.lib dsound.lib ole32.lib
+
+$(OBJ_DIR)/fonttest.exe: $(OBJ_DIR)/$(proj).lib $(OBJ_DIR)/winmain_fonttest.o # $(OBJ_DIR)/$(proj).res # $(proj).def 
+	$(link) $(linkdebug) $(guiflags) -out:$(OBJ_DIR)/fonttest.exe -map:$(OBJ_DIR)/fonttest.map \
+	   $(OBJ_DIR)/winmain_fonttest.o $(OBJ_DIR)/$(proj).lib \
+           $(guilibsmt) opengl32.lib winmm.lib dsound.lib dxguid.lib ole32.lib
+
+
+$(proj).lib: $(OBJ_LIST)
+	ar rcu $(proj).lib $(OBJ_LIST)
+	$(RANLIB) $@
+
+# Rules for cleaning out those old files
+clean:
+	rm *.o
+	rm gamegui.lib
+
+

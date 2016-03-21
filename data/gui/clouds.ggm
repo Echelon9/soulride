@@ -1,0 +1,12 @@
+//  Scrolling clouds movie
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+POLYGON CLOUDS
+  BITMAP "clouds.psd"
+  V -300.0%  300.0% 0.0 0.0
+  V  300.0%  300.0% 3.0 0.0
+  V  300.0% -300.0% 3.0 3.0
+  V -300.0% -300.0% 0.0 3.0
+END
+

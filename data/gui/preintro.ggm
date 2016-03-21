@@ -1,0 +1,25 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+MOVIE SSHOT_LOGOFLASH
+  FILENAME "sshot_logoflash.ggm"
+  PLAYMODE HANG
+END
+
+SCRIPT
+
+  0000 SSHOT_LOGOFLASH
+       000 SETPOS 0.0 0.0
+       END
+
+END   //  END SCRIPT

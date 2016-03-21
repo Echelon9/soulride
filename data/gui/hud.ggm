@@ -1,0 +1,33 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+
+MOVIE TIME_LCD
+  FILENAME "time_lcd.ggm"
+  PLAYMODE LOOP
+END
+
+MOVIE SCORE
+  FILENAME "score.ggm"
+  PLAYMODE LOOP
+END
+
+SCRIPT
+
+  0000 TIME_LCD
+        500
+       END
+
+  0000 SCORE
+        0000 SETPOS -1.315 0.85
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0500 SETCOLOR 0.5 1.0 0.1 0.0
+       END
+
+END

@@ -1,0 +1,32 @@
+# makefile for lua compiler
+
+# modified by Thatcher Ulrich <tu@tulrich.com> 1/26/2001 to compile under Linux
+
+MAKE = make -f Makefile.linux
+
+LUA= ../..
+
+include $(LUA)/config.linux
+
+INCS= -I$(INC) $(EXTRA_INCS) -I..
+OBJS= dump.o luac.o opcode.o opt.o print.o stubs.o test.o
+SRCS= dump.c luac.c opcode.c opt.c print.c stubs.c test.c luac.h opcode.h
+
+T= $(BIN)/luac
+
+all: $T
+
+$T: $(OBJS) $(LUALIB)/lua.lib
+	$(LINK) -o $@ $(OBJS) $(LUALIB)/lua.lib
+
+$(LUALIB)/lua.lib:
+	cd ..; $(MAKE)
+
+clean:
+	rm -f $(OBJS) $T
+
+co:
+	co -q -f -M $(SRCS)
+
+klean:	clean
+	rm -f $(SRCS)

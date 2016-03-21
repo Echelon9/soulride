@@ -1,0 +1,108 @@
+TODO list for the Soul Ride Engine
+
+bugs/maintenance
+================
+
+* Better error messages on missing content!!!
+
+* Crank warning level and fix warnings
+
+* Add asserts to flush out bugs
+
+* Fix Linux bugs
+
+  * stutter in framerate
+
+  * failure loading retail data, and Virtual Stratton?
+
+  * mouse gets off-center after some amount of play
+
+* Better sample data
+
+* Improve data tools
+
+* slider for total terrain texture cache size (currently it's fixed)
+
+* make the terrain performance scale better to higher perf machines
+  (mainly a question of increasing the cache sizes and tile build
+  limits when the machine can handle it)
+
+wish list/features
+==================
+
+* better customizability for the rider, with a real UI
+
+* goofy stance
+
+* finish nose/tail grab implementation
+
+* grinds
+
+* heli-drop "bookmarks"/landmarks
+
+* real camera controls for VCR
+
+* easy screenshot interface for VCR
+
+* AVI/Quicktime/MPG export for movies
+
+* snow trail
+
+* "ghost rider" (patented by Midway, bleah, need a workaround)
+
+* career mode
+
+* real UI option for "Jet Power", and maybe put up a little icon when
+  it is enabled
+
+* Try some level designs where the player has to grab certain objects
+  on the way down (a la Elastomania)
+
+* "Arcade" style physics, as a more easily playable alternative
+
+* In-game editor: I think this is the generic solution to many of the
+  current tool woes.  Basically, cook up some code so that the engine
+  can export a valid .srt based on its current state.  Then, gradually
+  add in-game editor features in order of payoff.  Maintain
+  compatibility with existing out-of-game tools.
+
+* lighting for objects
+
+* better boarder vs world collision detection (use swept spheres
+  instead of cylinder?  Allow boarding on poly objects?)
+
+* animated world objects?
+
+* better looking trees, w/ some kind of LOD
+
+* virtual GPS (encode the level center's real-world UTM coords),
+  readout in lat-lon or UTM
+
+* other vehicles
+
+  * "hike" and "climb" modes
+
+  * pilot the helicopter for helidrops, for real
+
+  * ride a mountain bike through the backcountry
+
+  * drive a pick-up truck between resorts
+
+  * snowmobile
+
+  * Veloci
+
+  * etc.
+
+* mp3 playlists for music
+
+* remappable controls
+
+* replace gamegui with gameswf library
+
+Ports
+=====
+
+* Macintosh
+
+* Dreamcast?  PS2 Linux kit?  Xbox Linux?

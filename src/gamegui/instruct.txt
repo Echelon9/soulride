@@ -1,0 +1,105 @@
+===================================
+-----------------------------------
+  GameGUI limited alpha release 1
+  (c) 2000 by Mike Linkovich
+
+  mlinkovich@sympatico.ca
+  link_0001@hotmail.com
+-----------------------------------
+===================================
+
+
+No materials to be redistributed without prior consent from the author.
+
+
+Installation:
+
+  Use WinZip to extract the file into a directory on your computer.  Eg:
+  c:\gamegui
+
+  Run "player.exe" to verify that it works.
+
+
+Usage:
+
+  The player.exe app searches for the file "default.ggm" within its folder.  You may replace default.ggm with whatever movie file you want to play.
+
+  There are command-line options to override the default settings.  Open up a dos command line window, change to your GameGUI directory. eg:
+
+  c:\>cd gamegui
+  c:\gamegui>
+
+  then type:
+  player example1.ggm
+
+  That will tell the player to load example1.ggm instead of default.ggm
+
+  You can also set the width and height with the -width= and -height= parameters.  Eg:
+
+  player example1.ggm -width=320 -height=240
+
+  Or simply:
+
+  player -width=320 -height=240
+
+  You can create a shortcut to the player.exe file, and enter the command line options there, rather than always typing them in a dos box.
+
+
+Requirements:
+
+  - Pentium PC, Windows95,98,2K,NT with *working OpenGL drivers* for video card
+  - (Does not yet support full-screen, or 3Dfx mini-GL drivers)
+  - DirectX version 3 or later
+  - A working sound card
+
+
+Troubleshooting:
+
+  Although there are any number of things that could cause problems, the most likely source of problems would arise from your video card OpenGL drivers.  Please visit your manufacturer's site for the latest drivers.  It is possible that if you have an older video card, it may not *have* OpenGL drivers, in which case you are out of luck.
+
+  You *can* run the player without proper OpenGL drivers for your system in which case it will use the fallback software renderer.  It should render accurately, however the performance will suffer pretty badly.  You can playback movies at smaller sizes to improve performance.
+
+
+=======================================================
+
+Authoring:
+
+  Read this brief overview of the authoring system first, but the best way to learn it is to go through the examples in the GameGUI directory.  example1.ggm - example5.ggm all demonstrate different ways of applying the tools.  All you'll need is a text editor in order to edit these files.  Always save .ggm files as plain text if you want the player to be able to read them.
+
+  GameGUI works a bit like Director, a bit like Flash and a bit like After Effects.  Basically, you can consider the timeline as measured in milliseconds rather than in frames.  Animation is accomplished by setting certain parameters (eg POSITION, ROTATION) at specific keyframes.  The player will interpolate between keyframes, accurate to the millisecond -- so animation will always appear smooth.
+
+  Resources are simple.  You can load Photoshop bitmaps and .wav or .au sounds.  Photoshop files must be flattened, RGB *with 1 alpha channel*.  This allows for transparency effects.  Photoshop files must be powers of square large, no more than 256x256 pixels.  i.e.: 16x16, 32x32, 64x64, 128x128, 256,256.  You may describe cropped areas when you wish to display bitmaps on screen, so you don't need to display the entire image.  This also means you may "gang up" images into a single file.
+
+
+Coordinate Systems:
+
+  This is probably the trickiest part of using GameGUI, but it's really not that bad once you get the hang of it.  The position of any visual is measured relative to the edges of the screen.  For a typical tv rectangle, where width is larger than height, the top of the screen is 1.0, the bottom is -1.0.  The left edge of the screen is roughly -1.25, and the right edge is roughly 1.25.  On the other hand, if the window were a long vertical one, then the left/right edges would be -1.0/1.0 and the top/bottom edges might be 2.0/-2.0.  Make sense?  Here's a drawing:
+
+                       |
+                       |
+    -------------------| 1.0---------------
+    |                  |                  |
+    |                  |                  |
+    |                  |                  |
+    |                  |(0,0)             |
+-----------------------------------------------
+-1.?? (less than -1.0) |                1.?? (more than 1.0)
+    |                  |                  |
+    |                  |                  |
+    |                  |                  |
+    -------------------|-1.0---------------
+                       |
+                       |
+
+  Usually it's a good idea to try to determine what your exact display aspect ratio will be.  Sometimes it's not possible, in which case you should just work within a reasonable range.
+
+
+Texture Coordinates:
+
+  When you load a bitmap, GameGUI needs to know what section of that bitmap you wish to display.  Those are defined by (u,v) or texture coordinates.  0.0, 0.0 is at the top left of the bitmap, 1.0,1.0 is at the bottom right of the bitmap.
+  
+
+<to be continued...>
+
+
+(c) 2000 by Mike Linkovich

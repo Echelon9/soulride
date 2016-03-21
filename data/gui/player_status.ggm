@@ -1,0 +1,33 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+
+MOVIE PLAYER_NAME
+  FILENAME "player_name.ggm"
+  PLAYMODE LOOP
+END
+
+MOVIE MOUNTAIN_NAME
+  FILENAME "mountain_name.ggm"
+  PLAYMODE LOOP
+END
+
+SCRIPT
+
+  000 PLAYER_NAME
+        000 SETCOLOR 0.0 1.0 1.0 1.0
+        500 SETCOLOR 1.0 1.0 1.0 1.0
+      END
+
+  000 MOUNTAIN_NAME
+        000 SETCOLOR 0.0 1.0 1.0 1.0
+        500 SETCOLOR 1.0 1.0 1.0 1.0
+      END
+
+END

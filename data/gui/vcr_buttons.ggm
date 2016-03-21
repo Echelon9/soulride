@@ -1,0 +1,101 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+MOVIE SAVE
+  FILENAME "vcr_save.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE LOAD
+  FILENAME "vcr_load.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE RESTART
+  FILENAME "vcr_restart.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE REW
+  FILENAME "vcr_rew.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE PAUSE
+  FILENAME "vcr_pause.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE SLOW
+  FILENAME "vcr_slow.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE PLAY
+  FILENAME "vcr_play.ggm"
+  PLAYMODE HANG
+END
+
+MOVIE FFWD
+  FILENAME "vcr_ffwd.ggm"
+  PLAYMODE HANG
+END
+
+
+////////////////////////////////  For standalone player tests
+//POLYGON SCREENSHOT
+//  BITMAP "screenshot.psd"
+//  V -100.0%  100.0% 0.0 0.0
+//  V  100.0%  100.0% 1.0 0.0
+//  V  100.0% -100.0% 1.0 1.0
+//  V -100.0% -100.0% 0.0 1.0
+//END
+////////////////////////////////
+
+
+
+SCRIPT
+////////////////////////////////  For tests (fake background)
+//  00000 SCREENSHOT
+//         00000 SETPOS 0.0 0.0
+//        END
+////////////////////////////////
+
+  ///////////////////////////
+  //  Buttons:
+
+  0000 SAVE
+       END
+
+  0000 LOAD
+       END
+
+  0000 RESTART
+       END
+
+  0000 REW
+       END
+
+  0000 PAUSE
+       END
+
+  0000 SLOW
+       END
+
+  0000 PLAY
+       END
+
+  0000 FFWD
+       END
+
+END

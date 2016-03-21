@@ -1,0 +1,63 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+MOVIE CREDITS_INTRO
+  FILENAME "credits-layout-stratton.ggm"
+  PLAYMODE LOOP
+END
+
+MOVIE CREDITS_TEAM
+  FILENAME "credits-team.ggm"
+END
+
+MOVIE CREDITS_PEOPLE
+  FILENAME "credits-people.ggm"
+END
+
+//
+//  Movie Script
+//
+SCRIPT
+
+  000000 CREDITS_INTRO
+          00000 SETPOS 0.0 0.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          04000 SETCOLOR 1.0 1.0 1.0 1.0
+          04000 SETPOS 0.0 0.0
+          18000 SETCOLOR 0.0 1.0 1.0 1.0
+          18000 SETPOS 0.0 2.0
+         END
+
+
+  010000 CREDITS_TEAM  //  Shadow
+          0000 SETCOLOR 0.7 0.0 0.0 0.0
+          0000 SETPOS 0.004 -0.004
+         END
+
+  010000 CREDITS_TEAM  //  Full color type
+         END
+
+  033000 CREDITS_PEOPLE //  Shadow
+          0000 SETCOLOR 0.7 0.0 0.0 0.0
+          0000 SETPOS 0.003 -0.003
+         END
+
+  033000 CREDITS_PEOPLE
+         END
+
+END
+//
+//  END SCRIPT

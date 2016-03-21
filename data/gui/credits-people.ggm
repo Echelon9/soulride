@@ -1,0 +1,26 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+
+#include "guidefs.h"
+
+
+MOVIE CREDITSPEOPLE_LAYOUT
+  FILENAME "credits-people-layout.ggm"
+  PLAYMODE LOOP
+END
+
+
+SCRIPT
+
+  000000 CREDITSPEOPLE_LAYOUT
+          00000 SETPOS 0.0 -1.25
+          32000 SETPOS 0.0 4.0
+         END
+END

@@ -1,0 +1,31 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+POLYGON VCR_SLOW
+  BITMAP "vcr.psd"
+  V -0.05  0.05  0.6641 0.0039
+  V  0.05  0.05  0.8281 0.0039
+  V  0.05 -0.05  0.8281 0.1700
+  V -0.05 -0.05  0.6641 0.1700
+END
+
+
+SCRIPT
+
+  000 VCR_SLOW ID= GUI_VCR_SLOW
+        00 SETPOS 1.0545 -0.875
+      END
+
+END

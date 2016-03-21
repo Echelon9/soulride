@@ -1,0 +1,9 @@
+Default OpenGL
+opengl32.dll
+
+3dfx stand-alone driver
+3dfxvgl.dll
+
+SGI software driver
+opengl.dll
+

@@ -1,0 +1,40 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+TEXTLINE TIMETXT ID= GGID_CURTIME
+  FONT "lcd.ggf"
+  TEXT "00:00/00:00"
+  SIZE 0.05
+  ALIGN RIGHT
+END
+
+POLYGON LCD
+  V -1.0  1.0  1.0 1.0 1.0 1.0
+  V  1.0  1.0  1.0 1.0 1.0 1.0
+  V  1.0 -1.0  1.0 1.0 1.0 1.0
+  V -1.0 -1.0  1.0 1.0 1.0 1.0
+END
+
+SCRIPT
+
+  0000 LCD
+        0000 SETPOS 1.3333 1.0
+        0000 SETCOLOR 0.35 0.0 0.0 0.0
+        0000 SETSCALE 0.7 0.07
+       END
+
+  0000 TIMETXT
+        0000 SETPOS 1.3 0.945
+        0000 SETCOLOR 1.0 0.1 1.0 0.8
+       END
+
+
+END

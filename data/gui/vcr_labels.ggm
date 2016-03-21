@@ -1,0 +1,142 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+TEXTLINE F5
+  FONT "swiss-xcbi.ggf"
+  TEXT "F5"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F6
+  FONT "swiss-xcbi.ggf"
+  TEXT "F6"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F7
+  FONT "swiss-xcbi.ggf"
+  TEXT "F7"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F8
+  FONT "swiss-xcbi.ggf"
+  TEXT "F8"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F9
+  FONT "swiss-xcbi.ggf"
+  TEXT "F9"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F10
+  FONT "swiss-xcbi.ggf"
+  TEXT "F10"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F11
+  FONT "swiss-xcbi.ggf"
+  TEXT "F11"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+TEXTLINE F12
+  FONT "swiss-xcbi.ggf"
+  TEXT "F12"
+  ALIGN CENTER
+  SIZE 0.055
+  PLAYMODE HANG
+END
+
+
+
+////////////////////////////////  For standalone player tests
+//POLYGON SCREENSHOT
+//  BITMAP "screenshot.psd"
+//  V -100.0%  100.0% 0.0 0.0
+//  V  100.0%  100.0% 1.0 0.0
+//  V  100.0% -100.0% 1.0 1.0
+//  V -100.0% -100.0% 0.0 1.0
+//END
+////////////////////////////////
+
+
+
+SCRIPT
+////////////////////////////////  For tests (fake background)
+//  00000 SCREENSHOT
+//         00000 SETPOS 0.0 0.0
+//        END
+////////////////////////////////
+
+  ///////////////////////////
+  //  Buttons:
+
+  0000 F5
+        00 SETPOS 0.485 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F6
+        00 SETPOS 0.596 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F7
+        00 SETPOS 0.7215 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F8
+        00 SETPOS 0.8325 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F9
+        00 SETPOS 0.9435 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F10
+        00 SETPOS 1.0545 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F11
+        00 SETPOS 1.1655 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+  0000 F12
+        00 SETPOS 1.2765 -0.985
+        00 SETCOLOR 1.0 1.0 0.9 0.0
+       END
+
+END

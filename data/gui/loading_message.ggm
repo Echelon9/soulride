@@ -1,0 +1,80 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+
+TEXTLINE LOADING ID= GGID_LOADING_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.06
+  ALIGN RIGHT
+  TEXT "loading..."
+END
+
+
+TEXTLINE MESSAGE ID= GGID_LOADINGMESSAGE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.06
+  ALIGN LEFT
+  TEXT "files"
+END
+
+POLYGON SLINGLOGO
+  BITMAP "gui_intro.psd"
+  V -0.25  0.125 0.2539 0.0039
+  V  0.25  0.125 0.746  0.0039
+  V  0.25 -0.125 0.746  0.246
+  V -0.25 -0.125 0.2539 0.246
+END
+
+POLYGON SNOWFLAKE
+  BITMAP "gui_intro.psd"
+  V -0.25  0.25  0.0039  0.0039
+  V  0.25  0.25  0.121   0.0039
+  V  0.25 -0.25  0.121   0.121
+  V -0.25 -0.25  0.0039  0.121
+END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  00000 SLINGLOGO
+          00000 SETPOS 0.0 0.125
+          04000
+        END
+
+
+  00000 LOADING
+          00000 SETCOLOR 1.0 0.95 0.95 0.95
+          00000 SETPOS -0.02 -0.65
+          04000
+        END
+
+  00000 MESSAGE
+          00000 SETCOLOR 1.0 0.4 0.8 1.0
+          00000 SETPOS 0.02 -0.65
+          04000
+        END
+
+  00000 SNOWFLAKE
+          00000 SETPOS 0.0 -0.3
+          0.000 SETSCALE 0.275 0.275
+          00000 SETROT 0.0
+          04000 SETROT -360.0
+        END
+
+END   //  END SCRIPT

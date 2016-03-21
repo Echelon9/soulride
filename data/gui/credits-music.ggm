@@ -1,0 +1,247 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+
+#include "guidefs.h"
+
+POLYGON RINGEAR_LOGO
+  BITMAP "logos-1.psd"
+  V -0.5  0.5  0.0  0.0        //  Not bothering to use colors, defaults to 1,1,1,1
+  V  0.5  0.5  0.5  0.0
+  V  0.5 -0.5  0.5  0.5
+  V -0.5 -0.5  0.0  0.5
+END
+
+POLYGON BLOODSHOT_LOGO
+  BITMAP "logos-1.psd"
+  V -1.175  0.5  0.0  0.675      //  Not bothering to use colors, defaults to 1,1,1,1
+  V  1.175  0.5  0.762  0.675
+  V  1.175 -0.5  0.762  1.0
+  V -1.175 -0.5  0.0  1.0
+END
+
+POLYGON MINT_LOGO
+  BITMAP "logos-1.psd"
+  V -0.5  0.5  0.609  0.0      //  Not bothering to use colors, defaults to 1,1,1,1
+  V  0.5  0.5  1.000  0.0
+  V  0.5 -0.5  1.000  0.390
+  V -0.5 -0.5  0.609  0.390
+END
+
+
+
+TEXTLINE AVAILABLE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  ALIGN CENTER
+  TEXT "Songs available from"
+END
+
+TEXTLINE RINGING_EAR
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  ALIGN CENTER
+  TEXT "tulrich.com/rer"
+END
+
+TEXTLINE BLOODSHOT
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  ALIGN CENTER
+  TEXT "www.bloodshotrecords.com"
+END
+
+TEXTLINE MINTRECS
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  ALIGN CENTER
+  TEXT "mintrecs.com"
+END
+
+
+TEXTBOX SONG_TITLES
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  LEADING 0.1
+  ALIGN CENTER
+  RECT -1.0 0.0 1.0 -20.0
+  TEXT "1. 'Cherry'\n\n\n\n\n"
+  TEXT "2. 'Medicine Ball'\n\n\n\n\n"
+  TEXT "3. 'May Flowers'\n\n\n\n\n"
+  TEXT "4. 'Waco Express'\n\n\n\n\n"
+  TEXT "5. 'Wreck On The Highway'\n\n\n\n\n"
+  TEXT "6. 'New Orleans'\n\n\n\n\n"
+  TEXT "7. 'Soap Opera'\n\n\n\n\n"
+  TEXT "8. 'Mood To Burn Bridges'\n\n\n\n\n"
+  TEXT "9. 'Clam Chowder'\n\n\n\n\n"
+  TEXT "10. 'B-Liner'\n\n\n\n\n"
+  TEXT "11. 'Blue Tick Hound'\n\n\n\n\n"
+  TEXT "12. 'Don't Say No'\n\n\n\n\n"
+  TEXT "13. 'Waterbug'\n\n\n\n\n"
+  TEXT "14. 'Sacramento & Polk'\n\n\n\n\n"
+END
+
+TEXTBOX SONG_CREDITS
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.09
+  LEADING 0.1
+  ALIGN CENTER
+  RECT -1.5 0.0 1.5 -20.0
+  TEXT "\n"
+  TEXT "Sinkhole\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) Sinkhole\n\n"
+
+  TEXT "\n"
+  TEXT "The Sadies\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "(c) Sadiesmusic (SOCAN)\n\n"
+
+  TEXT "\n"
+  TEXT "New Sweet Breath\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) New Sweet Breath\n\n"
+
+  TEXT "\n"
+  TEXT "Waco Brothers\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "by Dean Schlabowske (c) Pigsville (BMI) (admin. by Bug)\n\n"
+
+  TEXT "\n"
+  TEXT "Sinkhole\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) Sinkhole\n\n"
+
+  TEXT "\n"
+  TEXT "Scroat Belly\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "(c) Cloud Machine Pub. (BMI)\n\n"
+
+  TEXT "\n"
+  TEXT "Bender\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) Bender (SOCAN)\n\n"
+
+  TEXT "\n"
+  TEXT "Neko Case & Her Boyfriends\n"
+  TEXT "Mint Records\n"
+  TEXT "(c) N. Case/B. Connelly/J. Trueblood/S. Betts (SOCAN)\n\n"
+
+  TEXT "\n"
+  TEXT "The Sadies\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "(c) Sadiesmusic (SOCAN)\n\n"
+
+  TEXT "\n"
+  TEXT "New Sweet Breath\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) New Sweet Breath\n\n"
+
+  TEXT "\n"
+  TEXT "Split Lip Rayfield\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "(c) Haymaker (BMI)\n\n"
+
+  TEXT "\n"
+  TEXT "Bender\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(C) Bender (SOCAN)\n\n"
+
+  TEXT "\n"
+  TEXT "Sinkhole\n"
+  TEXT "Ringing Ear Records\n"
+  TEXT "(c) Sinkhole\n\n"
+
+  TEXT "\n"
+  TEXT "Alejandro Escovedo\n"
+  TEXT "Bloodshot Records\n"
+  TEXT "(c) Mayashaiseilla Music (BMI) (admin. by Bug)\n\n"
+END
+
+SCRIPT
+
+  000000 AVAILABLE
+          00000 SETPOS 0.0 0.5
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS 0.0 0.5
+          17000 SETPOS 0.0 2.5
+         END
+
+  000000 RINGEAR_LOGO
+          00000 SETSCALE 0.35 0.35
+          00000 SETPOS -0.90 0.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS -0.90 0.0
+          17000 SETPOS -0.90 2.0
+         END
+
+  000000 RINGING_EAR
+          00000 SETPOS -0.90 -0.3
+          00000 SETSCALE 1.0 1.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS -0.90 -0.3
+          17000 SETPOS -0.90 1.7
+         END
+
+
+  000000 BLOODSHOT_LOGO
+          00000 SETSCALE 0.35 0.35
+          00000 SETPOS 0.0 0.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS 0.0 0.0
+          17000 SETPOS 0.0 2.0
+         END
+
+  000000 BLOODSHOT
+          00000 SETPOS 0.0 -0.3
+          00000 SETSCALE 1.0 1.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS 0.0 -0.3
+          17000 SETPOS 0.0 1.7
+         END
+
+
+
+  000000 MINT_LOGO
+          00000 SETSCALE 0.35 0.35
+          00000 SETPOS 0.90 0.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS 0.90 0.0
+          17000 SETPOS 0.90 2.0
+         END
+
+  000000 MINTRECS
+          00000 SETPOS 0.90 -0.3
+          00000 SETSCALE 1.0 1.0
+          00000 SETCOLOR 0.0 1.0 1.0 1.0
+          01000 SETCOLOR 1.0 1.0 1.0 1.0
+          05000 SETPOS 0.90 -0.3
+          17000 SETPOS 0.90 1.7
+         END
+
+
+  005000 SONG_TITLES
+          00000 SETCOLOR 1.0 0.2 0.6 1.0
+          00000 SETPOS 0.0 -1.25
+          60000 SETPOS 0.0 8.5
+         END
+
+  005000 SONG_CREDITS
+          00000 SETCOLOR 1.0 0.6 0.6 0.7
+          00000 SETPOS 0.0 -1.25
+          60000 SETPOS 0.0 8.5
+         END
+
+END

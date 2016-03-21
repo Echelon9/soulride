@@ -1,0 +1,174 @@
+SOUL RIDE
+=========
+
+Soul Ride to charakteryzuj¹ca siê du¿ym realizmem symulacja jazdy na
+desce snowboardowej, w fantastycznej górskiej scenerii. Trasy zosta³y
+przygotowane na podstawie danych geologicznych rzeczywistych oœrodków
+sportów zimowych i posiadaj¹ zró¿nicowany stopieñ trudnoœci. Ka¿dy
+ruch gracza jest rejestrowany na wirtualnej kamerze wideo.
+
+
+WYMAGANIA SYSTEMOWE
+-------------------
+
+- Windows 9x, ME, NT, 2000
+- Procesor Pentium II 350 (lub szybszy)
+- 64 MB pamiêci RAM
+- 60 MB wolnej przestrzeni na dysku
+- Karta grafiki z obs³ug¹ OpenGL 1.1
+  (pomyœlnie przetestowano na Voodoo 1, Voodoo 2, Voodoo 3, i810,
+  RIVA 128, RIVA TNT, GeForce 256)
+- Klawiatura i mysz (zalecany joystick, gamepad, lub kontroler
+  Slingshot Catapult)
+
+
+STEROWANIE
+----------
+
+Gra zosta³a zaprojektowana do wspó³pracy z joystickiem, ale mo¿na te¿
+korzystaæ z klawiatury lub myszki.
+
++----------------+-------------------+---------------------+---------------------------+
+|   funkcja      | joystick/gamepad  |     klawiatura      |          mysz             |
++================+===================+=====================+===========================+
+| skrêt          | lewo/prawo        | strza³ki lewo/prawo | lewo/prawo                |
++----------------+-------------------+---------------------+---------------------------+
+| skok           | klawisz 1         | CTRL                | klawisz 1 (lewy)          |
++----------------+-------------------+---------------------+---------------------------+
+| chwyt          | klawisz 2 + skrêt | SHIFT + skrêt       | klawisz 2 (prawy) + skrêt |
++----------------+---------------------------------------------------------------------+
+| salto          |                         skok + góra/dó³                             |
++----------------+---------------------------------------------------------------------+
+| wstecz/anuluj  | klawisz 4         | ESC                 |                           |
++----------------+-------------------+---------------------+---------------------------+
+| wybór          | klawisz 1         | ENTER               | klawisz 1 (lewy)          |
++----------------+-------------------+---------------------+---------------------------+
+| muzyka         |                     F2                                              |
++----------------+---------------------------------------------------------------------+
+| ostatni utwór  |                     F3                                              |
++----------------+---------------------------------------------------------------------+
+| nastêpny utwór |                     F4                                              |
++----------------+---------------------------------------------------------------------+
+
+Uwagi:
+
+* Wszystkie triki mo¿na wykonaæ za pomoc¹ odpowiednich kombinacji
+  tych klawiszy. Wy¿ej punktowane i bardziej skomplikowane triki
+  wymagaj¹ wprawy i odpowiednich warunków terenowych.
+
+* Steruj¹c desk¹ za pomoc¹ joysticka lub myszy, przesuwasz dr¹¿ek lub
+  mysz, w lewo b¹dŸ w prawo. Pamiêtaj, ¿e sterowanie jest proporcjonalne.
+  Im mocniej wychylisz dr¹¿ek tym gwa³towniej skrêcisz. Na klawiaturze
+  podobny efekt mo¿na uzyskaæ poprzez wielokrotne naciskanie i zwalnianie
+  klawisza.
+
+
+KONFIGURACJA
+------------
+
+Engine gry Soul Ride korzysta z jêzyka Lua (wersja 3.2, zobacz
+http://www.lua.org) do konfiguracji ró¿nych opcji. Czêœciowa
+lista opcji znajduje siê poni¿ej. Mo¿esz zmieniaæ opcje korzystaj¹c
+z wiersza poleceñ, pliku konfiguracyjnego lub konsoli w grze.
+
+Aby ustawiæ opcje z wiersza poleceñ, uruchom grê w ten sposób:
+
+> soulride opcja1=wartoœæ1 opcja2=wartoœæ2 opcja3=wartoœæ3 ...
+
+Aby ustawiæ opcje w pliku konfiguracyjnym, otwórz plik "config.txt"
+w katalogu gry. Ten plik to lista opcji i przypisanych im wartoœci:
+
+opcja1="wartoœæ1"
+opcja2="wartoœæ2"
+...
+
+Mo¿esz tu dodaæ inne opcje, które bêd¹ ustawiane za ka¿dym razem
+gdy uruchamiasz Soul Ride.
+
+Ostatecznie mo¿esz te¿ skorzystaæ z konsoli w grze. Aby w³¹czyæ konsolê,
+naciœnij klawisz ` (tylda). W konsoli mo¿esz wpisaæ:
+
+> opcja1=wartoœæ1
+
+aby zmieniæ opcje. Naciœnij ponownie tyldê, aby zamkn¹æ konsolê.
+
+W nazwach opcji istotna jest wielkoœæ liter.
+
+Kilka przyk³adowych opcji:
+
+Music        | Muzyka. Logiczna, domyœlnie "1".  Ustaw 0, aby wy³¹czyæ muzykê, lub 1, by j¹ w³¹czyæ.
+DirectInput  | DirectInput. Logiczna, domyœlnie "1". U¿yj DirectInput, do obs³ugi joysticka.
+EnableJets   | Logiczna, domyœlnie "0". Ustaw 1, aby aktywowaæ turbodopalacz na przycisku 2.
+
+
+ZNANE PROBLEMY
+--------------
+
+Problemy z grafik¹:
+
+Problem: Bardzo niska p³ynnoœæ gry i/lub dziwne kolory
+Przyczyna: Tak mo¿e siê zdarzyæ, je¿eli OpenGL ustawiony jest domyœlnie w tryb
+programowego renderowania i nie korzysta ze sprzêtowego akceleratora 3D.
+
+Sugestie:
+* Na niektórych kartach musi byæ ustawiony 16-bitowy kolor pulpitu.
+* Gra dzia³a poprawnie z kartami 3dfx Voodoo oraz kartami NVidia Riva.
+  Na innych akceleratorach mog¹ pojawiæ siê problemy.
+* SprawdŸ, czy masz zainstalowane najnowsze sterowniki OpenGL do swojej karty graficznej.
+
+
+Problem: Otrzymujê komunikat o b³êdzie z DirectInput lub DirectSound.
+Sugestie: Mo¿esz omin¹æ modu³ DirectInput uruchamiaj¹c grê z opcj¹
+"DirectInput=0". Mo¿esz te¿ wy³¹czyæ dŸwiêk u¿ywaj¹c opcji "Sound=0".
+
+Dalsze informacje znajdziesz na stronie:
+http://www.soulride.com (strona w jêzyku angielskim)
+
+
+AUTORZY
+-------
+
+Programming: Thatcher Ulrich
+Art, Design, more Programming: Mike Linkovich
+Biz, Design: Mark Culliton
+Biz, Design: Rob Podoloff
+Concept: John Lewis
+More Work: Peter Lehman, Dawna Paton, Bryan Lewis
+
+Podziêkowania dla:
+Waldemar Celes, Roberto Ierusalimschy i Luiz Henrique de Figueiredo
+z TeCGraf, PUC-Rio, Lua scripting language.
+http://www.GLSetup.com za wsparcie OpenGL.
+Ryan Haksi za OpenGL wrapper code.
+US Geological Survey za dane i SDTS++.
+Andi Dobbs za wskazówki dotycz¹ce Snowboardu.
+Jonathan Blow, Seumas McNally, Eliot Shepard, Ben Discoe, Sean T Barrett,
+Jeff Lander, Karl Ulrich, Kent Quirk, Geoff Howland za dobr¹ radê.
+
+Muzyka: Sinkhole, The Sadies, New Sweet Breath, Waco Brothers,
+Scroat Belly, Bender, Neko Case & Her Boyfriends, Split Lip
+Rayfield and Alejandro Escovedo.
+
+Te kapele i wiele innych mo¿esz znaleŸæ na stronach:
+
+Bloodshot Records -- http://www.bloodshotrecords.com
+Ringing Ear Records -- http://www.tulrich.com/rer
+Mint Records -- http://www.mintrecs.com
+
+WERSJA POLSKA
+
+Lokalizacja: Konrad Ozga
+T³umaczenie: Joanna Ozga
+Strona Internetowa: Piotr Strycharski
+DTP: Rafa³ Kwaœny
+
+
+
+Copyright 2002, Slingshot Game Technology, Inc.
+Dystrybucja w Polsce TopWare Poland Sp. z o.o.
+Wszelkie prawa zastrze¿one.
+
+Wiêcej informacji o grze znajdziesz na stronach:
+http://www.soulride.com (strona w jêzyku angielskim)
+http://soulride.topware.pl
+

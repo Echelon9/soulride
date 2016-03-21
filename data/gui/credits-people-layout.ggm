@@ -1,0 +1,78 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+
+TEXTBOX CREDIT_TITLES
+  RECT -1.0 0.0 -0.03 -50.0
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.085
+  LEADING 0.10
+  ALIGN RIGHT
+  TEXT "Additional Work:\n\n\n\n"
+  TEXT "Thanks To:"
+END
+
+TEXTBOX CREDIT_NAMES
+  RECT 0.03 0.00 1.0 -50.0
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.085
+  LEADING 0.1
+  ALIGN LEFT
+  TEXT "Peter Lehman\nDawna Paton\nBryan Lewis\n\n"
+  TEXT "Waldemar Celes\nRoberto Ierusalimschy\nLuiz Henrique de Figueiredo\n"
+  TEXT "at TeCGraf, PUC-Rio\n\n\n"
+  TEXT "www.GLSetup.com\n\n\n"
+  TEXT "Ryan Haksi\n\n\n"
+  TEXT "US Geological Survey\n\n\n"
+  TEXT "Andi Dobbs\n\n\n"
+  TEXT "Jonathan Blow\nSeumas McNally\nEliot Shepard\nBen Discoe\nSean T Barrett\nJeff Lander\n"
+  TEXT "Karl Ulrich\nKent Quirk\nGeoff Howland\n"
+END
+
+TEXTBOX CREDIT_NOTES
+  RECT 0.03 0.00 1.0 -50.0
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.085
+  LEADING 0.10
+  ALIGN LEFT
+  TEXT "\n\n\n\n"
+  TEXT "\n\n\n"
+  TEXT "\nLua scripting language\n\n"
+  TEXT "\nOpenGL support\n\n"
+  TEXT "\nOpenGL wrapper code\n\n"
+  TEXT "\ndata and SDTS++\n\n"
+  TEXT "\nsnowboarding tips\n\n"
+  TEXT "\n\n\n\n\n\n\n\n\ngood advice"
+END
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  0000 CREDIT_TITLES
+          0000 SETCOLOR 1.0 5.0 6.0 1.0
+        END
+
+  0000 CREDIT_NAMES
+          0000 SETCOLOR 1.0 0.8 0.9 1.0
+        END
+
+  0000 CREDIT_NOTES
+          0000 SETCOLOR 1.0 0.8 0.8 0.7
+        END
+
+END   //  END SCRIPT

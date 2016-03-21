@@ -1,0 +1,202 @@
+# makefile.macosx	-thatcher 1/22/2001 Copyright Thatcher Ulrich
+
+# Changed for MacOSX by Bjorn Leffler 31/8/2003
+
+#    Copyright 2000, 2001, 2002, 2003 Slingshot Game Technology, Inc.
+#
+#    This file is part of The Soul Ride Engine, see http://soulride.com
+#
+#    The Soul Ride Engine is free software; you can redistribute it
+#    and/or modify it under the terms of the GNU General Public License
+#    as published by the Free Software Foundation; either version 2 of
+#    the License, or (at your option) any later version.
+#
+#    The Soul Ride Engine is distributed in the hope that it will be
+#    useful, but WITHOUT ANY WARRANTY; without even the implied
+#    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#    See the GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with Foobar; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Soul Ride makefile, for MacOSX.
+
+#-------------------------------------------------------------------------------
+# Mac OS X specific stuff (by Bjorn Leffler)
+
+# SDLMain MUST be included for the linker (see SDL/MacOSX FAQ)
+
+# Location of SDL Headers as installed using the SDL-devel.pkg
+# The usual way to do this is $(shell sdl-config --cflags)
+# This is the default location, if installed system-wide
+
+SDL_HEADERS = /Library/Frameworks/SDL.framework/Headers
+SDL_MIXER_HEADERS = /Library/Frameworks/SDL_mixer.framework/Headers
+
+MACOSX_FRAMEWORKS = -framework Cocoa -framework OpenGL -framework SDL -framework SDL_mixer
+#-------------------------------------------------------------------------------
+
+cc = g++ -c
+debugflags = -g
+link = g++ $(debugflags) -fexceptions
+cflags = -I $(SDL_HEADERS) -I $(SDL_MIXER_HEADERS) -D_THREAD_SAFE -DLINUX=1 $(debugflags) -O3 -fomit-frame-pointer -fexceptions -ffast-math -fno-default-inline -DMACOSX 
+xlibs = /usr/X11R6/lib
+make = make -f Makefile.macosx
+
+
+ifeq "$(debug)" "1"
+OBJ_DIR = .
+DEBUGARG = debug=1
+else
+OBJ_DIR = .
+DEBUGARG =
+endif
+
+
+ifeq "$(static)" "1"
+proj=soulride-static
+else
+proj=soulride
+endif
+
+
+OBJ_LIST = \
+	$(OBJ_DIR)/SDLMain.o \
+        $(OBJ_DIR)/attractmode.o        \
+        $(OBJ_DIR)/avi_tools.o  \
+        $(OBJ_DIR)/boarder.o    \
+        $(OBJ_DIR)/boarderctl.o \
+        $(OBJ_DIR)/camera.o     \
+        $(OBJ_DIR)/clip.o       \
+        $(OBJ_DIR)/collide.o    \
+        $(OBJ_DIR)/config.o     \
+        $(OBJ_DIR)/console.o    \
+        $(OBJ_DIR)/finish.o     \
+        $(OBJ_DIR)/game.o       \
+        $(OBJ_DIR)/gameloop.o   \
+        $(OBJ_DIR)/geometry.o   \
+        $(OBJ_DIR)/gstamp.o     \
+        $(OBJ_DIR)/highscore.o  \
+        $(OBJ_DIR)/imageoverlay.o       \
+        $(OBJ_DIR)/input.o      \
+        $(OBJ_DIR)/lift.o	\
+	$(OBJ_DIR)/macosxmain.o \
+        $(OBJ_DIR)/macosxoglrender.o   \
+        $(OBJ_DIR)/macosxsound.o\
+        $(OBJ_DIR)/macosxworkaround.o\
+        $(OBJ_DIR)/main.o       \
+        $(OBJ_DIR)/mdynamic.o   \
+        $(OBJ_DIR)/mesh.o       \
+        $(OBJ_DIR)/model.o      \
+        $(OBJ_DIR)/music.o      \
+        $(OBJ_DIR)/ogl.o        \
+        $(OBJ_DIR)/orientedstatic.o     \
+        $(OBJ_DIR)/overlay.o    \
+        $(OBJ_DIR)/particle.o   \
+        $(OBJ_DIR)/path.o       \
+        $(OBJ_DIR)/perftest.o   \
+        $(OBJ_DIR)/player.o     \
+        $(OBJ_DIR)/polygonregion.o      \
+        $(OBJ_DIR)/psdread.o    \
+        $(OBJ_DIR)/recording.o  \
+        $(OBJ_DIR)/sbox.o       \
+        $(OBJ_DIR)/screenshot.o \
+        $(OBJ_DIR)/scylinder.o  \
+        $(OBJ_DIR)/staticlod.o  \
+        $(OBJ_DIR)/stickman.o   \
+        $(OBJ_DIR)/surface.o    \
+        $(OBJ_DIR)/surfaceshader.o      \
+        $(OBJ_DIR)/terrainmesh.o        \
+        $(OBJ_DIR)/terrainmodel.o       \
+        $(OBJ_DIR)/text.o       \
+        $(OBJ_DIR)/timer.o      \
+        $(OBJ_DIR)/tree.o       \
+        $(OBJ_DIR)/ui.o \
+        $(OBJ_DIR)/uihelidrop.o \
+        $(OBJ_DIR)/uimainmenu.o \
+        $(OBJ_DIR)/uioptions.o  \
+        $(OBJ_DIR)/uiplayback.o \
+        $(OBJ_DIR)/uiplayer.o   \
+        $(OBJ_DIR)/usercamera.o \
+        $(OBJ_DIR)/utility.o    \
+        $(OBJ_DIR)/view.o       \
+        $(OBJ_DIR)/weather.o    \
+        $(OBJ_DIR)/multiplayer.o       
+
+.cpp.o :
+	$(cc) $(cdebug) $(cflags) -o $*.o $(version_switches) $*.cpp
+
+.m.o :
+	$(cc) $(cdebug) $(cflags) -o $*.o $(version_switches) $*.m
+
+
+gamegui = gamegui/gamegui.lib
+$(gamegui):
+	cd gamegui; $(make) $(DEBUGARG)
+
+
+lua = lua/lib/lua.lib
+$(lua):
+	cd lua/src; $(make) $(DEBUGARG); cd ../..
+
+lualib = lua/lib/lualib.lib
+$(lualib):
+	cd lua/src/lib; $(make) nodebug=$(nodebug)
+
+
+
+ifeq "$(static)" "1"
+stdlibs := /usr/lib/libstdc++-libc6.2-2.a.3
+SDL_MIXER_LIBS := /usr/lib/libSDL_mixer.a /usr/lib/libsmpeg.a /usr/lib/libvorbisfile.a /usr/lib/libvorbis.a /usr/lib/libogg.a
+SDL_LDFLAGS := $(SDL_MIXER_LIBS) $(shell sdl-config --static-libs)
+SDL_LDFLAGS := $(patsubst -lSDL, /usr/lib/libSDL.a, $(SDL_LDFLAGS))
+else
+stdlibs := -lstdc++
+SDL_LDFLAGS := -lSDL_mixer $(shell sdl-config --libs)
+endif
+
+clean:
+	rm *.o $(proj)
+mrproper:
+	rm *.o */*.o */*/*.o */*/*/*.o */*.lib */*/*.lib $(proj)
+
+macosx_shared: MACOSX_FRAMEWORKS += -framework Carbon
+macosx_shared: cflags += -DMACOSX_CARBON
+macosx_shared: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
+	$(link) $(linkdebug) -o $(proj) \
+		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
+		-L/sw/lib -lSDL -l SDL_mixer -framework Cocoa -framework Carbon -framework OpenGL
+	cp $(proj) ../SoulRide.app/Contents/MacOS/SoulRide
+
+macosx_carbon: MACOSX_FRAMEWORKS += -framework Carbon
+macosx_carbon: cflags += -DMACOSX_CARBON
+macosx_carbon: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
+	$(link) $(linkdebug) -o $(proj) \
+		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
+		$(MACOSX_FRAMEWORKS) 
+
+SoulRide.app : macosx_carbon
+	     @rm -rf ../SoulRide.app
+	     @mkdir -p ../SoulRide.app/Contents/MacOS
+	     @mkdir -p ../SoulRide.app/Contents/Resources
+	     @mkdir -p ../SoulRide.app/Contents/Resources/music
+	     cp -r macos/English.lproj ../SoulRide.app/Contents/Resources
+	     cp -r macos/SoulRide.icns ../SoulRide.app/Contents/Resources
+	     cp -r ../data ../SoulRide.app/Contents/Resources
+	     cp -r ../Recordings ../SoulRide.app/Contents/Resources
+	     cp soulride ../SoulRide.app/Contents/MacOS/SoulRide
+
+	     # remove CVS stuff from application
+	     # rm -r ../SoulRide.app/Contents/CVS
+	     # rm -r ../SoulRide.app/Contents/Frameworks/CVS
+	     # rm -r ../SoulRide.app/Contents/MacOS/CVS
+	     # rm -r ../SoulRide.app/Contents/Resources/CVS
+	     # rm -r ../SoulRide.app/Contents/Resources/English.lproj/CVS
+	     # rm -r ../SoulRide.app/Contents/Resources/English.lproj/main.nib/CVS
+	     # rm -r ../SoulRide.app/Contents/Resources/Recordings/CVS
+	     # rm -r ../SoulRide.app/CVS
+
+all: macosx_carbon
+
+# need to recurse into gamegui and lua

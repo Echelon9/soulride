@@ -1,0 +1,51 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+TEXTLINE MOUNTAINNAME ID= GGID_MOUNTAIN_NAME
+  FONT "swiss-xcbi.ggf"
+  TEXT "Mammoth Mountain"
+  SIZE 0.065
+  ALIGN RIGHT
+END
+
+TEXTLINE MNAME_TITLE ID= GGID_MOUNTAIN_CAPTION
+  FONT "swiss-xcbi.ggf"
+  TEXT "Mountain:"
+  SIZE 0.065
+  ALIGN LEFT
+END
+
+POLYGON MNAME_LCD
+  V -1.0  1.0  1.0 1.0 1.0 1.0
+  V  1.0  1.0  1.0 1.0 1.0 1.0
+  V  1.0 -1.0  1.0 1.0 1.0 1.0
+  V -1.0 -1.0  1.0 1.0 1.0 1.0
+END
+
+SCRIPT
+
+  0000 MNAME_LCD
+        0000 SETPOS -1.3333 0.71
+        0000 SETCOLOR 0.35 0.0 0.0 0.0
+        0000 SETSCALE 0.6666 0.09
+       END
+
+  0000 MNAME_TITLE
+        0000 SETPOS -1.31 0.73
+        0000 SETCOLOR 1.0 0.8 0.8 0.8
+       END
+
+  0000 MOUNTAINNAME
+        0000 SETPOS -0.7 0.64
+        0000 SETCOLOR 1.0 0.1 0.8 1.0
+       END
+
+END

@@ -1,0 +1,159 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0     //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+TEXTLINE PARTIME_TXT ID= GGID_PARTIME_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "Par Time"
+END
+
+TEXTLINE PARTIME_NUM ID= GGID_PARTIME
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "00:00.00"
+END
+
+TEXTLINE YOURTIME_TXT ID= GGID_YOURTIME_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "Your Time"
+END
+
+TEXTLINE YOURTIME_NUM ID= GGID_YOURTIME
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "00:00.00"
+END
+
+TEXTLINE DIFTIME_TXT ID= GGID_DIFFERENCE_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "Difference"
+END
+
+TEXTLINE DIFTIME_NUM ID= GGID_DIFTIME
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "00:00.00"
+END
+
+
+TEXTLINE YOURHIGHSCORE_TXT ID= GGID_YOURHIGHSCORE_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Your High"
+END
+
+TEXTLINE YOURHIGHSCORE_NUM ID= GGID_YOURHIGHSCORE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "00000"
+END
+
+
+TEXTLINE LOCALHIGHSCORE_TXT ID= GGID_LOCALHIGHSCORE_CAPTION
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "Local High"
+END
+
+TEXTLINE LOCALHIGHSCORE_NUM ID= GGID_LOCALHIGHSCORE
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN RIGHT
+  TEXT "00000"
+END
+
+TEXTLINE LOCALHIGHSCORE_NAME ID= GGID_LOCALHIGHPLAYER
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.1
+  ALIGN LEFT
+  TEXT "---"
+END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  0000 PARTIME_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.1 0.4
+       END
+  
+  0000 PARTIME_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS -0.1 0.4
+       END
+
+  0000 YOURTIME_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.1 0.15
+       END
+  
+  0000 YOURTIME_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS -0.1 0.15
+       END
+
+  0000 DIFTIME_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.1 -0.25
+       END
+  
+  0000 DIFTIME_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS -0.1 -0.25
+       END
+
+
+  0000 YOURHIGHSCORE_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS -0.67 -0.85
+       END
+  
+  0000 YOURHIGHSCORE_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS -0.42 -0.85
+       END
+
+
+  0000 LOCALHIGHSCORE_TXT
+        0000 SETCOLOR 1.0 0.6 0.7 1.0
+        0000 SETPOS 0.25 -0.85
+       END
+  
+  0000 LOCALHIGHSCORE_NUM
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS 0.5 -0.85
+       END
+
+  0000 LOCALHIGHSCORE_NAME
+        0000 SETCOLOR 1.0 1.0 1.0 1.0
+        0000 SETPOS  0.55 -0.85
+       END
+
+END

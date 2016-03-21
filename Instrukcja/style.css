@@ -1,0 +1,41 @@
+BODY {
+FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif;
+SCROLLBAR-FACE-COLOR: #ffffff; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; 
+SCROLLBAR-SHADOW-COLOR: #608EBD; SCROLLBAR-3DLIGHT-COLOR: #666666; 
+SCROLLBAR-ARROW-COLOR: #cccccc; SCROLLBAR-TRACK-COLOR: #000000; 
+SCROLLBAR-DARKSHADOW-COLOR: #333333;
+}
+
+.boki
+{
+border-left: 1px solid #608EBD;
+border-right: 1px solid #608EBD;
+
+}
+
+TEXTAREA {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif; border: 1px white solid;
+}
+INPUT {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif; border: 1px white solid;
+}
+TD {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+TR {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+TABLE {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border-collapse: collapse;color:#333333;
+}
+BR {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+A {
+	FONT-SIZE: 12px; COLOR: #17426E; TEXT-DECORATION: none; font-weight: none;
+}
+FONT {
+	FONT-SIZE: 11px; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif; 
+}
+a:hover { FONT-SIZE: 12px; font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; color:#00DBCE; }

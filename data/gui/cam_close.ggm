@@ -1,0 +1,28 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON CAM_CLOSE
+  BITMAP "camera.psd"
+  V -0.15  0.071  0.00390625 0.2
+  V  0.15  0.071  0.41796875 0.2
+  V  0.15 -0.071  0.41796875 0.3921875 
+  V -0.15 -0.071  0.00390625 0.3921875
+END
+
+
+SCRIPT
+  0000 CAM_CLOSE
+        000 SETPOS -1.15 -0.45
+        000 SETCOLOR 1.0 1.0 1.0 1.0
+       END
+END

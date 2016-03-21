@@ -1,0 +1,89 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+//
+//  Actor definitions
+//
+
+POLYGON MYPOLY                  //  Actor that is a polygon
+  //  Vertex format is
+  //  V x y [a r g b] [u v]
+  V -0.5  0.5  1.0 1.0 0.0 0.0  //  Not bothering to add texture coords (u,v)
+  V  0.5  0.5  1.0 0.0 0.0 1.0
+  V  0.5 -0.5  1.0 0.0 1.0 1.0
+  V -0.5 -0.5  1.0 0.0 1.0 0.0
+END
+
+POLYGON MYPOLYTEX
+  BITMAP "test_tex.psd"
+  V -0.5  0.5  0.0  0.0         //  Not bothering to use colors, defaults to 1,1,1,1
+  V  0.5  0.5  1.0  0.0
+  V  0.5 -0.5  1.0  1.0
+  V -0.5 -0.5  0.0  1.0
+END
+
+POLYGON BG_WHITE                        //  A rectangle, screen-size
+  V -100.0%  100.0% 1.0 1.0 1.0 1.0     //  Use % for percentage of screen size
+  V  100.0%  100.0% 1.0 1.0 1.0 1.0
+  V  100.0% -100.0% 1.0 1.0 1.0 1.0
+  V -100.0% -100.0% 1.0 1.0 1.0 1.0
+END
+
+SOUND MYSOUND
+  FILENAME "sound1.au"
+END
+
+//MOVIE MYMOVIE                   //  Actor that is a movie!
+//  FILENAME "test_child.ggm"     //  Please avoid cyclic dependencies, thankyou.
+//END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT                          //  Begin this movie's script
+
+  00000 MYPOLY                   //  Begin a child script for MYPOLY it at time indicated
+         00000 SETPOS -1.0 -1.0           //  Now event times are relative to start of *this* sub-script
+         00000 SETROT 0.0
+         00000 SETCOLOR 0.0 1.0 1.0 1.0
+         15000 SETPOS 1.0 1.0             //  actor will be linearly interpolated
+         15000 SETROT 360.0               //  (non linear interps will likely be
+         15000 SETCOLOR 1.0 1.0 1.0 1.0   //  handled with EASEIN/EASEOUT factors)
+         16000                            //  Pads script with 1000 ms
+        END                               //  END of child script
+
+  01500 MYPOLYTEX                //  Begin child script for MYPOLYTEX
+         00000 SETPOS 1.0 -1.0            //  Event times relative to start of *this* sub-script
+         00000 SETSCALE 6.0 6.0
+         00000 SETROT 1200.0
+         00000 SETCOLOR 1.0 1.0 1.0 1.0
+         15000 SETPOS -1.0 1.0
+         15000 SETSCALE 1.0 1.0
+         15000 SETROT 0.0
+         15000 SETCOLOR 0.0 1.0 1.0 1.0
+        END                                //  END of child script
+
+//  02000 MYMOVIE                  //  Apply these events to the movie loaded as an actor
+//         00000 SETROT 0.0
+//         16000 SETROT 360.0
+//        END
+
+  04000 MYSOUND
+         00000 SETPLAYMODE LOOP
+  12000 END
+
+  04000 BG_WHITE                  //  Background flash
+         00000 SETCOLOR 1.0 1.0 1.0 1.0
+         01000 SETCOLOR 0.5 1.0 1.0 1.0
+         04000 SETCOLOR 0.0 0.0 0.0 1.0
+        END
+
+END

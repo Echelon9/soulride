@@ -1,0 +1,24 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+TEXTLINE SCORE_TEXT ID= GGID_SCORE
+  TEXT "00000"
+  FONT "score.ggf"
+  SIZE 0.15
+  ALIGN LEFT
+END
+
+SCRIPT
+
+  0000 SCORE_TEXT
+//        0000 SETPOS 0.0 0.0
+       END
+END

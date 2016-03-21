@@ -1,0 +1,84 @@
+//  Game GUI Movie File
+//
+
+//  Max line length = 255 chars
+//  Max keyword length = 32 chars
+
+
+GAMEGUIMOVIE 1.0                //  Version -- must be first valid line in this file
+
+#include "guidefs.h"
+
+//
+//  Actor definitions
+//
+
+POLYGON SLINGLOGO
+  BITMAP "gui_intro.psd"
+  V -0.25  0.125 0.2539 0.0039
+  V  0.25  0.125 0.746  0.0039
+  V  0.25 -0.125 0.746  0.246
+  V -0.25 -0.125 0.2539 0.246
+END
+
+TEXTLINE SOULRIDEDOTCOM ID= GGID_OUTRO2
+  FONT "swiss-xcbi.ggf"
+  SIZE 0.05
+  TEXT "www.soulride.com "
+  ALIGN CENTER
+END
+
+
+TEXTBOX COMMENTARY ID= GGID_OUTRO1
+  FONT "swiss-xcbi.ggf"
+  RECT -0.6 -0.13 0.6 -0.42
+  SIZE 0.05
+//  LEADING 0.09
+  ALIGN CENTER
+  TEXT "For hints, upgrades, high scores and information on "
+  TEXT "the revolutionary Catapult snowboard controller, visit"
+END
+
+
+//
+//  Movie Script
+//
+
+SCRIPT
+
+  00250 SLINGLOGO
+         00000 SETSCALE 20.0 20.0
+         00000 SETPOS 0.0 0.125
+         00000 SETCOLOR 0.0 1.0 1.0 1.0
+         00750 SETCOLOR 0.2 1.0 1.0 1.0
+         00800 SETSCALE 1.0 1.0
+         00800 SETCOLOR 1.0 1.0 1.0 1.0
+         01950 SETCOLOR 1.0 1.0 1.0 1.0
+         05000 SETCOLOR 1.0 1.0 1.0 1.0
+        END
+
+  00250 SOULRIDEDOTCOM
+         00000 SETPOS 0.0 -0.475
+         00000 SETSCALE 0.25 0.25 ^-2.0
+         00000 SETSPACING 18.0 0.0 ^-2.0
+         00000 SETCOLOR 0.0 1.0 1.0 1.0
+
+         00750 SETCOLOR 0.2 1.0 1.0 1.0
+
+         00800 SETSCALE 1.0 1.0
+         00800 SETSPACING 0.01 0.01
+         00800 SETCOLOR 1.0 1.0 1.0 1.0
+
+         01950 SETCOLOR 1.0 1.0 1.0 1.0
+         05000 SETCOLOR 1.0 1.0 1.0 1.0
+        END
+
+  00250 COMMENTARY
+	 00000 SETCOLOR 0.0 0.6 0.6 1.0
+	 00400 SETCOLOR 0.0 0.6 0.6 1.0
+	 00850 SETCOLOR 1.0 0.6 0.6 1.0
+	 05000 SETCOLOR 1.0 0.6 0.6 1.0
+        END
+
+
+END   //  END SCRIPT

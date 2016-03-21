@@ -1,0 +1,5 @@
+OGLDriverIndex = "0"
+OGLModeIndex = "7"
+Fullscreen = "0"
+SFXVolume = "80"
+CDAudioVolume = "70"

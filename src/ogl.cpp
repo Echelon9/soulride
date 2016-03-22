@@ -337,7 +337,7 @@ bool	CheckExtension(const char* extension)
 	bool	supported;
 	
 	// Extension names should not have spaces
-	where = strchr(extension, ' ');
+	where = const_cast<char*>(strchr(extension, ' '));
 	if (where || *extension == '\0') return false;
 	
 	// Grab extensions (but only once)
@@ -348,7 +348,7 @@ bool	CheckExtension(const char* extension)
 	supported = false;
 	while (!supported) {
 		// Does extension SEEM to be supported?
-		where = strstr((const char*)start, extension);
+		where = const_cast<char*>(strstr((const char*)start, extension));
 		if (!where) break;
 
 		// Ok, extension SEEMS to be supported

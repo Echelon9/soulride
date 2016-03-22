@@ -89,9 +89,9 @@ class GG_Resource
 
     int addRef(void);
     int unRef(void);
-    GG_Rval GG_Resource::getFileName( char *fileName );
-    GG_Rval GG_Resource::setFileName( char *fileName );
-    bool GG_Resource::cmpFileName( char *fileName );
+    GG_Rval getFileName( char *fileName );
+    GG_Rval setFileName( char *fileName );
+    bool cmpFileName( char *fileName );
 };
 
 

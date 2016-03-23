@@ -30,6 +30,7 @@
 
 #include "gg_resource.h"
 #include <algorithm>
+#include <string.h>
 
 
 int GG_Resource::addRef(void)

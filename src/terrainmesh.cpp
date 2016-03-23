@@ -1422,7 +1422,7 @@ struct qsquare {
 	}
 	
 
-	qsquare*	qsquare::EnableDescendant(int count, int path[], const quadcornerdata& cd)
+	qsquare*	EnableDescendant(int count, int path[], const quadcornerdata& cd)
 	// This function enables the descendant node 'count' generations below
 	// us, located by following the list of child indices in path[].
 	// Creates the node if necessary, and returns a pointer to it.

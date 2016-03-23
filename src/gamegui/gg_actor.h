@@ -36,6 +36,7 @@
 #include "gg_file.h"
 #include "gg_resource.h"
 #include "gg_font_impl.h"
+#include <string.h>
 
 
 ///////////////////////////////////////////////////////

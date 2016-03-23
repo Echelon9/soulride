@@ -13,6 +13,9 @@ endif
 all:
 	$(MAKE) -C src $@
 
+clean:
+	$(MAKE) -C src $@
+
 PRODUCTS = \
 	soulride_setup \
 	virtual_breckenridge \

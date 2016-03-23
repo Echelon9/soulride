@@ -66,14 +66,6 @@ const float	HEIGHT_TO_METERS_FACTOR = (1.0 / 16.0);
 const int	YMINMAX_TO_METERS_SHIFT = 4;	// 8 - log2(HEIGHT_TO_METERS_FACTOR)
 
 
-float	GetHeightToMetersFactor()
-// Returns the height-to-meters factor.  For tricking the boarder shadow
-// texgen projection planes.
-{
-	return HEIGHT_TO_METERS_FACTOR;
-}
-
-
 // Aux utility function.
 float	CheckRayAgainstBilinearPatch(float xorg, float zorg, float size, uint16 Y[4], const vec3& point, const vec3& dir)
 // Returns the distance along the ray specified by (point, dir) at which
@@ -168,7 +160,7 @@ float	CheckRayAgainstBilinearPatch(float xorg, float zorg, float size, uint16 Y[
 			return -1;
 		}
 		
-		d = sqrtf(d);
+		d = sqrt(d);
 		u0 = (-b - d) / (2 * a);
 		u1 = (-b + d) / (2 * a);
 		
@@ -241,69 +233,6 @@ float	DetailNudge = 1.0;	// Smaller --> more error allowed.
 float	LastNudge = DetailNudge;
 
 
-#if 0
-
-
-int	ThresholdDistance[256];
-uint8	ErrorTable[8192];
-
-
-void	InitVertexTestLUTs()
-// Initialize some look-up tables used in vertex tests.
-{
-	int	i;
-
-	for (i = 0; i < 8192; i++) {
-		ErrorTable[i] = iclamp(0, frnd(28.299 * log(i+1)), 255);	// Maps 8191 --> 255, 0 --> 0
-	}
-	
-	for (i = 0; i < 256; i++) {
-		ThresholdDistance[i] = DetailFactor * DetailNudge * exp(i / 28.299) * HEIGHT_TO_METERS_FACTOR;
-	}
-}
-
-
-bool	VertexTest(int x, int z, uint8 error)
-// Returns true if the vertex at x,z with the specified error value
-// should be enabled.  Returns false if it should be disabled.
-{
-	// Use simple box distance.
-	int	dx = iabs(ViewX - x);
-	int	dz = iabs(ViewZ - z);
-	int	d = dx;
-	if (dz > d) d = dz;
-
-	return d < ThresholdDistance[error];
-}
-
-
-bool	BoxTest(int x, int z, int HalfBoxSize, uint8 error)
-// Returns true if the closest distance between the viewpoint and the
-// box centered at (x,z) with edge size 2 * HalfBoxSize, is within our
-// threshold for specified given error.
-// In other words, should the box be subdivided.
-{
-	int	dx = iabs(ViewX - x);
-	int	dz = iabs(ViewZ - z);
-	int	d = dx;
-	if (dz > d) d = dz;
-	d -= HalfBoxSize;
-
-	return d < ThresholdDistance[error];
-}
-
-
-uint8	ErrorFromDelta(uint16 delta)
-// Returns an 8-bit error value, given the 16-bit fixed-point delta Y value.
-{
-	if (delta > 8191) delta = 8191;	// Saturation; corresponds to about 256 meters.
-	return ErrorTable[delta];
-}
-
-
-#else
-
-
 //float	ThresholdDistance2[256];	// LUT to map from ADIndex values to actual distance^2 values.
 int	ThresholdDistance[256];	// LUT to map from ADIndex values to actual distance^2 values.
 
@@ -314,7 +243,7 @@ void	InitVertexTestLUTs()
 	int	i;
 
 	for (i = 0; i < 256; i++) {
-		ThresholdDistance[i] = frnd(expf(i / 23.734658f) * DetailNudge);	// Map 46341 --> 255, 0 --> 0
+		ThresholdDistance[i] = frnd(exp(i / 23.734658) * DetailNudge);	// Map 46341 --> 255, 0 --> 0
 //		ThresholdDistance2[i] = powf(ThresholdDistance[i], 2);	// Square it, for the benefit of VertexTest()'s comparison.
 	}
 }
@@ -324,7 +253,7 @@ uint8	ADToIndex(float ad)
 // Given an activation distance in meters, returns an 8-bit index value, which
 // can be used later to retrieve the approximate activation distance.
 {
-	return iclamp(0, frnd(23.734658f * logf(ad + 1)), 255);	// 46340 --> 255, 0 --> 0
+	return iclamp(0, frnd(23.734658 * log(ad + 1)), 255);	// 46340 --> 255, 0 --> 0
 }
 
 
@@ -374,9 +303,6 @@ bool	VertexTest(int x, int z, uint8 error)
 //
 //	return d < ThresholdDistance2[error];
 }
-
-
-#endif
 
 
 // Texture aux code.
@@ -464,7 +390,7 @@ bool	ComputeDesiredBlockScaleLevel(int* result, int x, int z, int level)
 }
 
 
-::Render::Texture*	CurrentSurfaceTexture = NULL;
+Render::Texture*	CurrentSurfaceTexture = NULL;
 
 
 void	RequestAndSetTexture(int reqx, int reqz, int reqscale, int x, int z, int scale /*, int* uvshift, float* uvscale, float* uoffset, float* voffset*/)
@@ -489,25 +415,32 @@ void	RequestAndSetTexture(int reqx, int reqz, int reqscale, int x, int z, int sc
 	//xxxxxxx
 */
 	
-	::Render::Texture*	new_texture = Surface::GetSurfaceTexture(&ActualX, &ActualZ, &ActualLevel, CurrentFrameNumber);
-
-	if (new_texture == CurrentSurfaceTexture) {
-		// No need to change textures -- current texture is already the one we want.
-		return;
-	}
-	
-	CurrentSurfaceTexture = new_texture;
+	CurrentSurfaceTexture = Surface::GetSurfaceTexture(&ActualX, &ActualZ, &ActualLevel, CurrentFrameNumber);
 
 	ActualX -= 32768;
 	ActualZ -= 32768;
 	
-	::Render::SetTexture(CurrentSurfaceTexture);
-	::Render::CommitRenderState();
+	Render::SetTexture(CurrentSurfaceTexture);
+	Render::CommitRenderState();
+
+//	*uvscale = float(Surface::TEXTURE_SIZE - 1) / float(Surface::TEXTURE_SIZE);
+//	*uvshift = ActualLevel - scale;
+//	*uoffset = 0.5 / float(Surface::TEXTURE_SIZE);
+//	*voffset = *uoffset;
+//
+//	if (*uvshift) {
+//		int	DeltaX = (x & ((1 << ActualLevel) - 1)) >> scale;
+//		int	DeltaZ = (z & ((1 << ActualLevel) - 1)) >> scale;
+//
+//		*uvscale /= float(1 << *uvshift);
+//		*uoffset += DeltaX * *uvscale;
+//		*voffset += DeltaZ * *uvscale;
+//	}
 
 	// Set up automatic texture-coordinate generation.
 	// Basically we're just stretching the current texture over the desired block, leaving a half-texel fringe around the outside.
 	float	scalefactor = float(Surface::TEXTURE_SIZE - 1) / float(Surface::TEXTURE_SIZE << ActualLevel);
-	float	halftexel = 0.5f / float(Surface::TEXTURE_SIZE);
+	float	halftexel = 0.5 / float(Surface::TEXTURE_SIZE);
 	
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
 	float	p[4] = { scalefactor, 0, 0, -ActualX * scalefactor + halftexel };
@@ -519,311 +452,20 @@ void	RequestAndSetTexture(int reqx, int reqz, int reqscale, int x, int z, int sc
 }
 
 
-//const static float	CornerUV[4] = { 1.0, 0.0, 0.0, 1.0 };
-//const static float	EdgeUV[4] = { 1.0, 0.5, 0.0, 0.5 };
-
-
-namespace trilist {
-
-	const int	MAX_VERTS = 340;
-	float	Vertex[MAX_VERTS * 3];
-	uint32	VertexList[MAX_VERTS * 3];
-
-	int	BaseVert = 0;
-	int	NextVert = 0;
-	int	NextTri = 0;
-	
-	void	Flush();
-
-	void	Start()
-	// Bracket trilist:: rendering calls with Start()/End().  Enables gl array
-	// client state, etc.
-	{
-		// Tell GL about the vertex array.
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, Vertex);
-	}
-
-	void	Stop()
-	// Call when done with a session of trilist:: functions.  By
-	// "session", I mean a series of trilist:: calls not broken up
-	// by other OpenGL rendering calls.
-	{
-		Flush();
-
-		// Tell GL we're done with the vertex array.
-		glDisableClientState(GL_VERTEX_ARRAY);
-	}
-
-	void	Flush()
-	// Call when done with a batch -- force triangles to be
-	// rendered.  Can change texture or whatever before next call
-	// to trilist::AddVertices.
-	{
-		if (NextTri) {
-			glDrawElements(GL_TRIANGLES, NextTri * 3, GL_UNSIGNED_INT, VertexList);
-
-			NextTri = 0;
-			NextVert = 0;
-			BaseVert = 0;
-		}
-	}
-
-	void	ReserveVertices(int count)
-	// Call to allocate some more vertices in the triangle list.
-	// Vertex indices refer to the vertex in the new group.  So if you
-	// reserve 3 vertices, you can set them using indices 0, 1, 2, and
-	// draw a triangle by doing AddTriangle(0, 1, 2).
-	{
-		// Make sure we have room.  If not, then flush the batch so far and start another batch.
-		if (count + NextVert >= MAX_VERTS) {
-			Flush();
-		}
-
-		BaseVert = NextVert;
-		NextVert = BaseVert + count;
-	}
-
-	void	SetVertex(int index, float x, float y, float z)
-	// Sets the value of a reserved vertex.
-	{
-		int	i = (BaseVert + index) * 3;
-		Vertex[i] = x;
-		Vertex[i+1] = y;
-		Vertex[i+2] = z;
-	}
-
-	void	AddTriangle(int index0, int index1, int index2)
-	// Adds a triangle to the list of tris to be rendered.
-	{
-		int	i = NextTri * 3;
-
-		VertexList[i] = BaseVert + index0;
-		VertexList[i+1] = BaseVert + index1;
-		VertexList[i+2] = BaseVert + index2;
-		
-		NextTri++;
-	}
-}; // end namespace trilist
+const static float	CornerUV[4] = { 1.0, 0.0, 0.0, 1.0 };
+const static float	EdgeUV[4] = { 1.0, 0.5, 0.0, 0.5 };
 
 
 //
-// Triangle patterns for different qsquare cases.
-//
-// PatternOffset[flags] takes the enabled flags byte of a qsquare and
-// returns an offset index into the PatternData array.  The data in
-// the PatternData array is composed of strings.  Each string has a
-// vertex count, a triangle count, and then a set of vertex indices,
-// one per triangle.  The two missing vertex indices are implicit;
-// given a vertex index i, the triangle is (0, i, i+1).
+// qsquare stuff (the main meshing/rendering algorithms)
 //
 
 
-int	PatternOffset[256] = {
-	0,6,6,13,6,13,13,21,
-	6,13,13,21,13,21,21,30,
-	40,40,40,40,46,46,46,46,
-	46,46,46,46,53,53,53,53,
-	61,67,61,67,61,67,61,67,
-	74,81,74,81,74,81,74,81,
-	89,89,89,89,89,89,89,89,
-	40,40,40,40,40,40,40,40,
-	94,100,100,107,94,100,100,107,
-	94,100,100,107,94,100,100,107,
-	115,115,115,115,115,115,115,115,
-	115,115,115,115,115,115,115,115,
-	121,94,121,94,121,94,121,94,
-	121,94,121,94,121,94,121,94,
-	126,126,126,126,126,126,126,126,
-	126,126,126,126,126,126,126,126,
-	0,0,6,6,6,6,13,13,
-	0,0,6,6,6,6,13,13,
-	130,130,130,130,0,0,0,0,
-	130,130,130,130,0,0,0,0,
-	61,61,61,61,61,61,61,61,
-	61,61,61,61,61,61,61,61,
-	135,135,135,135,135,135,135,135,
-	135,135,135,135,135,135,135,135,
-	130,130,0,0,130,130,0,0,
-	130,130,0,0,130,130,0,0,
-	135,135,135,135,135,135,135,135,
-	135,135,135,135,135,135,135,135,
-	135,135,135,135,135,135,135,135,
-	135,135,135,135,135,135,135,135,
-	139,139,139,139,139,139,139,139,
-	139,139,139,139,139,139,139,139,
-	};
-uint8	PatternData[141] = {
-	6,4,1,2,3,4,
-	7,5,1,2,3,4,5,
-	8,6,1,2,3,4,5,6,
-	9,7,1,2,3,4,5,6,7,
-	10,8,1,2,3,4,5,6,7,8,
-	7,4,1,3,4,5,
-	8,5,1,3,4,5,6,
-	9,6,1,3,4,5,6,7,
-	7,4,1,2,4,5,
-	8,5,1,2,3,5,6,
-	8,5,1,2,4,5,6,
-	9,6,1,2,3,5,6,7,
-	6,3,1,3,4,
-	7,4,1,2,3,5,
-	8,5,1,2,3,4,6,
-	9,6,1,2,3,4,5,7,
-	8,4,1,3,4,6,
-	6,3,1,2,4,
-	5,2,1,3,
-	5,3,1,2,3,
-	4,2,1,2,
-	0,0,
-};
+int	VertexArray[9 * 3];
+unsigned int	ColorArray[9];
+unsigned int	VertList[24];
 
-
-/* Here's the Perl script which generated the above data.
-
-#!/usr/bin/perl -w
-
-# Little program to help generate a triangle mesh table for quadtree node rendering.
-
-
-use strict;
-
-
-my $i;
-my %pattern_hash;
-my @pattern_list;
-my $pattern_count = 0;
-my @pattern_offset;
-
-
-for ($i = 0; $i < 256; $i++) {
-    my $pat = pattern_string($i);
-
-    my $index = $pattern_hash{$pat};
-
-    if (! defined($index)) {
-	# Add a new pattern.
-	$index = $pattern_count++;
-	$pattern_hash{$pat} = $index;
-	$pattern_list[$index] = $pat;
-    }
-
-#    print "$index,";
-#    if ((($i+1) & 7) == 0) { print "
-"; } else { print " "; }
-}
-
-
-# Compute pattern offsets.
-my $offset = 0;
-for ($i = 0; $i < $pattern_count; $i++) {
-    $pattern_offset[$i] = $offset;
-
-    # Increment offset by the number of elements in the pattern.
-    my @temp = split(/,/, $pattern_list[$i]);
-    $offset += scalar(@temp);
-}
-my $pattern_table_size = $offset;
-
-# Write the pattern offsets.
-print "uint8\tPatternOffset[256] = {
-\t";
-for ($i = 0; $i < 256; $i++) {
-    my $offset = $pattern_offset[$pattern_hash{pattern_string($i)}];
-    print "$offset,";
-
-    if ((($i+1) & 7) == 0) { print "
-\t"; }
-}
-print "};
-";
-
-
-# Write out the pattern table.
-print "uint8\tPatternData[$pattern_table_size] = {
-";
-foreach $i (@pattern_list) {
-    print "\t$i
-";
-}
-print "};
-";
-
-
-sub pattern_string {
-    # Generate pattern string, based on enabled flags.  Comma separated numbers.
-    # return value is a string:
-    # First value is the number of vertices in the mesh.
-    # Second value is the number of triangles.
-    # Remaining values are the vertex indices of the middle corner of each
-    # triangle.  Given a vert_index, each triangle is always (0, vert_index, vert_index+1).
-
-    my ($flags) = @_;
-
-    # Take care of a special case.
-    my $children = $flags & 0xF0;
-    if ($children == 0xF0) {
-	# All children enabled; nothing left for our mesh.
-	return "0,0,";
-    }
-
-    # Fix up the flags, to make sure that if a child node is enabled,
-    # the supporting edge verts are also enabled.
-    if ($flags & 16) { $flags |= 3; }
-    if ($flags & 32) { $flags |= 6; }
-    if ($flags & 64) { $flags |= 12; }
-    if ($flags & 128) { $flags |= 9; }
-
-    # More fixups.  Clear edge flags if both neighboring child nodes
-    # are enabled.
-    if (($children & 0x30) == 0x30) { $flags &= ~2; }
-    if (($children & 0x60) == 0x60) { $flags &= ~4; }
-    if (($children & 0xC0) == 0xC0) { $flags &= ~8; }
-    if (($children & 0x90) == 0x90) { $flags &= ~1; }
-
-    my $result = '';
-    my $index = 1;
-    my $tricount = 0;
-
-    my $vert = 1;
-
-    # Make a bit map of the enabled verts.
-    my @explode = ( 0, 1, 4, 5, 16, 17, 20, 21, 64, 65, 68, 69, 80, 81, 84, 85 );
-    my $processed_children = ($children >> 4) ^ 15;
-    $processed_children = (($processed_children << 1) & 15) | ($processed_children >> 3);
-    my $vert_flags = ($explode[$processed_children]) | ($explode[$flags & 15] << 1);
-
-    for ($vert = 1; $vert < 10; $vert++) {
-	my $mask = 1 << (($vert-1) & 7);
-	my $next_mask = 1 << ($vert & 7);
-
-	if ($vert_flags & $mask) {
-	    if ($vert == 9 ||
-		(($vert & 1) == 0 && ($vert_flags & $next_mask) == 0))
-	    {
-		# dont emit;
-	    } else {
-		# emit a triangle.
-		$result = $result . $index . ",";
-		$tricount++;
-	    }
-
-	    $index++;
-	}
-    }
-
-    return "$index,$tricount," . $result;
-}
-
- */
-
-
-
-
-float	VertexArray[9 * 3];
-uint32	VertList[24];
-
-static void	InitVert(int index, float x, float y, float z)
+static void	InitVert(int index, int x, int y, int z)
 {
 	int	i = index * 3;
 	VertexArray[i] = x;
@@ -832,13 +474,121 @@ static void	InitVert(int index, float x, float y, float z)
 }
 
 
-//
-// qsquare stuff (the main meshing/rendering algorithms)
-//
-
-
 static int	LoadingTickCounter = 0;
 
+
+//
+// storage nodes.
+//
+
+struct snode_header;
+
+
+struct scornerdata {
+	const scornerdata*	Parent;
+	snode_header*	PackedNode;
+	uint16 NodeY[5];	// unpacked node heights: center, e, n, w, s
+	int	ChildIndex;
+	int	Level;
+	int	xorg, zorg;
+	uint16	Y[4];	// Corners.
+};
+
+
+struct snode_header {
+	uint8	ADIndex[3];	// activation distance of center, e, s
+	uint8	flags;	// bits 0-3: children 0-3 present/not-present
+			// bits 4-5: size of y values:
+			//   0 == uint16-packed -- 4 bits for center, 3 bits each for e, n, w, s, deltas.
+			//   1 == uint8[5] -- 8 bits each, delta.
+			//   2 == uint16[5] -- 16 bits each, absolute.
+			//   3 == reserved.  (escape flag... for paging etc)
+			// bits 6-7: size of sibling offset:
+			//   0 == no offset (last sibling, or sibling follows directly).  14 bytes
+			//   1 == 1 byte offset.                                          15 bytes
+			//   2 == 2 byte offset.                                          16 bytes
+			//   3 == 4 byte offset.                                          18 bytes
+
+	// Y values.  center, e, n, w, s.  either uint16-packed, int8[5] or uint16[5].
+	// (2 bytes, 5 bytes, or 10 bytes)
+
+	// sibling offset (0, 1, 2 or 4 bytes)
+
+
+	snode_header*	GetChild(int ChildIndex)
+	// Returns a pointer to the specified child.  Returns NULL if
+	// no such child exists.
+	{
+		int	request_mask = 1 << ChildIndex;
+		if ((flags & request_mask) == 0) return NULL;
+
+		int	skip_count = bit_count[(request_mask - 1) & flags];
+		int	offset = snode_size[flags >> 4];
+
+		snode_header*	s = (snode_header*) (((char*) this) + offset);
+		while (skip_count--) {
+			s = (snode*) (((char*) s) + s->GetSiblingOffset());
+		}
+
+		return s;
+	}
+
+	int	GetSiblingOffset()
+	// Returns the offset from the start of this node, to the
+	// start of our next sibling.
+	{
+		// offset == our size, plus sibling offset.
+		int	size = snode_size[flags >> 4];
+		int	off_code = flags & 0xC0;
+		int	offset;
+		// Different cases, in order of likelihood.
+		if (off_code == 0x00) {
+			// No extra offset.  Next node follows immediately after this one.
+			return size;
+		if (off_code == 0x40) {
+			// 1 byte offset.
+			return size + *( ((char*)this) + size - 1);
+		} else if (off_code == 0x80) {
+			// 2 byte offset.
+			return size + *((uint16*) (((char*)this) + size - 2));
+		} else {
+			// 4 byte offset.
+			return size + *((uint32*) (((char*)this) + size - 4));
+		}
+	}
+
+	void	UnpackHeights(uint16 NodeYOut[5], uint16 CornerY[4])
+	// Decodes this node's height values into the given NodeYOut[]
+	// array.  Some encodings require the CornerY[] information.
+	{
+		int	enc_type = flags & 0x30;
+
+		// Encoding options, in order of likelihood.
+		if (enc_type == 0x00) {
+			// uint16-packed: deltas, 4 bits for center, 3 bits each for e, n, w, s.
+			InterpolateHeights(NodeYOut, CornerY);
+			NodeYOut[0] += sign extended 4 bits;
+			etc;
+		} else if (enc_type == 0x10) {
+			// int8[5]: deltas, 8 bits each.
+			InterpolateHeights(NodeYOut, CornerY);
+			int8*	delta = ((int8*) this) + 4;
+			NodeYOut[0] += delta[0];
+			NodeYOut[1] += delta[1];
+			NodeYOut[2] += delta[2];
+			NodeYOut[3] += delta[3];
+			NodeYOut[4] += delta[4];
+		} else {
+			// uint16[5]: absolute.  Just do a straight copy.
+			memcpy(NodeYOut, ((int8*) this) + 4, sizeof(uint16) * 5);
+		}
+	}
+};
+
+
+//
+// rendering nodes.
+//
 
 struct qsquare;
 
@@ -852,54 +602,75 @@ struct quadcornerdata {
 	uint16	Y[4];
 
 	static float	NodeDistance(const quadcornerdata& a, const quadcornerdata& b) {
-		float	ahalf = float(1 << a.Level);
-		float	bhalf = float(1 << b.Level);
+		float	ahalf = (1 << a.Level);
+		float	bhalf = (1 << b.Level);
 		float	x = (a.xorg + ahalf) - (b.xorg + bhalf);
 		float	y = 0 /* a.Square->Y[0] - b.Square->Y[0] */;
 		float	z = (a.zorg + ahalf) - (b.zorg + bhalf);
 
-		return sqrtf(x * x + y * y + z * z);
+		return sqrt(x * x + y * y + z * z);
 	}
 };
 
 
 struct qsquare {
-	qsquare*	ChildLink[4];	// ne, nw, sw, se
+	snode_header*	snode;
+	uint16	ChildLink[4];	// ne, nw, sw, se
 	uint16	Y[5];	// center, e, n, w, s
 	uint8	EnabledFlags;	// bits 0-7: e, n, w, s, ne, nw, sw, se
-	uint8	CountAndFlags;	// bit 7: static flag
+	uint8	CountAndFlags;	// bit 7: reserved
 				// bit 6: culled flag
 				// bits 0-2: east edge children enabled ct
 				// bits 3-5: south edge children enabled ct
 	uint8	ADIndex[6];	// e, s, ne, nw, sw, se
 	uint8	YMin, YMax;	// Bounds for frustum culling.  (YMin << YMINMAX_TO_METERS_SHIFT) == meters
 
-	qsquare(quadcornerdata* q)
+	qsquare(quadcornerdata* q, snode_header* s)
 	// Constructor.
 	{
 		q->Square = this;
+
+		snode = s;
 		
 		EnabledFlags = 0;
 		CountAndFlags = 0;
 
-		// Interpolate the verts.
-		Y[0] = int(q->Y[0] + q->Y[1] + q->Y[2] + q->Y[3]) >> 2;
-		Y[1] = int(q->Y[3] + q->Y[0]) >> 1;
-		Y[2] = int(q->Y[0] + q->Y[1]) >> 1;
-		Y[3] = int(q->Y[1] + q->Y[2]) >> 1;
-		Y[4] = int(q->Y[2] + q->Y[3]) >> 1;
+		if (snode) {
+			// Get vertex heights from storage node.
+			snode->UnpackHeights(Y, q->Y);
+			ADIndex[0] = snode->ADIndex[1];
+			ADIndex[1] = snode->ADIndex[2];
+		} else {
+			// Interpolate the vert heights from the given corners.
+			Y[0] = int(q->Y[0] + q->Y[1] + q->Y[2] + q->Y[3]) >> 2;
+			Y[1] = int(q->Y[3] + q->Y[0]) >> 1;
+			Y[2] = int(q->Y[0] + q->Y[1]) >> 1;
+			Y[3] = int(q->Y[1] + q->Y[2]) >> 1;
+			Y[4] = int(q->Y[2] + q->Y[3]) >> 1;
 
-		ADIndex[0] = 0;
-		ADIndex[1] = 0;
+			ADIndex[0] = 0;
+			ADIndex[1] = 0;
+		}
 
-		float	quarter = (1 << q->Level) * 0.5f;
+		int	compute_child_ad = 15;
+		if (snode) {
+			// Don't compute activation distance for any child which has an snode.
+			compute_child_ad &= ~(snode->flags & 15);
+		}
+
+		float	quarter = (1 << q->Level) * 0.5;
 		
-		// Compute child activation distance.
+		// Compute or retrieve child activation distance.
 		int	i;
 		for (i = 0; i < 4; i++) {
 			ChildLink[i] = 0;
-			int	TessY = (Y[0] + q->Y[i]) >> 1;	// Height of triangle edge passing through center of square.
-			ADIndex[2 + i] = ADToIndex(fmax(quarter * ROOT_2, ActivationDistance(iabs(((Y[0] + q->Y[i] + Y[i+1] + Y[1 + ((i+1)&3)]) >> 2) - TessY))));
+			if (compute_child_ad & 1) {
+				int	TessY = (Y[0] + q->Y[i]) >> 1;	// Height of triangle edge passing through center of square.
+				ADIndex[2 + i] = ADToIndex(fmax(quarter * ROOT_2, ActivationDistance(iabs(((Y[0] + q->Y[i] + Y[i+1] + Y[1 + ((i+1)&3)]) >> 2) - TessY))));
+			} else {
+				// Retrieve child AD from snode data.
+				ADIndex[2 + i] = snode->GetChild(i)->ADIndex[0];
+			}
 		}
 
 		// Compute YMin and YMax.
@@ -919,9 +690,11 @@ struct qsquare {
 		// Convert to 8-bit, by dropping low 8 bits and rounding conservatively.
 		YMax = iclamp(0, (max + 255) >> 8, 255);
 		YMin = iclamp(0, min >> 8, 255);
+
+		if (q.Parent) q.Parent->ExpandMinMax(YMin, YMax);
 	}
 
-
+#ifdef NOT
 	int	Load(const quadcornerdata& cd, FILE* fp)
 	// Loads the data for this square, and for descendants as well
 	// if the data is in the file.  Creates the descendants as
@@ -942,11 +715,6 @@ struct qsquare {
 
 		checkcode += Y[0] + Y[1] + Y[4];
 		
-#if 0
-		Error[0] = ErrorFromDelta(iabs(Y[1] - ((cd.Y[0] + cd.Y[3]) >> 1)));
-		Error[1] = ErrorFromDelta(iabs(Y[4] - ((cd.Y[2] + cd.Y[3]) >> 1)));
-#endif
-
 		// Query neighbors (if they exist) for north & west edge
 		// heights.  If there's no neighbor for an edge, just
 		// use the interpolated value from the corners.
@@ -968,11 +736,6 @@ struct qsquare {
 		for (i = 0; i < 4; i++) {
 			int	index = i ^ (i < 2 ? 1 : 0);	// Funky indexing to preserve east-west, north-south loading order.
 
-#if 0
-			uint8	VertError;
-			uint16	TessY = int(Y[0] + cd.Y[index]) >> 1;	// Height of triangle edge passing through center of square.
-#endif
-
 			if (flags & (1 << index)) {
 				quadcornerdata	q;
 				SetupCornerData(&q, cd, index);
@@ -984,26 +747,14 @@ struct qsquare {
 				// Load.
 				checkcode += (cd.Level << (index * 4)) ^ ChildLink[index]->Load(q, fp);
 
-#if 0
-				VertError = ErrorFromDelta(iabs(ChildLink[index]->Y[0] - TessY));
-				uint8	e = ChildLink[index]->GetMaxError();
-				if (e > VertError) VertError = e;
-#endif
-				
 			} else {
 				if (ChildLink[index]) {
 					delete ChildLink[index];
 					ChildLink[index] = NULL;
 				}
 
-#if 0
-				VertError = ErrorFromDelta(iabs(((Y[0] + cd.Y[index] + Y[index+1] + Y[1 + ((index+1)&3)]) >> 2) - TessY));
-#endif			
 			}
 			
-#if 0
-			Error[2 + index] = VertError;
-#endif
 		}
 			
 		// Compute YMin and YMax.
@@ -1035,6 +786,7 @@ struct qsquare {
 
 		return checkcode;
 	}
+#endif // NOT
 
 
 	float	ComputeActivationDistance(const quadcornerdata& cd, int CenterError)
@@ -1049,8 +801,8 @@ struct qsquare {
 		
 		float	maxdist = ActivationDistance(CenterError);
 
-		float	half = float(1 << cd.Level);
-		float	quarter = half * 0.5f;
+		float	half = (1 << cd.Level);
+		float	quarter = half * 0.5;
 		
 		// East and South edge verts.
 		float	ad;
@@ -1078,12 +830,9 @@ struct qsquare {
 		while (p->Parent) {
 			ad = maxdist + quadcornerdata::NodeDistance(cd, *p);
 			uint8	idx = ADToIndex(ad);
-			if (p->Parent->Square->ADIndex[p->ChildIndex + 2] >= idx) {
-				// Early out -- this node does not expand parent.
-				break;
+			if (p->Parent->Square->ADIndex[p->ChildIndex + 2] < idx) {
+				p->Parent->Square->ADIndex[p->ChildIndex + 2] = idx;
 			}
-
-			p->Parent->Square->ADIndex[p->ChildIndex + 2] = idx;
 			
 			p = (quadcornerdata*) p->Parent;
 		}
@@ -1179,11 +928,11 @@ struct qsquare {
 		int	size = 2 << cd.Level;
 		
 		// Test ray against node bounding sphere.
-		float	RadiusSquared = float((YMax - YMin) << (YMINMAX_TO_METERS_SHIFT-1));
+		float	RadiusSquared = ((YMax - YMin) << (YMINMAX_TO_METERS_SHIFT-1));
 		RadiusSquared = RadiusSquared*RadiusSquared + float(size) * float(half);	// xxx Loose approximation!
 
 		// Find the origin of the ray, relative to sphere center.
-		vec3	v = (point - vec3(float(cd.xorg + half), float((YMin + YMax) << (YMINMAX_TO_METERS_SHIFT-1)), float(cd.zorg + half)));
+		vec3	v = (point - vec3(cd.xorg + half, (YMin + YMax) << (YMINMAX_TO_METERS_SHIFT-1), cd.zorg + half));
 	
 		// The distance from point to the closest approach to the origin
 		// is given by -(v*dir).
@@ -1202,15 +951,11 @@ struct qsquare {
 			SetupCornerData(&q, cd, i);
 			if (ChildLink[i] && (ChildLink[i]->CountAndFlags & 0x80)) {
 				float	u = ChildLink[i]->CheckForRayHit(q, point, dir);
+//				if (u >= 0) return u;
 				if (u != -1) return u;
  			} else {
-				float	u = CheckRayAgainstBilinearPatch(
-					float(q.xorg),
-					float(q.zorg),
-					float(1 << cd.Level),
-					q.Y,
-					point,
-					dir);
+				float	u = CheckRayAgainstBilinearPatch(q.xorg, q.zorg, 1 << cd.Level, q.Y, point, dir);
+//				if (u >= 0) return u;
 				if (u != -1) return u;
 			}
 		}
@@ -1290,6 +1035,18 @@ struct qsquare {
 		}	
 	}
 
+
+#if USE_NSS
+	uint8	GetMaxError()
+	// Returns the maximum error value of this block's contained vertices and children.
+	{
+		uint8	e = 0;
+		for (int i = 0; i < 6; i++) {
+			if (Error[i] > e) e = Error[i];
+		}
+		return e;
+	}
+#endif
 
 	void	SetupChildCorners(int index, uint16 CornerY[4], uint16 cy[4])
 	// Fills cy[] with the values corresponding to the corners of
@@ -1422,7 +1179,7 @@ struct qsquare {
 	}
 	
 
-	qsquare*	EnableDescendant(int count, int path[], const quadcornerdata& cd)
+	qsquare*	qsquare::EnableDescendant(int count, int path[], const quadcornerdata& cd)
 	// This function enables the descendant node 'count' generations below
 	// us, located by following the list of child indices in path[].
 	// Creates the node if necessary, and returns a pointer to it.
@@ -1505,20 +1262,41 @@ struct qsquare {
 		int	cz = cd.zorg + half;
 		
 		// See about enabling child verts.
+#if USE_NSS
+		if ((EnabledFlags & 1) == 0 && VertexTest(cd.xorg + whole, /*Y[1],*/ cd.zorg + half, Error[0] /*, ViewerLocation */) == true) EnableEdgeVertex(0, false, cd);	// East vert.
+		if ((EnabledFlags & 8) == 0 && VertexTest(cd.xorg + half, /*Y[4],*/ cd.zorg + whole, Error[1] /*, ViewerLocation */) == true) EnableEdgeVertex(3, false, cd);	// South vert.
+#else
 		if ((EnabledFlags & 1) == 0 && VertexTest(cd.xorg + whole, cd.zorg + half, ADIndex[0] /*, ViewerLocation */) == true) EnableEdgeVertex(0, false, cd);	// East vert.
 		if ((EnabledFlags & 8) == 0 && VertexTest(cd.xorg + half, cd.zorg + whole, ADIndex[1] /*, ViewerLocation */) == true) EnableEdgeVertex(3, false, cd);	// South vert.
+#endif
 		if (cd.Level > 0) {
 			if ((EnabledFlags & 32) == 0) {
+#if !USE_NSS
 				if (BoxTest(cx - quarter, cz - quarter, quarter, /*MinY, MaxY,*/ ADIndex[3]/*, ViewerLocation*/) == true) EnableChild(1, cd);	// nw child.
+#else
+				if (VertexTest(cx - quarter, cz - quarter, ADIndex[3]) == true) EnableChild(1, cd);	// nw child.
+#endif
 			}
 			if ((EnabledFlags & 16) == 0) {
+#if !USE_NSS
 				if (BoxTest(cx + quarter, cz - quarter, quarter, /*MinY, MaxY,*/ ADIndex[2]/*, ViewerLocation*/) == true) EnableChild(0, cd);	// ne child.
+#else
+				if (VertexTest(cx + quarter, cz - quarter, ADIndex[2]) == true) EnableChild(0, cd);	// ne child.
+#endif
 			}
 			if ((EnabledFlags & 64) == 0) {
+#if !USE_NSS
 				if (BoxTest(cx - quarter, cz + quarter, quarter, /*MinY, MaxY,*/ ADIndex[4]/*, ViewerLocation*/) == true) EnableChild(2, cd);	// sw child.
+#else
+				if (VertexTest(cx - quarter, cz + quarter, ADIndex[4]) == true) EnableChild(2, cd);	// sw child.
+#endif
 			}
 			if ((EnabledFlags & 128) == 0) {
+#if !USE_NSS
 				if (BoxTest(cx + quarter, cz + quarter, quarter, /*MinY, MaxY,*/ ADIndex[5]/*, ViewerLocation*/) == true) EnableChild(3, cd);	// se child.
+#else
+				if (VertexTest(cx + quarter, cz + quarter, ADIndex[5]) == true) EnableChild(3, cd);	// sw child.
+#endif
 			}
 		
 			// Recurse into child quadrants as necessary.
@@ -1527,37 +1305,65 @@ struct qsquare {
 			if (EnabledFlags & 32) {
 				NodesActive++;
 				SetupCornerData(&q, cd, 1);
+#if !USE_NSS
 				ChildLink[1]->Update(q, /*ViewerLocation,*/ ADIndex[3]);
+#else
+				ChildLink[1]->Update(q, /*ViewerLocation,*/ ADIndex[3]);
+#endif
 			}
 			if (EnabledFlags & 16) {
 				NodesActive++;
 				SetupCornerData(&q, cd, 0);
+#if !USE_NSS
 				ChildLink[0]->Update(q, /*ViewerLocation,*/ ADIndex[2]);
+#else
+				ChildLink[0]->Update(q, /*ViewerLocation,*/ ADIndex[2]);
+#endif
 			}
 			if (EnabledFlags & 64) {
 				NodesActive++;
 				SetupCornerData(&q, cd, 2);
+#if !USE_NSS
 				ChildLink[2]->Update(q, /*ViewerLocation,*/ ADIndex[4]);
+#else
+				ChildLink[2]->Update(q, /*ViewerLocation,*/ ADIndex[4]);
+#endif
 			}
 			if (EnabledFlags & 128) {
 				NodesActive++;
 				SetupCornerData(&q, cd, 3);
+#if !USE_NSS
 				ChildLink[3]->Update(q, /*ViewerLocation,*/ ADIndex[5]);
+#else
+				ChildLink[3]->Update(q, /*ViewerLocation,*/ ADIndex[5]);
+#endif
 			}
 		}
 		
 		// Test for disabling.  East, South, and center.
+#if !USE_NSS
 		if ((EnabledFlags & 1) != 0 && (CountAndFlags & 7) == 0 && VertexTest(cd.xorg + whole, cd.zorg + half, ADIndex[0]) == false) {
+#else
+		if ((EnabledFlags & 1) != 0 && (CountAndFlags & 7) == 0 && VertexTest(cd.xorg + whole, cd.zorg + half, ADIndex[0]) == false) {
+#endif
 			EnabledFlags &= 0xFE;
 			qsquare*	s = GetNeighbor(0, cd);
 			if (s) s->EnabledFlags &= 0xFB;
 		}
+#if !USE_NSS
 		if ((EnabledFlags & 8) != 0 && (CountAndFlags & 0x38) == 0 && VertexTest(cd.xorg + half, cd.zorg + whole, ADIndex[1]) == false) {
+#else
+		if ((EnabledFlags & 8) != 0 && (CountAndFlags & 0x38) == 0 && VertexTest(cd.xorg + half, cd.zorg + whole, ADIndex[1]) == false) {
+#endif
 			EnabledFlags &= 0xF7;
 			qsquare*	s = GetNeighbor(3, cd);
 			if (s) s->EnabledFlags &= 0xFD;
 		}
+#if !USE_NSS
 		if (EnabledFlags == 0 && cd.Parent != 0 && BoxTest(cx, cz, half, ThisADIndex) == false) {
+#else
+		if (EnabledFlags == 0 && cd.Parent != 0 && VertexTest(cx, cz, ThisADIndex) == false) {
+#endif
 			// Disable ourself.
 			cd.Parent->Square->NotifyChildDisable(*cd.Parent, cd.ChildIndex, CountAndFlags & 128 ? false : true);	// nb: possibly deletes 'this'.
 		}
@@ -1570,25 +1376,19 @@ struct qsquare {
 	void	Render(const quadcornerdata& cd, const ViewState& s, int ClipHint, bool TextureSet, /* int uvshift, float uvscale, float uoffset, float voffset, */ PassID pass)
 	// Draws this square.  Recurses to sub-squares if needed.
 	{
-		int	i;
+		int	i, j;
 
 		int	HalfSize = 1 << cd.Level;
 		int	size = 2 << cd.Level;
 		int	cx = cd.xorg + HalfSize;
 		int	cz = cd.zorg + HalfSize;
 
-		bool	BoundTexture = false;
-
 		// Check block's visibility.
 		if (pass == TEXTURE) {
 			if (ClipHint != Clip::NO_CLIP /* && (EnabledFlags & 0xF0) */) {
-				float	r2 = float(((YMax - YMin) << (YMINMAX_TO_METERS_SHIFT-1)));
+				float	r2 = ((YMax - YMin) << (YMINMAX_TO_METERS_SHIFT-1));
 				r2 = r2 * r2 + float(size) * float(HalfSize);
-				ClipHint = Clip::ComputeSphereSquaredVisibility(
-					vec3(float(cx), float((YMin + YMax) << (YMINMAX_TO_METERS_SHIFT-1)), float(cz)),
-					r2,
-					Frustum,
-					ClipHint);
+				ClipHint = Clip::ComputeSphereSquaredVisibility(vec3(cx, (YMin + YMax) << (YMINMAX_TO_METERS_SHIFT-1), cz), r2, Frustum, ClipHint);
 //				ClipHint |= Clip::ComputeSphereVisibility(vec3(cx, (YMin + YMax) << (YMINMAX_TO_METERS_SHIFT-1), cz), ROOT_2 * HalfSize + ((YMax - YMin) << (YMINMAX_TO_METERS_SHIFT-1)), Frustum, ClipHint);
 //				if (ClipHint != Clip::NO_CLIP && ClipHint != Clip::NOT_VISIBLE) {
 //					ClipHint = Clip::ComputeBoxVisibility(vec3(cd.xorg, YMin << 4, cd.zorg), vec3(cd.xorg + size, YMax << 4, cd.zorg + size), Frustum/*s*/, ClipHint);
@@ -1616,13 +1416,10 @@ struct qsquare {
 				int DesiredScale;
 				if (ComputeDesiredBlockScaleLevel(&DesiredScale, cd.xorg, cd.zorg, BlockScale)) {
 					if (DesiredScale >= BlockScale) {
-//						trilist::Flush();
-
 						int	RequestX = cd.xorg & ~((1 << DesiredScale) - 1);
 						int	RequestZ = cd.zorg & ~((1 << DesiredScale) - 1);
 						RequestAndSetTexture(RequestX, RequestZ, DesiredScale, cd.xorg, cd.zorg, BlockScale /*, &uvshift, &uvscale, &uoffset, &voffset*/);
 						TextureSet = true;
-						BoundTexture = true;
 					}
 				}
 			}
@@ -1653,9 +1450,6 @@ struct qsquare {
 		
 		if ((EnabledFlags & 0xF0) == 0xF0) {
 			// All four sub-squares have already been covered.
-			if (BoundTexture) {
-				trilist::Flush();
-			}
 			return;
 		}
 		
@@ -1665,8 +1459,6 @@ struct qsquare {
 
 		// We definitely need a texture now, if we don't have one already.
 		if (pass == TEXTURE && TextureSet == false) {
-//			trilist::Flush();
-
 			// Set up the texture for this block.
 			int	DesiredScale;
 			ComputeDesiredBlockScaleLevel(&DesiredScale, cd.xorg, cd.zorg, BlockScale);
@@ -1676,71 +1468,25 @@ struct qsquare {
 			RequestAndSetTexture(RequestX, RequestZ, DesiredScale, cd.xorg, cd.zorg, BlockScale /*, &uvshift, &uvscale, &uoffset, &voffset */);
 			
 			TextureSet = true;
-			BoundTexture = true;
 		}
 
-#if 0
-
-
-#if 1
-		int	half = HalfSize;
-		int	pindex = PatternOffset[EnabledFlags];
-		uint8*	pattern = &PatternData[pindex];
-		trilist::ReserveVertices(pattern[0]);
-
-		// Tweak the enabled flags, to turn off edge bits
-		// which don't belong in this level mesh because
-		// they're surrounded by enabled child nodes.
-		uint8	flags = EnabledFlags;
-		if ((EnabledFlags & 0x90) == 0x90) flags &= ~1;
-		if ((EnabledFlags & 0x30) == 0x30) flags &= ~2;
-		if ((EnabledFlags & 0x60) == 0x60) flags &= ~4;
-		if ((EnabledFlags & 0xC0) == 0xC0) flags &= ~8;
-
-		int	vert = 0;
-//		const float	H = HEIGHT_TO_METERS_FACTOR;
-		trilist::SetVertex(vert++, cx, Y[0], cz);	// center
-		if ((flags & 0x80) == 0) trilist::SetVertex(vert++, cx + half, cd.Y[3], cz + half);	// SE corner
-		if (flags & 1) trilist::SetVertex(vert++, cx + half, Y[1], cz);	// E edge
-		if ((flags & 0x10) == 0) trilist::SetVertex(vert++, cx + half, cd.Y[0], cz - half);	// NE corner
-		if (flags & 2) trilist::SetVertex(vert++, cx, Y[2], cz - half);	// N edge
-		if ((flags & 0x20) == 0) trilist::SetVertex(vert++, cx - half, cd.Y[1], cz - half);	// NW corner
-		if (flags & 4) trilist::SetVertex(vert++, cx - half, Y[3], cz);	// W edge
-		if ((flags & 0x40) == 0) trilist::SetVertex(vert++, cx - half, cd.Y[2], cz + half);	// SW corner
-		if (flags & 8) trilist::SetVertex(vert++, cx, Y[4], cz + half);	// S edge
-		if ((flags & 0x80) == 0) trilist::SetVertex(vert++, cx + half, cd.Y[3], cz + half);	// repeat SE corner at end.
-
-		// Copy the triangle pattern to the triangle list.
-		int	triangle_count = pattern[1];
-		uint8*	p = &pattern[2];
-		for (i = 0; i < triangle_count; i++) {
-			trilist::AddTriangle(0, *p, (*p) + 1);
-			p++;
-		}
-		TriangleCount += triangle_count;
-
-		if (BoundTexture) {
-			trilist::Flush();
-		}
-
-#else // 0
-		
+#ifdef NOT
 		// Init vertex data.
 		int	half = HalfSize;
 		int	whole = half << 1;
-		InitVert(0, cd.xorg + half, Y[0] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + half);
-		if (EnabledFlags & 1) InitVert(1, cd.xorg + whole, Y[1] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + half);
-		InitVert(2, cd.xorg + whole, cd.Y[0] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg);
-		if (EnabledFlags & 2) InitVert(3, cd.xorg + half, Y[2] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg);
-		InitVert(4, cd.xorg, cd.Y[1] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg);
-		if (EnabledFlags & 4) InitVert(5, cd.xorg, Y[3] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + half);
-		InitVert(6, cd.xorg, cd.Y[2] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + whole);
-		if (EnabledFlags & 8) InitVert(7, cd.xorg + half, Y[4] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + whole);
-		InitVert(8, cd.xorg + whole, cd.Y[3] /* * HEIGHT_TO_METERS_FACTOR */, cd.zorg + whole);
+		InitVert(0, cd.xorg + half, Y[0], cd.zorg + half);
+		if (EnabledFlags & 1) InitVert(1, cd.xorg + whole, Y[1], cd.zorg + half);
+		InitVert(2, cd.xorg + whole, cd.Y[0], cd.zorg);
+		if (EnabledFlags & 2) InitVert(3, cd.xorg + half, Y[2], cd.zorg);
+		InitVert(4, cd.xorg, cd.Y[1], cd.zorg);
+		if (EnabledFlags & 4) InitVert(5, cd.xorg, Y[3], cd.zorg + half);
+		InitVert(6, cd.xorg, cd.Y[2], cd.zorg + whole);
+		if (EnabledFlags & 8) InitVert(7, cd.xorg + half, Y[4], cd.zorg + whole);
+		InitVert(8, cd.xorg + whole, cd.Y[3], cd.zorg + whole);
 		
 		int	vcount = 0;
 
-#if 0
+#ifdef NOT
 // Local macro to make the triangle logic shorter & hopefully clearer.
 #define tri(a,b,c) ( VertList[vcount++] = a, VertList[vcount++] = b, VertList[vcount++] = c )
 
@@ -1850,8 +1596,8 @@ struct qsquare {
 				}
 			}
 		}
-#endif
-#endif		
+#endif // NOT
+
 		
 #else
 		
@@ -1865,7 +1611,7 @@ struct qsquare {
 		else if ((EnabledFlags & 0xF0) == 0x50 || (EnabledFlags & 0xF0) == 0xA0) Case = 2;
 		else Case = 1;
 		
-//		::Render::CommitRenderState();
+//		Render::CommitRenderState();
 
 		int	HalfTable[4];
 		HalfTable[0] = 1 << cd.Level;
@@ -1891,7 +1637,7 @@ struct qsquare {
 			// We have two independent sub-squares.
 			SeparateFans(cd, cx, cz, HalfTable);
 		}
-#endif
+#endif // NOT
 	}
 
 
@@ -1902,18 +1648,18 @@ struct qsquare {
 		
 		glBegin(GL_TRIANGLE_FAN);
 //		glTexCoord2f(0.5 * uvscale + uoffset, 0.5 * uvscale + voffset);
-		glVertex3f(float(cx), float(Y[0]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz));	// center
+		glVertex3f(cx, Y[0] * HEIGHT_TO_METERS_FACTOR, cz);	// center
 		
 		for (int i = 0; i < 4; i++) {
 //			glTexCoord2f(CornerUV[i&3] * uvscale + uoffset, CornerUV[(i+1)&3] * uvscale + voffset);
-			glVertex3f(float(cx + HalfTable[(i+1)&2]), float(cd.Y[i&3]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(i+2)&2]));	// corner
+			glVertex3f(cx + HalfTable[(i+1)&2], cd.Y[i&3] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(i+2)&2]);	// corner
 			if (EnabledFlags & (1 << ((i + 1) & 3))) {
 				TriangleCount++;	// There's one additional tri for each edge vert enabled.
 //				glTexCoord2f(EdgeUV[(i+1)&3] * uvscale + uoffset, EdgeUV[(i+2)&3] * uvscale + voffset);
-				glVertex3f(float(cx + HalfTable[(i+1)&3]), float(Y[((i+1)&3)+1]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(i+2)&3]));	// edge
+				glVertex3f(cx + HalfTable[(i+1)&3], Y[((i+1)&3)+1] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(i+2)&3]);	// edge
 			}
 		}
-		glVertex3f(float(cx + HalfTable[0]), float(cd.Y[0]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[2]));	// last corner
+		glVertex3f(cx + HalfTable[0], cd.Y[0] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[2]);	// last corner
 		glEnd();
 	}
 	
@@ -1925,24 +1671,24 @@ struct qsquare {
 		
 		glBegin(GL_TRIANGLE_FAN);
 //		glTexCoord2f(0.5 * uvscale + uoffset, 0.5 * uvscale + voffset);
-		glVertex3f(float(cx), float(Y[0]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz));	// center
+		glVertex3f(cx, Y[0] * HEIGHT_TO_METERS_FACTOR, cz);	// center
 
 //		glTexCoord2f(EdgeUV[vi] * uvscale + uoffset, EdgeUV[(vi+1)&3] * uvscale + voffset);
-		glVertex3f(float(cx + HalfTable[vi]), float(Y[vi+1]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(vi+1)&3]));	// start w/ edge vertex.
+		glVertex3f(cx + HalfTable[vi], Y[vi+1] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(vi+1)&3]);	// start w/ edge vertex.
 
 		// Render the blocks.
 		int	mask = ((EnabledFlags & 15) | ((EnabledFlags & 15) << 4)) >> vi;
 		for (i = 0; i < BlockCount; i++) {
 			TriangleCount++;
 //			glTexCoord2f(CornerUV[vi&3] * uvscale + uoffset, CornerUV[(vi+1)&3] * uvscale + voffset);
-			glVertex3f(float(cx + HalfTable[(vi+1)&2]), float(cd.Y[vi&3]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(vi+2)&2]));	// corner
+			glVertex3f(cx + HalfTable[(vi+1)&2], cd.Y[vi&3] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(vi+2)&2]);	// corner
 			
 			vi = (vi + 1) & 3;
 			mask >>= 1;
 			if (mask & 1) {
 				TriangleCount++;
 //				glTexCoord2f(EdgeUV[vi&3] * uvscale + uoffset, EdgeUV[(vi+1)&3] * uvscale + voffset);
-				glVertex3f(float(cx + HalfTable[vi&3]), float(Y[(vi&3)+1]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(vi+1)&3]));	// edge
+				glVertex3f(cx + HalfTable[vi&3], Y[(vi&3)+1] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(vi+1)&3]);	// edge
 			}
 		}
 
@@ -1961,16 +1707,16 @@ struct qsquare {
 				glBegin(GL_TRIANGLE_FAN);
 				
 //				glTexCoord2f(0.5 * uvscale + uoffset, 0.5 * uvscale + voffset);
-				glVertex3f(float(cx), float(Y[0]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz));	// center
+				glVertex3f(cx, Y[0] * HEIGHT_TO_METERS_FACTOR, cz);	// center
 				
 //				glTexCoord2f(EdgeUV[i] * uvscale + uoffset, EdgeUV[(i+1)&3] * uvscale + voffset);
-				glVertex3f(float(cx + HalfTable[i]), float(Y[i+1]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(i+1)&3]));	// edge
+				glVertex3f(cx + HalfTable[i], Y[i+1] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(i+1)&3]);	// edge
 				
 //				glTexCoord2f(CornerUV[i] * uvscale + uoffset, CornerUV[(i+1)&3] * uvscale + voffset);
-				glVertex3f(float(cx + HalfTable[(i+1)&2]), float(cd.Y[i&3]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(i+2)&2]));	// corner
+				glVertex3f(cx + HalfTable[(i+1)&2], cd.Y[i&3] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(i+2)&2]);	// corner
 
 //				glTexCoord2f(EdgeUV[(i+1)&3] * uvscale + uoffset, EdgeUV[(i+2)&3] * uvscale + voffset);
-				glVertex3f(float(cx + HalfTable[(i+1)&3]), float(Y[((i+1)&3)+1]) /* * HEIGHT_TO_METERS_FACTOR */, float(cz + HalfTable[(i+2)&3]));	// edge
+				glVertex3f(cx + HalfTable[(i+1)&3], Y[((i+1)&3)+1] * HEIGHT_TO_METERS_FACTOR, cz + HalfTable[(i+2)&3]);	// edge
 				
 				glEnd();
 			}
@@ -2011,7 +1757,7 @@ struct qsquare {
 	{
 		int	i;
 		for (i = 0; i < HeapBlockCount; i++) {
-			delete [] (uint8*) HeapBlock[i];
+			delete [] HeapBlock[i];
 			HeapBlock[i] = NULL;
 		}
 		HeapBlockCount = 0;
@@ -2091,9 +1837,9 @@ void**	qsquare::FreeList = NULL;
 static void	HeapInfo_lua()
 // Log a bunch of info about the qsquare heap.
 {
-	Console::Printf("HeapBlockCount = %d, MQHBLOCKS = %d\n", qsquare::HeapBlockCount, MAX_QSQUARE_HEAP_BLOCKS);
-	Console::Printf("SquareCount = %d, QHBSIZE = %d\n", qsquare::SquareCount, QSQUARE_HEAP_BLOCK_SIZE);
-	Console::Printf("sizeof(qsquare) = %d\n", sizeof(qsquare));
+	Console::Printf("HeapBlockCount = %d, MQHBLOCKS = %d", qsquare::HeapBlockCount, MAX_QSQUARE_HEAP_BLOCKS);
+	Console::Printf("SquareCount = %d, QHBSIZE = %d", qsquare::SquareCount, QSQUARE_HEAP_BLOCK_SIZE);
+	Console::Printf("sizeof(qsquare) = %d", sizeof(qsquare));
 }
 
 
@@ -2141,7 +1887,9 @@ int	Load(FILE* fp)
 	RootCornerData.Square = Root;
 
 	checkcode = Root->Load(RootCornerData, fp);
+#if !USE_NSS
 	Root->ComputeActivationDistance(RootCornerData, Root->Y[0]);
+#endif
 
 	return checkcode;
 }
@@ -2157,7 +1905,7 @@ void	Update(const ViewState& s)
 	ViewZ = frnd(s.Viewpoint.Z());
 
 //	DetailFactor = powf(10, fclamp(1, (Config::GetFloatValue("TerrainMeshSlider") - 1) / 9 * 2 + 1, 3));	// From 10 to 1000.
-	DetailNudge = fclamp(0.333f, (Config::GetFloat("TerrainMeshSlider") - 1) / 10 + 0.5f, 3);
+	DetailNudge = fclamp(0.333, (Config::GetFloat("TerrainMeshSlider") - 1) / 10 + 0.5, 3);
 	if (DetailNudge != LastNudge) {
 		InitVertexTestLUTs();
 	}
@@ -2199,7 +1947,7 @@ float	GetDetailNudge()
 }
 
 
-::Render::Texture*	Detail = NULL;
+Render::Texture*	Detail = NULL;
 
 
 void	Render(const ViewState& s)
@@ -2234,8 +1982,10 @@ void	Render(const ViewState& s)
 //	// Compute the DetailFactor, based on the "TerrainMeshSlider" value.
 //	DetailFactor = powf(10, fclamp(1, (Config::GetFloatValue("TerrainMeshSlider") - 1) / 9 * 2 + 1, 3));	// From 10 to 1000.
 	if (fabs(DetailFactor - LastDetailFactor) / DetailFactor > 0.01) {
+#if !USE_NSS
 		// Recalculate activation distances.
 		Root->ComputeActivationDistance(RootCornerData, Root->Y[0]);
+#endif
 		InitVertexTestLUTs();
 		
 		LastDetailFactor = DetailFactor;
@@ -2251,29 +2001,28 @@ void	Render(const ViewState& s)
 		Detail = NULL;
 	}
 	if (Detail == NULL) {
-		Detail = ::Render::NewTexture("detail.psd", false, true, true, true);
+		Detail = Render::NewTexture("detail.psd", false, true, true, true);
 	}
 
 	//xxxxxx
 	glColor3f(1, 1, 1);
-	::Render::SetTexture(NULL);
-	::Render::DisableLightmapBlend();
-	::Render::CommitRenderState();
+	Render::SetTexture(NULL);
+	Render::DisableLightmapBlend();
+	Render::CommitRenderState();
 
 	// Tweak the modelview matrix so that our fixed-point Y coords get scaled by 1/16.  Then we can just pass
 	// integers to glVertex3i().  This could be stupid; need to test.
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glScalef(1, HEIGHT_TO_METERS_FACTOR, 1);
+//	glMatrixMode(GL_MODELVIEW);
+//	glPushMatrix();
+//	glScalef(1, HEIGHT_TO_METERS_FACTOR, 1);
 	
 	// Enable automatic texture-coord generation, for faster vertex specs.
 	glEnable(GL_TEXTURE_GEN_S);
 	glEnable(GL_TEXTURE_GEN_T);
 	
-//	// Set up vertex array.
-//	glEnableClientState(GL_VERTEX_ARRAY);
-//	glVertexPointer(3, GL_FLOAT, 0, VertexArray);
-	trilist::Start();
+	// Set up vertex array.
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_INT /* GL_FLOAT */, 0, VertexArray);
 	
 	// Render.
 
@@ -2288,15 +2037,13 @@ void	Render(const ViewState& s)
 	bool	TexSet = Config::GetBool("NoTerrainTexture");//xxx
 	Root->Render(RootCornerData, s, 0, TexSet, qsquare::TEXTURE);
 
-	trilist::Flush();
-
 	// Second pass: detail texture.
 	bool	DoDetail = Config::GetBoolValue("DetailMapping");
 	if (DoDetail) {
 		glDisable(GL_FOG);
-		::Render::SetTexture(Detail);
-		::Render::EnableLightmapBlend();
-		::Render::CommitRenderState();
+		Render::SetTexture(Detail);
+		Render::EnableLightmapBlend();
+		Render::CommitRenderState();
 
 		// Detail mapping is applied as a uniform tile over the whole terrain.
 		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
@@ -2315,19 +2062,18 @@ void	Render(const ViewState& s)
 		
 		Root->Render(RootCornerData, s, 0, false, qsquare::DETAIL);
 
-		::Render::DisableLightmapBlend();
+		Render::DisableLightmapBlend();
 		if (Config::GetBoolValue("Fog")) glEnable(GL_FOG);
 	}
 	
-//	// Disable the vertex array.
-//	glDisableClientState(GL_VERTEX_ARRAY);
-	trilist::Stop();
-
 	glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
 
-	// Restore original modelview matrix.
-	glPopMatrix();
+	// Disable the vertex array.
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+//	// Restore original modelview matrix.
+//	glPopMatrix();
 }
 
 
@@ -2341,26 +2087,29 @@ void	RenderShadow(const ViewState& s, const vec3& ShadowCenter, float ShadowExte
 
 	// Tweak the modelview matrix so that our fixed-point Y coords get scaled by 1/16.  Then we can just pass
 	// integers to glVertex3i().  This could be stupid; need to test.
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glScalef(1, HEIGHT_TO_METERS_FACTOR, 1);
+//	glMatrixMode(GL_MODELVIEW);
+//	glPushMatrix();
+//	glScalef(1, HEIGHT_TO_METERS_FACTOR, 1);
 	
-	trilist::Start();
+	// Set up vertex array.
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_INT /* GL_FLOAT */, 0, VertexArray);
 
 	// Set up culling box.
 	CullBoxX = frnd(ShadowCenter.X());
 	CullBoxZ = frnd(ShadowCenter.Z());
-	CullBoxExtent = frnd(ShadowExtent + 0.5f);
+	CullBoxExtent = frnd(ShadowExtent + 0.5);
 	
 	// Render.
 
 	// Special pass: shadow.
 	Root->Render(RootCornerData, s, 0, false, qsquare::SHADOW);
 
-	trilist::Stop();
+	// Disable the vertex array.
+	glDisableClientState(GL_VERTEX_ARRAY);
 	
-	// Restore original modelview matrix.
-	glPopMatrix();
+//	// Restore original modelview matrix.
+//	glPopMatrix();
 }
 
 
@@ -2397,7 +2146,7 @@ float	CheckForRayHit(const vec3& point, const vec3& dir)
 
 int	main()
 {
-	printf("sizeof(Square) = %d\n", sizeof(TerrainMesh::qsquare));
+	printf("sizeof(Square) = %d", sizeof(TerrainMesh::qsquare));
 
 	return 0;
 }

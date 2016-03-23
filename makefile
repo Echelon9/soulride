@@ -12,11 +12,6 @@ endif
 # project dir.
 all:
 	$(MAKE) -C src $@
-	cp src/$(OBJ_DIR)/soulride$(EXE_EXT) .
-	cp src/$(OBJ_DIR)/soulride$(EXE_EXT) ../soulride-private
-	cp readme.txt ../soulride-private
-	cp readme-*.txt ../soulride-private
-	cp cdaindex.txt ../soulride-private
 
 PRODUCTS = \
 	soulride_setup \

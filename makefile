@@ -1,5 +1,6 @@
 # Product makefile for Soul Ride.
 
+CPPSOURCES=$(wildcard src/*.cpp src/*.hpp src/gamegui/*.cpp src/gamegui/*.hpp)
 
 ifeq "$(debug)" "1"
 OBJ_DIR = Debug
@@ -30,3 +31,9 @@ $(PRODUCTS): all
 
 installdeps:
 	apt-get install build-essential libsdl1.2-dev libsdl-mixer1.2-dev
+
+# Generate documentation of the C++ code
+doxygen: docs/doxygen/html/index.html
+
+docs/doxygen/html/index.html: $(CPPSOURCES)
+	doxygen

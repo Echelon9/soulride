@@ -137,13 +137,6 @@ AddBonusMessage_lua() {
 	                Sound::Controls());
 }
 
-//static void	AddFlyingPoints_lua() {
-//	AddFlyingPoints(lua_getnumber(lua_getparam(1)),
-//			lua_getnumber(lua_getparam(2)),
-//			lua_getnumber(lua_getparam(3)),
-//			lua_getnumber(lua_getparam(4)));
-//}
-
 
 /**
  * Opens the game module. Basically just initializes some stuff.
@@ -160,7 +153,6 @@ Open()
 	lua_register("game_get_current_run", GetCurrentRun_lua);
 	lua_register("game_run_completed", RunCompleted_lua);
 	lua_register("game_add_bonus_message", AddBonusMessage_lua);
-//	lua_register("game_add_flying_points", AddFlyingPoints_lua);
 
 	HighScore::Open();
 

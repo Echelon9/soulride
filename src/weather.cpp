@@ -110,9 +110,12 @@ static void	InitSkydomeGradient(const char* filename)
 static void	InitFlakes();
 
 
-static void	WeatherResetFunc()
-// Gets the next word from arg, and uses it as a bitmap filename for
-// initializing the skydome gradient.
+/**
+ * Gets the next word from Lua arg callstack, and uses it as a bitmap filename
+ * for initializing the skydome gradient.
+ */
+static void
+WeatherReset_lua()
 {
 	// Skydome.
 	const char*	Filename = lua_getstring(lua_getparam(1));
@@ -151,12 +154,15 @@ float	GetFadeDistance()
 }
 
 
-void	Open()
-// Init the data we need for skydome rendering.
+/**
+ * Init the data we need for skydome rendering.
+ */
+void
+Open()
 {
 	int	i, r;
 
-	lua_register("weather_reset", WeatherResetFunc);
+	lua_register("weather_reset", WeatherReset_lua);
 	lua_register("weather_recalc_sun_direction", RecalcSunDirection_lua);
 
 	RecalcSunDirection_lua();
@@ -164,7 +170,6 @@ void	Open()
 	
 //	InitSkydomeGradient("skydome.psd);
 
-//	WeatherResetFunc("skydome.psd");
 	lua_dostring("weather_reset('skydome.psd')");
 	
 	for (r = 0; r < ROWS; r++) {
@@ -189,10 +194,12 @@ void	Close()
 }
 
 
-void	Reset()
-// Reload gradients and whatnot.
+/**
+ * Reload gradients and whatnot.
+ */
+void
+Reset()
 {
-//	WeatherResetFunc("skydome.psd");
 	lua_dostring("weather_reset('skydome.psd')");
 }
 

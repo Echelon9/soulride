@@ -261,7 +261,7 @@ static void	FlakesUpdate(const UpdateState& u);
 
 
 float	CloudUVOffset[2][2] = { { 0, 0 }, { 0, 0 } };
-float	CloudSpeed[2][2] = { 0.02f, 0.01f };	// Defaults get overridden by config vars.
+float	CloudSpeed[2][2] = { { 0, 0 }, { 0, 0 } };	// Defaults get overridden by config vars.
 float	CloudUVRepeat[2] = { 3, 4 };	// Defaults get overridden by config var.
 const float	CLOUD_XZ = 50000;
 

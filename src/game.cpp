@@ -129,20 +129,20 @@ static void	RunCompleted_lua() {
 	RunCompleted(int(lua_getnumber(lua_getparam(1))-1));
 }
 
-//static void	AddBonusMessage_lua() {
-//	AddBonusMessage(lua_getstring(lua_getparam(1)));
-//}
-//
-//static void	AddFlyingPoints_lua() {
-//	AddFlyingPoints(lua_getnumber(lua_getparam(1)),
-//			lua_getnumber(lua_getparam(2)),
-//			lua_getnumber(lua_getparam(3)),
-//			lua_getnumber(lua_getparam(4)));
-//}
+static void
+AddBonusMessage_lua() {
+	AddBonusMessage(lua_getstring(lua_getparam(1)),
+	                int(lua_getnumber(lua_getparam(2))),
+	                lua_getstring(lua_getparam(3)),
+	                Sound::Controls());
+}
 
 
-void	Open()
-// Opens the game module.  Basically just initializes some stuff.
+/**
+ * Opens the game module. Basically just initializes some stuff.
+ */
+void
+Open()
 {
 	int	i;
 	for (i = 0; i < MAX_RUNS; i++) {
@@ -152,8 +152,7 @@ void	Open()
 	// Register some Lua hooks.
 	lua_register("game_get_current_run", GetCurrentRun_lua);
 	lua_register("game_run_completed", RunCompleted_lua);
-//	lua_register("game_add_bonus_message", AddBonusMessage_lua);
-//	lua_register("game_add_flying_points", AddFlyingPoints_lua);
+	lua_register("game_add_bonus_message", AddBonusMessage_lua);
 
 	HighScore::Open();
 

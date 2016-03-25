@@ -9,11 +9,11 @@ OBJ_DIR = Release
 endif
 
 
-# Default target just recompiles and copies the executable etc to
-# project dir.
+## all         : (default) compiles and copies the executable to project dir
 all:
 	$(MAKE) -C src $@
 
+## clean       : remove build artifacts
 clean:
 	$(MAKE) -C src $@
 
@@ -29,16 +29,21 @@ PRODUCTS = \
 $(PRODUCTS): all
 	$(MAKE) -C src/installer $@
 
+## help        : print this help message and exit
+help: makefile
+	@sed -n 's/^##//p' $<
+
+## installdeps : install dependencies on Debian-based system
 installdeps:
 	apt-get install build-essential libsdl1.2-dev libsdl-mixer1.2-dev
 
-# Generate documentation of the C++ code
+## doxygen     : generate documentation of the C++ code
 doxygen: docs/doxygen/html/index.html
 
 docs/doxygen/html/index.html: $(CPPSOURCES)
 	doxygen
 
-# Run cppcheck static analysis on CPP source code
+## cppcheck    : run static analysis on C++ source code
 cppcheck: $(CPPSOURCES)
 	cppcheck $(CPPSOURCES) --enable=all --platform=unix64 \
 	--std=c++11 --inline-suppr --quiet --force \

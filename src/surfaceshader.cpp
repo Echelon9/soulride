@@ -41,10 +41,12 @@ static void	InitNoiseArray();
 static void	InitShadeTable(const char* filename);
 
 
-//static const char*	ShadeTableResetFunc(const char* arg)
-static void	ShadeTableResetFunc()
-// Gets the next word from arg, and uses it as a bitmap filename for
-// initializing the shadetable gradient.
+/**
+ * Gets the next word from arg, and uses it as a bitmap filename for
+ * initializing the shadetable gradient.
+ */
+static void
+ShadeTableReset_lua()
 {
 	const char*	fn = lua_getstring(lua_getparam(1));
 	if (fn == NULL) fn = "shadetable.psd";
@@ -210,8 +212,11 @@ const PhysicalInfo&	GetSurfaceInfo(int type)
 }
 
 
-void	OpenSurfaceShader()
-// Initialize the surface shader.  Load any needed bitmaps.
+/**
+ * Initialize the surface shader. Load any needed bitmaps.
+ */
+void
+OpenSurfaceShader()
 {
 	// Set up to do Perlin noise.
 	InitNoiseArray();
@@ -220,7 +225,7 @@ void	OpenSurfaceShader()
 	InitShadeTable("shadetable.psd");
 
 	// Attach a handler to "shadetable-reset".
-	lua_register("shadetable_reset", ShadeTableResetFunc);
+	lua_register("shadetable_reset", ShadeTableReset_lua);
 }
 
 

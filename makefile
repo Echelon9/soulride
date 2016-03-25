@@ -37,3 +37,10 @@ doxygen: docs/doxygen/html/index.html
 
 docs/doxygen/html/index.html: $(CPPSOURCES)
 	doxygen
+
+# Run cppcheck static analysis on CPP source code
+cppcheck: $(CPPSOURCES)
+	cppcheck $(CPPSOURCES) --enable=all --platform=unix64 \
+	--std=c++11 --inline-suppr --quiet --force \
+	$(addprefix -I,$(INCLUDE_DIRS)) \
+	-I/usr/include -I/usr/include/linux

@@ -1,0 +1,27 @@
+# See https://docs.travis-ci.com/user/languages/cpp for defaults
+language: cpp
+
+# Send builds to the container-based infrastructure
+sudo: false
+
+# As using container-based infrastructure, unable to use
+# sudo make installdeps
+addons:
+  apt:
+    packages:
+    - build-essential
+    - libsdl1.2-dev
+    - libsdl-mixer1.2-dev
+
+# Add clang and gcc compiler to build matrix
+compiler:
+  - clang
+  - gcc
+
+# Add Debug and Release to build matrix 
+env:
+  matrix:
+    - DEBUG=1
+    - DEBUG=0
+
+script: make

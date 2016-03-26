@@ -24,6 +24,7 @@
 
 #include "utility.hpp"
 #include "ui.hpp"
+#include "game.hpp"
 #include "error.hpp"
 #include "text.hpp"
 #include "render.hpp"
@@ -61,7 +62,16 @@ char*	IconName[CURSOR_TYPE_COUNT] = {
 GG_Player*	MenuBackdrop[MultiPlayer::MAX_PLAYERS] = {NULL, NULL, NULL, NULL};
 GG_Player*	StatusBackdrop[MultiPlayer::MAX_PLAYERS] = {NULL, NULL, NULL, NULL};
 
-static void	ShowFinish_lua() { SetMode(SHOWFINISH, GameLoop::GetCurrentTicks()); }
+/**
+ * Set current run as finished and progress to next run.
+ */
+static void
+ShowFinish_lua() {
+	// Ensure SHOWFINISH mode not set in menus prior to run
+	if (Game::GetCurrentPlayer()) {
+		SetMode(SHOWFINISH, GameLoop::GetCurrentTicks());
+	}
+}
 
 
 void	Open()

@@ -620,29 +620,26 @@ public:
 			//xxxxxx
 		}
 
-/*
-		//xxxxxxxxx
-		glColor3f(1, 0, 0);
-		for (int i = 0; i < 2; i++) {
-			vec3	v = Foot[i].Location;
+		if (Config::GetBoolValue("ShowBoarderFeet")) {
+			//xxxxxxxxx Boarder feet friction points, for debugging
+			// Red stars
+			glColor3f(1, 0, 0);
+			for (int i = 0; i < 2; i++) {
+				vec3	v = Foot[i].Location;
 			
-			glBegin(GL_LINES);
-			glVertex3fv(v + vec3(0, 0.1, 0));
-			glVertex3fv(v + vec3(0, -0.1, 0));
-			glEnd();
+				glBegin(GL_LINES);
+				glVertex3fv(v + vec3(0, 0.1, 0));
+				glVertex3fv(v + vec3(0, -0.1, 0));
 
-			glBegin(GL_LINES);
-			glVertex3fv(v + vec3(0.1, 0, 0));
-			glVertex3fv(v + vec3(-0.1, 0, 0));
-			glEnd();
+				glVertex3fv(v + vec3(0.1, 0, 0));
+				glVertex3fv(v + vec3(-0.1, 0, 0));
 
-			glBegin(GL_LINES);
-			glVertex3fv(v + vec3(0, 0, 0.1));
-			glVertex3fv(v + vec3(0, 0, -0.1));
-			glEnd();
+				glVertex3fv(v + vec3(0, 0, 0.1));
+				glVertex3fv(v + vec3(0, 0, -0.1));
+				glEnd();
+			}
+			//xxxxxxxx
 		}
-		//xxxxxxxx
-*/
 	}
 
 

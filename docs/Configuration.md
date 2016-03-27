@@ -134,6 +134,7 @@ console.
 | PerfTest                                       | Boolean     | Enable benchmark mode (requires PerfTestPath.dat) |
 | PlayerCameraMode                               | Integer     |                                                   |
 | RewindsAllowed                                 | Integer     |                                                   |
+| ShowBoarderFeet                                | Boolean     | Show boarder's feet friction points               |
 | ShowBoarderRays                                | Boolean     |                                                   |
 | ShowCacheUsage                                 | Boolean     |                                                   |
 | ShowCheckCode                                  | Boolean     |                                                   |

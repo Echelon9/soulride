@@ -2,8 +2,14 @@
 # Project specific
 #
 
+data/files-used.txt
+data/gamegui.log
+data/hash_keys.txt
+PlayerData/
 src/Release/
 src/Debug/
+soulride
+soulride-static
 
 #
 # https://github.com/github/gitignore/blob/master/C.gitignore

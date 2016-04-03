@@ -24,4 +24,4 @@ env:
     - DEBUG=1
     - DEBUG=0
 
-script: make
+script: make && make test

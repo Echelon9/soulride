@@ -8,6 +8,7 @@ data/hash_keys.txt
 PlayerData/
 src/Release/
 src/Debug/
+src/UnitTest/
 soulride
 soulride-static
 

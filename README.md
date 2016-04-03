@@ -47,6 +47,14 @@ TBD
 
 TBD
 
+## Unit Tests ##
+
+Unit tests can be run by:
+```
+make test
+```
+Further unit test coverage would be appreciated!
+
 ## Further Information ##
 
 [readme.txt](readme.txt)

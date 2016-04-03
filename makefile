@@ -16,6 +16,7 @@ all:
 ## clean       : remove build artifacts
 clean:
 	$(MAKE) -C src $@
+	cd src/test && $(MAKE) clean || true
 
 PRODUCTS = \
 	soulride_setup \
@@ -28,6 +29,10 @@ PRODUCTS = \
 
 $(PRODUCTS): all
 	$(MAKE) -C src/installer $@
+
+## test        : run the test suite
+test:
+	cd src/test && $(MAKE) test
 
 ## help        : print this help message and exit
 help: makefile

@@ -41,7 +41,19 @@ make DEBUG=1 # for debug build
 
 ### OS X ###
 
-TBD
+*OS X build support remains preliminary*
+
+[Homebrew](http://brew.sh/) is recommended to install and manage the necessary
+dependencies on OS X:
+```
+brew update
+brew install sdl sdl_mixer
+```
+Building from source:
+```
+make
+make DEBUG=1 # for debug build
+```
 
 ### Windows ###
 

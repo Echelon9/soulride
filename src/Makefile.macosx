@@ -40,7 +40,7 @@ MACOSX_FRAMEWORKS = -framework Cocoa -framework OpenGL -framework SDL -framework
 cc = g++ -c
 debugflags = -g
 link = g++ $(debugflags) -fexceptions
-cflags = -I $(SDL_HEADERS) -I $(SDL_MIXER_HEADERS) -D_THREAD_SAFE -DLINUX=1 $(debugflags) -O3 -fomit-frame-pointer -fexceptions -ffast-math -fno-default-inline -DMACOSX 
+cflags = -I $(SDL_MIXER_HEADERS) $(shell sdl-config --cflags) -DLINUX=1 $(debugflags) -O3 -fomit-frame-pointer -fexceptions -ffast-math -DMACOSX
 xlibs = /usr/X11R6/lib
 make = make -f Makefile.macosx
 
@@ -112,7 +112,7 @@ OBJ_LIST = \
         $(OBJ_DIR)/text.o       \
         $(OBJ_DIR)/timer.o      \
         $(OBJ_DIR)/tree.o       \
-        $(OBJ_DIR)/ui.o \
+        $(OBJ_DIR)/ui.o 	\
         $(OBJ_DIR)/uihelidrop.o \
         $(OBJ_DIR)/uimainmenu.o \
         $(OBJ_DIR)/uioptions.o  \
@@ -162,15 +162,12 @@ mrproper:
 	rm *.o */*.o */*/*.o */*/*/*.o */*.lib */*/*.lib $(proj)
 
 macosx_shared: MACOSX_FRAMEWORKS += -framework Carbon
-macosx_shared: cflags += -DMACOSX_CARBON
 macosx_shared: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
 	$(link) $(linkdebug) -o $(proj) \
 		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
-		-L/sw/lib -lSDL -l SDL_mixer -framework Cocoa -framework Carbon -framework OpenGL
-	cp $(proj) ../SoulRide.app/Contents/MacOS/SoulRide
+		-lSDL -lSDL_mixer -framework Cocoa -framework Carbon -framework OpenGL
 
 macosx_carbon: MACOSX_FRAMEWORKS += -framework Carbon
-macosx_carbon: cflags += -DMACOSX_CARBON
 macosx_carbon: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
 	$(link) $(linkdebug) -o $(proj) \
 		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
@@ -186,16 +183,6 @@ SoulRide.app : macosx_carbon
 	     cp -r ../data ../SoulRide.app/Contents/Resources
 	     cp -r ../Recordings ../SoulRide.app/Contents/Resources
 	     cp soulride ../SoulRide.app/Contents/MacOS/SoulRide
-
-	     # remove CVS stuff from application
-	     # rm -r ../SoulRide.app/Contents/CVS
-	     # rm -r ../SoulRide.app/Contents/Frameworks/CVS
-	     # rm -r ../SoulRide.app/Contents/MacOS/CVS
-	     # rm -r ../SoulRide.app/Contents/Resources/CVS
-	     # rm -r ../SoulRide.app/Contents/Resources/English.lproj/CVS
-	     # rm -r ../SoulRide.app/Contents/Resources/English.lproj/main.nib/CVS
-	     # rm -r ../SoulRide.app/Contents/Resources/Recordings/CVS
-	     # rm -r ../SoulRide.app/CVS
 
 all: macosx_carbon
 

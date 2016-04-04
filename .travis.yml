@@ -4,6 +4,11 @@ language: cpp
 # Send builds to the container-based infrastructure
 sudo: false
 
+# Add Linux and OS X to build matrix
+os:
+  - linux
+  - osx
+
 # As using container-based infrastructure, unable to use
 # sudo make installdeps
 addons:
@@ -12,6 +17,11 @@ addons:
     - build-essential
     - libsdl1.2-dev
     - libsdl-mixer1.2-dev
+
+# Use brew on OS X to install dependencies
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update               ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sdl sdl_mixer; fi
 
 # Add clang and gcc compiler to build matrix
 compiler:
@@ -24,4 +34,13 @@ env:
     - DEBUG=1
     - DEBUG=0
 
+#
+# Build and run test suite
+#
 script: make && make test
+
+# Exclude gcc on OS X, it maps to clang on that platform
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc

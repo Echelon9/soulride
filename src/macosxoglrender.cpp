@@ -62,10 +62,8 @@ bool	Fullscreen = true;
 int	CurrentDriver = 0;
 int	CurrentMode = 2;
 
-#ifdef MACOSX_CARBON
 int windowWidth = 1024, windowHeight = 768;
 int windowBPP = 16;
-#endif
 
 class OGLTexture;
 

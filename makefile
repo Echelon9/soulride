@@ -8,10 +8,15 @@ else
 OBJ_DIR = Release
 endif
 
+UNAME_S := $(shell uname -s)
 
 ## all         : (default) compiles and copies the executable to project dir
 all:
+ifeq ($(UNAME_S),Darwin)
+	cd src/ && $(MAKE) -f Makefile.macosx macosx_shared
+else
 	$(MAKE) -C src $@
+endif
 
 ## clean       : remove build artifacts
 clean:

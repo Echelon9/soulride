@@ -95,8 +95,8 @@ int	SurfaceTypeCount = 0;
 
 // added "surfaceInitInfoType" to remove g++ 4.0 compiler errors
 struct surfaceInitInfoType {
-	char*	BitmapName0;
-	char*	BitmapName1;
+	const char*	BitmapName0;
+	const char*	BitmapName1;
 	PhysicalInfo	Physical;
 } SurfaceInitInfo[] = {
 	{ "forest0.psd", "forest1.psd", { 0, 0.70f, 0, 0, 1, 0.5f } },
@@ -126,8 +126,13 @@ bitmap32*	SubFilter(bitmap32* source)
 }
 
 
-void	InitSurfaceImages(SurfaceTileInfo* s, char* ImageFileName)
-// Creates a new surface type using the given filename as the image.
+/**
+ * Creates a new surface type using the given filename as the image.
+ * @param s             SurfaceTileInfo type to output
+ * @param ImageFileName Filename
+ */
+static void
+InitSurfaceImages(SurfaceTileInfo* s, const char* ImageFileName)
 {
 	bitmap32*	b = PSDRead::ReadImageData32(ImageFileName);
 	if (b == NULL) {
@@ -246,16 +251,15 @@ void	ResetSurfaceShader()
 
 	// Load surfaces.
 	for (SurfaceTypeCount = 0; SurfaceTypeCount < MAX_SURFACE_TYPES; SurfaceTypeCount++) {
-		char*	bm = SurfaceInitInfo[SurfaceTypeCount].BitmapName0;
-		if (bm == NULL) break;
+		if (SurfaceInitInfo[SurfaceTypeCount].BitmapName0 == NULL) break;
 
 		Game::LoadingTick();
-		InitSurfaceImages(&SurfaceType[SurfaceTypeCount].Tile[0], bm);	// Init first tile bitmap.
-
-		bm = SurfaceInitInfo[SurfaceTypeCount].BitmapName1;
+		InitSurfaceImages(&SurfaceType[SurfaceTypeCount].Tile[0],
+		                  SurfaceInitInfo[SurfaceTypeCount].BitmapName0);	// Init first tile bitmap.
 		
 		Game::LoadingTick();
-		InitSurfaceImages(&SurfaceType[SurfaceTypeCount].Tile[1], bm);	// Init second tile bitmap.
+		InitSurfaceImages(&SurfaceType[SurfaceTypeCount].Tile[1],
+		                  SurfaceInitInfo[SurfaceTypeCount].BitmapName1);	// Init second tile bitmap.
 		
 		SurfaceType[SurfaceTypeCount].Physical = SurfaceInitInfo[SurfaceTypeCount].Physical;	// Copy physical params.
 	}

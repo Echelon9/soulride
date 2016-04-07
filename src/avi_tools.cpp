@@ -445,8 +445,12 @@ void	avi_stream::close()
 }
 
 
-void	avi_stream::open_chunk(char* fourcc)
-// Opens a new chunk, and starts it with the given four-character-code tag.
+/**
+ * Opens a new chunk, and starts it with the given four-character-code tag.
+ * @param fourcc Character code
+ */
+void
+avi_stream::open_chunk(const char* fourcc)
 {
 	// Chunk type.
 	fwrite(fourcc, 1, 4, fp);

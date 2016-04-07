@@ -42,7 +42,7 @@ namespace avi_tools {
 		void	write_video_frame(uint32* pixels, int width, int height);
 		void	close();
 
-		void	open_chunk(char* fourcc);
+		void	open_chunk(const char* fourcc);
 		void	close_chunk();
 	};
 };

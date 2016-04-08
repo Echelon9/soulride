@@ -236,9 +236,15 @@ int	GetDriverCount(int device)
   return 1;
 }
 
-
-char*	GetDriverName(int index)
-// Returns the name of the specified driver.
+/**
+ * Get name of driver
+ *
+ * @param index Index of device
+ *
+ * @return String name of the specified driver.
+ */
+const char*
+GetDriverName(int index)
 {
   return "OpenGL";
 }

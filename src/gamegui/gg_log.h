@@ -41,7 +41,7 @@
 extern "C" {
 #endif
 
-void GG_logStr( char *buf );
+void GG_logStr( const char *buf );
 
 
 //  To control logging via a compiler switch, use

@@ -22,7 +22,8 @@ static char GG_LogFileName[] = "gamegui.log";
 static int GG_LogStarted = 0;
 
 
-void GG_logStr( char *buf )
+void
+GG_logStr( const char *buf )
 {
   FILE *fp;
 

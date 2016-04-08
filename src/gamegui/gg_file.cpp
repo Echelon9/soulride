@@ -379,7 +379,7 @@ class GG_FileRAM : public GG_File
 GG_File *GG_FileOpen( char *fileName, uint32 openMode )
 {
   GG_File  *f = null;
-  char    *modeStr;
+  const char    *modeStr;
   FILE    *fp = NULL;
   char    name[GGFILE_MAXNAMELEN*2] = "";
 

@@ -275,8 +275,9 @@ void	SetMode(Mode mode, int Ticks, int player_index)
 	// sitting around).
 	Input::ClearMouseEvents();
   
-	// Bjorn debugging / understanding what happends
-	char* mode_names[] = 
+	/*
+	 * Bjorn debugging / understanding what happens
+	const char* mode_names[] =
 		{ "NONE","ATTRACT","PLAYERQUERY","PLAYERNAME","PLAYERSELECT","MAINMENU",
 		  "SELECTMOUNTAIN","SELECTRUN","SHOWRUNINFO","RUNFLYOVER",
 		  "COUNTDOWN","RESUME","PLAYING","SHOWCRASH","CRASHQUERY","SHOWREWIND","SHOWFINISH",
@@ -287,12 +288,11 @@ void	SetMode(Mode mode, int Ticks, int player_index)
 		  "MULTIPLAYERQUERY","WAITING_FOR_OTHERS", 
 		  "MODECOUNT"};
   
-//   // Bjorn: debugging
-//   std::cout << "oldmode = " << mode_names[CurrentMode[player_index]] 
-// 	    << ", newmode = " << mode_names[mode] 
-// 	    << " for player_index " << player_index << std::endl;
-  
-  
+	std::cout << "oldmode = " << mode_names[CurrentMode[player_index]]
+	    << ", newmode = " << mode_names[mode]
+	    << " for player_index " << player_index << std::endl;
+	*/
+
 	ModeHandler*	OldHandler = Handler[CurrentMode[player_index]];
 	ModeHandler*	NewHandler = Handler[mode];
 

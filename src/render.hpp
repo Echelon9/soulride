@@ -57,7 +57,7 @@ namespace Render {
 
 	// Driver/device control.
 	int	GetDeviceCount();
-	char*	GetDeviceDescription(int DeviceIndex);
+	const char*	GetDeviceDescription(int DeviceIndex);
 	int	GetCurrentDevice();
 	
 	int	GetDriverCount(int device);

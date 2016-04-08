@@ -213,10 +213,20 @@ void SetWindowFullscreen(bool fullscreen){
 #endif
 
 int	GetDeviceCount() { return 1; }
-char*	GetDeviceDescription(int device)
+
+/**
+ * Describe render device
+ *
+ * @param device Index of device
+ *
+ * @return String describing the specified device
+ */
+const char*
+GetDeviceDescription(int device)
 {
 	return "---";
 }
+
 int	GetCurrentDevice() { return 0; }
 
 

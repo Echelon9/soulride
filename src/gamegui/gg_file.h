@@ -115,7 +115,7 @@ class GG_File
     virtual int32 read( void *buf, uint32 size, uint32 num ) = 0;
     virtual int32 write( void *buf, uint32 size ) = 0;
     virtual int32 write( void *buf, uint32 size, uint32 num ) = 0;
-    virtual int32 writeText( char *text ) = 0;
+    virtual int32 writeText( const char *text ) = 0;
         //  No string formatting provided, use sprintf or
         //  whatever to format strings beforehand
         //  (% signs are safe to use though)

@@ -100,7 +100,7 @@ class GG_FileC : public GG_File
       {
         return fwrite( buf, size, num, m_fp );
       }
-    int32 writeText( char *buf )
+    int32 writeText( const char *buf )
       {
         int32 len = strlen(buf);
         return fwrite( buf, len, 1, m_fp );
@@ -255,7 +255,7 @@ class GG_FileRAM : public GG_File
 
         return i;
       }
-    int32 writeText( char *buf )
+    int32 writeText( const char *buf )
       {
         int32 size = strlen(buf);
         if( m_pos + size < m_size )

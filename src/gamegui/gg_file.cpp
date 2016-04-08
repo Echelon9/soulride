@@ -517,7 +517,8 @@ static GGF_Rval translateFindInfo( WIN32_FIND_DATA *findInfo,
 //  Static public functions
 //
 //
-GGF_Rval GG_File::setCurrentPath( char *str )
+GGF_Rval
+GG_File::setCurrentPath( const char *str )
 {
   if( str == null )
   {

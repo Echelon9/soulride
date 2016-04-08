@@ -62,7 +62,7 @@ namespace Render {
 	
 	int	GetDriverCount(int device);
 	const char*	GetDriverName(int DriverIndex);
-	char*	GetDriverComment(int DriverIndex);
+	const char*	GetDriverComment(int DriverIndex);
 	int	GetCurrentDriver(int device);
 	int	AddNewDriver();
 	void	SetDriverInfo(int index, const char* Name, const char* Comment);

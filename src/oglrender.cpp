@@ -338,9 +338,15 @@ GetDriverName(int index)
 #endif // not LINUX
 }
 
-	
-char*	GetDriverComment(int index)
-// Returns extra info about the specified driver.
+/**
+ * Returns extra information about the specified driver
+ *
+ * @param index Index of device
+ *
+ * @return String of extra information
+ */
+const char*
+GetDriverComment(int index)
 {
 #ifdef LINUX
 	return "---";

@@ -1924,10 +1924,10 @@ void	Render::DrawLine(const Vertex& a, const Vertex& b)
 D3DTexture*	TextureList = 0;
 
 
-Texture*	Render::NewTexture(const char* FileOrResourceName)
+Texture*	Render::NewTexture(const char* Filename)
 // Creates a new texture and registers it.
 {
-	return new D3DTexture(FileOrResourceName);
+	return new D3DTexture(Filename);
 }
 
 

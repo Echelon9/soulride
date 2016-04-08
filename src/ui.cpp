@@ -51,7 +51,9 @@ Mode	DeferredMode = NONE;
 
 
 ::Render::Texture*	CursorIcon[CURSOR_TYPE_COUNT];
-char*	IconName[CURSOR_TYPE_COUNT] = {
+
+const char*
+IconName[CURSOR_TYPE_COUNT] = {
 	"arrow-cursor.psd",
 	"cross-cursor.psd",
 	"mapcursor.psd",

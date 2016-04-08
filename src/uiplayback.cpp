@@ -62,7 +62,7 @@
 
 const int	BUTTON_COUNT = 8;
 struct ButtonInfo {
-	char*	Name;
+	const char*	Name;
 	// key id
 } ButtonData[BUTTON_COUNT] = {
 	{ "vcr_load.ggm" },

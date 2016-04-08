@@ -339,7 +339,7 @@ const int	DesiredColorDepth = 16;
 
   // windows specific code removed too
 
-void	CheckOGLError(char* FuncName);
+void	CheckOGLError(const char* FuncName);
 
 
 HGLRC	RenderingContext = 0;
@@ -1246,9 +1246,16 @@ void	WriteScreenshotFilePPM(const char* filename)
 }
 
 
-void	CheckOGLError(char* FuncName)
-// Checks for OpenGL error codes.  If there's an error, throws an exception
-// with an error message which includes the given function name.
+/**
+ * Checks for OpenGL error codes.
+ *
+ * If there's an error, throws an exception with an error message which includes
+ * the given function name.
+ *
+ * @param FuncName   Provide callee function for logging purposes
+ */
+void
+CheckOGLError(const char* FuncName)
 {
 	GLenum	error = glGetError();
 	if (error == GL_NO_ERROR) return;

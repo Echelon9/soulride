@@ -133,7 +133,7 @@ vector<string> GetMusicFiles(const char* dir){
 
   void GenerateMusicIndex(){
     
-    char* filename = "/tmp/cdaindex.txt";
+    const char* filename = "/tmp/cdaindex.txt";
 
     ofstream outfile(filename);
 

@@ -152,12 +152,19 @@ int	sdl_volume(float vol)
 int macosx_cd_status = CD_STOP;
 
 
-int	Play(char* ResourceName, const Controls& Parameters)
-// Plays the sound specified by the given resource name.  The return value
-// is an "event id" for the sound event started by this call.  This id can be
-// used later in calls to Sound::Adjust() or Sound::Release() to change the
-// sound's parameters.
-// Returns 0 on failure.
+/**
+ * Plays the sound specified by the given resource name.
+ *
+ * @param ResourceName Filename
+ * @param Parameters   Controls to specific parameters
+ *
+ * @return An "event id" for the sound event started by this call. This id can
+ * be used later in calls to Sound::Adjust() or Sound::Release() to change the
+ * sound's parameters.
+ * @return 0 on failure.
+ */
+int
+Play(const char* ResourceName, const Controls& Parameters)
 {
 	if (!IsOpen) return 0;
 
@@ -179,7 +186,6 @@ int	Play(char* ResourceName, const Controls& Parameters)
 	}
 
 	return channel + 1;
-  return 0;
 }
 
 
@@ -261,7 +267,7 @@ Mix_Music *music = NULL;
 
 void PlayMusicFile(int TrackID){
 
-  char *music_directory = "../music/";
+  const char *music_directory = "../music/";
 
   std::vector<std::string> song = MacOSX::GetMusicFiles(music_directory);
 

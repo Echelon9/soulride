@@ -115,7 +115,7 @@ class GG_File
     virtual int32 read( void *buf, uint32 size, uint32 num ) = 0;
     virtual int32 write( void *buf, uint32 size ) = 0;
     virtual int32 write( void *buf, uint32 size, uint32 num ) = 0;
-    virtual int32 writeText( char *text ) = 0;
+    virtual int32 writeText( const char *text ) = 0;
         //  No string formatting provided, use sprintf or
         //  whatever to format strings beforehand
         //  (% signs are safe to use though)
@@ -170,13 +170,14 @@ class GG_File
     static GGF_Rval findNextFile( FileInfo *fileInfo );
     static GGF_Rval findClose( FileInfo *fileInfo );
 
-    //
-    //  setCurrentPath
-    //
-    //  - Sets the current path.  Calls to GG_File.. will
-    //    prefix any filenames with this path.
-    //
-    static GGF_Rval setCurrentPath( char *pathName );                // null == no path, GGFILE_MAXNAMELEN==maximum string length
+    /**
+     * Sets the current path.
+     *
+     * Calls to GG_File.. will prefix any filenames with this path.
+     *
+     * @param pathName Path to set. Maximum string length of GGFILE_MAXNAMELEN
+     */
+    static GGF_Rval setCurrentPath( const char *pathName );
     static GGF_Rval getCurrentPath( char *pathName, int maxChars );  // up to GGFILE_MAXNAMELEN chars may be needed
 };
 

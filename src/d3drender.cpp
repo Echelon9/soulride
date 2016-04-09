@@ -253,8 +253,15 @@ namespace Render {
 		return DeviceCount;
 	}
 
-	char*	GetDeviceDescription(int device)
-	// Returns a string describing the specified device.
+	/**
+	 * Describe render device
+	 *
+	 * @param device Index of device
+	 *
+	 * @return String describing the specified device
+	 */
+	const char*
+	GetDeviceDescription(int device)
 	{
 		if (device < 0 || device >= DeviceCount) return "!invalid";
 		else return Device[device].Description;
@@ -1924,10 +1931,10 @@ void	Render::DrawLine(const Vertex& a, const Vertex& b)
 D3DTexture*	TextureList = 0;
 
 
-Texture*	Render::NewTexture(const char* FileOrResourceName)
+Texture*	Render::NewTexture(const char* Filename)
 // Creates a new texture and registers it.
 {
-	return new D3DTexture(FileOrResourceName);
+	return new D3DTexture(Filename);
 }
 
 

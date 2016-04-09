@@ -1283,9 +1283,15 @@ GG_Sound* createAuSound( char *sndFile )
 }
 
 
-GG_Sound* createSound( char *sndFile )
+/**
+ * Create sound from path, handling format automatically
+ *
+ * @param sndFile Path to file
+ */
+GG_Sound*
+createSound( char *sndFile )
 {
-  int   i = 0;
+  size_t   i = 0;
   char  ext[128] = "";
 
 

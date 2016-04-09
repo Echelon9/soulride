@@ -292,10 +292,20 @@ ModeInfo	Mode[MAX_MODES] = {
 
 	
 int	GetDeviceCount() { return 1; }
-char*	GetDeviceDescription(int device)
+
+/**
+ * Describe render device
+ *
+ * @param device Index of device
+ *
+ * @return String describing the specified device
+ */
+const char*
+GetDeviceDescription(int device)
 {
 	return "---";
 }
+
 int	GetCurrentDevice() { return 0; }
 
 
@@ -310,8 +320,15 @@ int	GetDriverCount(int device)
 }
 
 
-char*	GetDriverName(int index)
-// Returns the name of the specified driver.
+/**
+ * Get name of driver
+ *
+ * @param index Index of device
+ *
+ * @return String name of the specified driver.
+ */
+const char*
+GetDriverName(int index)
 {
 #ifdef LINUX
 	return "OpenGL";
@@ -321,9 +338,15 @@ char*	GetDriverName(int index)
 #endif // not LINUX
 }
 
-	
-char*	GetDriverComment(int index)
-// Returns extra info about the specified driver.
+/**
+ * Returns extra information about the specified driver
+ *
+ * @param index Index of device
+ *
+ * @return String of extra information
+ */
+const char*
+GetDriverComment(int index)
 {
 #ifdef LINUX
 	return "---";
@@ -694,7 +717,7 @@ void	FindDesiredPixelFormat()
 #endif // not LINUX
 
 
-void	CheckOGLError(char* FuncName);
+void	CheckOGLError(const char* FuncName);
 
 
 HGLRC	RenderingContext = 0;
@@ -1660,9 +1683,16 @@ void	WriteScreenshotFilePPM(const char* filename)
 }
 
 
-void	CheckOGLError(char* FuncName)
-// Checks for OpenGL error codes.  If there's an error, throws an exception
-// with an error message which includes the given function name.
+/**
+ * Checks for OpenGL error codes.
+ *
+ * If there's an error, throws an exception with an error message which includes
+ * the given function name.
+ *
+ * @param FuncName   Provide callee function for logging purposes
+ */
+void
+CheckOGLError(const char* FuncName)
 {
 	GLenum	error = glGetError();
 	if (error == GL_NO_ERROR) return;

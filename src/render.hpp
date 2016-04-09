@@ -57,12 +57,12 @@ namespace Render {
 
 	// Driver/device control.
 	int	GetDeviceCount();
-	char*	GetDeviceDescription(int DeviceIndex);
+	const char*	GetDeviceDescription(int DeviceIndex);
 	int	GetCurrentDevice();
 	
 	int	GetDriverCount(int device);
-	char*	GetDriverName(int DriverIndex);
-	char*	GetDriverComment(int DriverIndex);
+	const char*	GetDriverName(int DriverIndex);
+	const char*	GetDriverComment(int DriverIndex);
 	int	GetCurrentDriver(int device);
 	int	AddNewDriver();
 	void	SetDriverInfo(int index, const char* Name, const char* Comment);
@@ -107,7 +107,7 @@ namespace Render {
 		int	Height, Width, TexelCount;
 	};
 	class	NewTextureError : public RenderError {};
-	Texture*	NewTexture(const char* FileOrResourceName, bool NeedAlpha, bool MakeMIPMaps, bool Tile, bool AlphaFadedMIPMaps = false);
+	Texture*	NewTexture(const char* Filename, bool NeedAlpha, bool MakeMIPMaps, bool Tile, bool AlphaFadedMIPMaps = false);
 	Texture*	NewTextureFromBitmap(bitmap32* b, bool NeedAlpha, bool MakeMIPMaps, bool Tile, bool AlphaFadedMIPMaps = false);
 	void	DeleteTexture(Texture* t);
 	void	ClearTextures();	// For deleting all the textures.

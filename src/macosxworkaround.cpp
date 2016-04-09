@@ -81,7 +81,7 @@ const char* whoami(){
   int number_of_music_files = -1;
   vector<string> music_files;
 
-  int GetMusicCount(char* dir){
+  int GetMusicCount(const char* dir){
 
     // this avoids searching for files all the time
     if (music_files.size() == 0 && number_of_music_files < 0)
@@ -92,7 +92,7 @@ const char* whoami(){
     return music_files.size();
   }
 
-vector<string> GetMusicFiles(char* dir){
+vector<string> GetMusicFiles(const char* dir){
   if (music_files.size() > 0)
     return music_files;
   
@@ -133,7 +133,7 @@ vector<string> GetMusicFiles(char* dir){
 
   void GenerateMusicIndex(){
     
-    char* filename = "/tmp/cdaindex.txt";
+    const char* filename = "/tmp/cdaindex.txt";
 
     ofstream outfile(filename);
 

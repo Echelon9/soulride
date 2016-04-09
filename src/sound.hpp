@@ -56,7 +56,7 @@ namespace Sound {
 		}
 	};
 	
-	int	Play(char* ResourceName, const Controls& Parameters);
+	int	Play(const char* ResourceName, const Controls& Parameters);
 	void	Adjust(int EventID, const Controls& NewParameters);
 	void	Release(int EventID);	// Use this to release a looped sound (or to stop short a discrete sound).
 	int	GetStatus(int EventID);

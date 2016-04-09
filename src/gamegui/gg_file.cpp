@@ -100,7 +100,7 @@ class GG_FileC : public GG_File
       {
         return fwrite( buf, size, num, m_fp );
       }
-    int32 writeText( char *buf )
+    int32 writeText( const char *buf )
       {
         int32 len = strlen(buf);
         return fwrite( buf, len, 1, m_fp );
@@ -255,7 +255,7 @@ class GG_FileRAM : public GG_File
 
         return i;
       }
-    int32 writeText( char *buf )
+    int32 writeText( const char *buf )
       {
         int32 size = strlen(buf);
         if( m_pos + size < m_size )
@@ -379,7 +379,7 @@ class GG_FileRAM : public GG_File
 GG_File *GG_FileOpen( char *fileName, uint32 openMode )
 {
   GG_File  *f = null;
-  char    *modeStr;
+  const char    *modeStr;
   FILE    *fp = NULL;
   char    name[GGFILE_MAXNAMELEN*2] = "";
 
@@ -517,7 +517,8 @@ static GGF_Rval translateFindInfo( WIN32_FIND_DATA *findInfo,
 //  Static public functions
 //
 //
-GGF_Rval GG_File::setCurrentPath( char *str )
+GGF_Rval
+GG_File::setCurrentPath( const char *str )
 {
   if( str == null )
   {

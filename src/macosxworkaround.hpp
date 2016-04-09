@@ -27,8 +27,8 @@ namespace MacOSX {
   const char* PlayerData_directory();
   const char* whoami();
 
-  int GetMusicCount(char* dir);
-  std::vector<std::string> GetMusicFiles(char* dir);
+  int GetMusicCount(const char* dir);
+  std::vector<std::string> GetMusicFiles(const char* dir);
   void GenerateMusicIndex();
 
 }

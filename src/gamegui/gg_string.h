@@ -102,7 +102,7 @@ class GG_String
       return m_capacity;
     }
 
-    inline int length(void)
+    inline size_t length(void)
     {
       return strlen(m_str);
     }

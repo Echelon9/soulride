@@ -267,7 +267,7 @@ Mix_Music *music = NULL;
 
 void PlayMusicFile(int TrackID){
 
-  char *music_directory = "../music/";
+  const char *music_directory = "../music/";
 
   std::vector<std::string> song = MacOSX::GetMusicFiles(music_directory);
 

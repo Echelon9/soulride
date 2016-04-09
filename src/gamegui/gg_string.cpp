@@ -214,7 +214,18 @@ GG_String::cmpFirstWord( char *str, char *wrd )
 }
 
 
-bool GG_String::cmpWord( char *str, char *wrd, uint32 wrdId )
+/**
+ * Skip wrdId number of words in str, then compare the following characters
+ * with null-terminated wrd
+ *
+ * @param str String to skip wrdId number of words
+ * @param wrd String to compare against
+ * @param wrdId Number of words in str to skip
+ *
+ * @return True on exact match
+ */
+bool
+GG_String::cmpWord( char *str, char *wrd, uint32 wrdId )
 {
   char    *p = str;
   uint32  wrdCount = 1;
@@ -225,7 +236,7 @@ bool GG_String::cmpWord( char *str, char *wrd, uint32 wrdId )
   if( p == null )
     return false;
 
-  int wrdLen = strlen(wrd);
+  size_t wrdLen = strlen(wrd);
 
   if( wrdLen <= strlen(p) )
     if( memcmp(wrd, p, wrdLen) == 0 )

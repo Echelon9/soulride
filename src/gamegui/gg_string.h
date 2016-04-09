@@ -210,9 +210,6 @@ class GG_String
     }
 
 
-    //  Skip whitespace in str, compare the following characters with
-    //  null-terminated wrd, return true on exact match
-    //
     static bool cmpFirstWord( char *str, char *wrd );
 
     inline bool cmpFirstWord( char *wrd )

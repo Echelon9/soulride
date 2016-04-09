@@ -191,13 +191,20 @@ bool GG_String::getQuote( char *str, char *quote )
 }
 
 
-//  Skip whitespace in str, compare the following characters with
-//  null-terminated wrd, return true on exact match
-//
-bool GG_String::cmpFirstWord( char *str, char *wrd )
+/**
+ * Skip whitespace in str, compare the following characters with
+ * null-terminated wrd
+ *
+ * @param str String to skip whitespace
+ * @param wrd String to compare against
+ *
+ * @return True on exact match
+ */
+bool
+GG_String::cmpFirstWord( char *str, char *wrd )
 {
   char *p = skipWhiteSpace(str);
-  int  wrdLen = strlen(wrd);
+  size_t  wrdLen = strlen(wrd);
 
   if( wrdLen <= strlen(p) )
     if( memcmp( p, wrd, wrdLen ) == 0 )

@@ -38,7 +38,8 @@ CXXFLAGS += -g -Wall -Wextra -pthread -DLINUX=1
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS =  multiplayer_unittest
+TESTS =  geometry_unittest \
+         multiplayer_unittest
 TEST_BINARIES = $(TESTS:%=$(OBJECT_DIR)/%)
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -87,6 +88,25 @@ $(OBJECT_DIR)/gtest_main.a : $(OBJECT_DIR)/gtest-all.o $(OBJECT_DIR)/gtest_main.
 # A test should link with either gtest.a or
 # gtest_main.a, depending on whether it defines its own main()
 # function.
+
+$(OBJECT_DIR)/geometry.o : $(USER_DIR)/geometry.cpp \
+        $(USER_DIR)/geometry.hpp \
+        $(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/geometry.cpp -o $@
+
+$(OBJECT_DIR)/geometry_unittest.o : $(TEST_DIR)/geometry_unittest.cc \
+        $(USER_DIR)/geometry.hpp \
+        $(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(TEST_FLAGS) -c $(TEST_DIR)/geometry_unittest.cc -o $@
+
+$(OBJECT_DIR)/geometry_unittest : $(OBJECT_DIR)/geometry.o \
+	$(OBJECT_DIR)/geometry_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 $(OBJECT_DIR)/multiplayer.o : $(USER_DIR)/multiplayer.cpp \
         $(USER_DIR)/multiplayer.hpp \

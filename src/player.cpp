@@ -409,7 +409,7 @@ bool	Player::GetSavedPlayersAvailable()
 #ifdef MACOSX_CARBON
   DIR*  d = opendir(MacOSX::PlayerData_directory());
 #else  // not MACOSX_CARBON
-  DIR*	d = opendir("../PlayerData");
+  DIR*	d = opendir(".." PATH_SEPARATOR "PlayerData");
 #endif // not MACOSX_CARBON
 
   if (d) {

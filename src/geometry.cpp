@@ -34,8 +34,11 @@
 #include "utility.hpp"
 
 
-vec3	vec3::operator+(const vec3& v) const
-// Adds two vec3s.  Creates a temporary for the return value.
+/**
+ * Adds two vec3s.  Creates a temporary for the return value.
+ */
+vec3
+vec3::operator+(const vec3& v) const
 {
 	vec3	result;
 	result.x[0] = x[0] + v.x[0];
@@ -45,8 +48,11 @@ vec3	vec3::operator+(const vec3& v) const
 }
 
 
-vec3	vec3::operator-(const vec3& v) const
-// Subtracts two vec3s.  Creates a temporary for the return value.
+/**
+ * Subtracts two vec3s.  Creates a temporary for the return value.
+ */
+vec3
+vec3::operator-(const vec3& v) const
 {
 	vec3	result;
 	result.x[0] = x[0] - v.x[0];
@@ -56,8 +62,11 @@ vec3	vec3::operator-(const vec3& v) const
 }
 
 
-vec3	vec3::operator-() const
-// Returns the negative of *this.  Creates a temporary for the return value.
+/**
+ * Returns the negative of *this.  Creates a temporary for the return value.
+ */
+vec3
+vec3::operator-() const
 {
 	vec3	result;
 	result.x[0] = -x[0];
@@ -70,8 +79,11 @@ vec3	vec3::operator-() const
 #ifndef INLINE_VECTOR
 
 
-float	vec3::operator*(const vec3& v) const
-// Dot product.
+/**
+ * Dot product.
+ */
+float
+vec3::operator*(const vec3& v) const
 {
 	float	result;
 	result = x[0] * v.x[0];
@@ -81,8 +93,11 @@ float	vec3::operator*(const vec3& v) const
 }
 
 
-vec3&	vec3::operator+=(const vec3& v)
-// Adds a vec3 to *this.
+/**
+ * Adds a vec3 to *this.
+ */
+vec3&
+vec3::operator+=(const vec3& v)
 {
 	x[0] += v.x[0];
 	x[1] += v.x[1];
@@ -91,8 +106,11 @@ vec3&	vec3::operator+=(const vec3& v)
 }
 
 
-vec3&	vec3::operator-=(const vec3& v)
-// Subtracts a vec3 from *this.
+/**
+ * Subtracts a vec3 from *this.
+ */
+vec3&
+vec3::operator-=(const vec3& v)
 {
 	x[0] -= v.x[0];
 	x[1] -= v.x[1];
@@ -104,8 +122,11 @@ vec3&	vec3::operator-=(const vec3& v)
 #endif // INLINE_VECTOR
 
 
-vec3	vec3::operator*(float f) const
-// Scale a vec3 by a scalar.  Creates a temporary for the return value.
+/**
+ * Scale a vec3 by a scalar.  Creates a temporary for the return value.
+ */
+vec3
+vec3::operator*(float f) const
 {
 	vec3	result;
 	result.x[0] = x[0] * f;
@@ -115,8 +136,11 @@ vec3	vec3::operator*(float f) const
 }
 
 
-vec3	vec3::cross(const vec3& v) const
-// Cross product.  Creates a temporary for the return value.
+/**
+ * Cross product.  Creates a temporary for the return value.
+ */
+vec3
+vec3::cross(const vec3& v) const
 {
 	vec3	result;
 	result.x[0] = x[1] * v.x[2] - x[2] * v.x[1];
@@ -126,8 +150,11 @@ vec3	vec3::cross(const vec3& v) const
 }
 
 
-vec3&	vec3::normalize()
-// Scales the vec3 to unit length.  Preserves its direction.
+/**
+ * Scales the vec3 to unit length.  Preserves its direction.
+ */
+vec3&
+vec3::normalize()
 {
 	float	f = magnitude();
 	if (f < 0.0000001) {
@@ -142,8 +169,11 @@ vec3&	vec3::normalize()
 }
 
 
-vec3&	vec3::operator*=(float f)
-// Scales *this by the given scalar.
+/**
+ * Scales *this by the given scalar.
+ */
+vec3&
+vec3::operator*=(float f)
 {
 	x[0] *= f;
 	x[1] *= f;
@@ -152,15 +182,21 @@ vec3&	vec3::operator*=(float f)
 }
 
 
-float	vec3::magnitude() const
-// Returns the length of *this.
+/**
+ * Returns the length of *this.
+ */
+float
+vec3::magnitude() const
 {
 	return sqrtf(sqrmag());
 }
 
 
-float	vec3::sqrmag() const
-// Returns the square of the length of *this.
+/**
+ * Returns the square of the length of *this.
+ */
+float
+vec3::sqrmag() const
 {
 	return x[0]*x[0] + x[1]*x[1] + x[2]*x[2];
 }
@@ -171,8 +207,11 @@ float	vec3::sqrmag() const
 #endif // WIN32
 
 
-bool	vec3::checknan() const
-// Returns true if any component is nan.
+/**
+ * Returns true if any component is nan.
+ */
+bool
+vec3::checknan() const
 {
 	// @@ why do this check???
 	if (fabsf(x[0]) > 10000000 || fabsf(x[1]) > 10000000 || fabsf(x[2]) > 10000000) {

@@ -29,19 +29,22 @@
 #include "types.hpp"
 
 
+/**
+ * 2D point class defined by way of its (x,y) co-ordinate
+ *
+ * @todo add, subtract, scalar mult?, dot?
+ */
 class point
-// 2D point class.
 {
 public:
 	point() { X = 0; Y = 0; }
 	point(int x, int y) : X(x), Y(y) {}
 
-	int	GetX() const { return X; }
-	int	GetY() const { return Y; }
-	void	SetX(int newx) { X = newx; }
-	void	SetY(int newy) { Y = newy; }
+	int     GetX() const { return X; }
+	int     GetY() const { return Y; }
+	void    SetX(int newx) { X = newx; }
+	void    SetY(int newy) { Y = newy; }
 
-	// add, subtract, scalar mult?, dot?
 private:
 	int	X, Y;
 };

@@ -50,8 +50,12 @@ private:
 };
 
 
+/**
+ * 3-element vec3 class, for 3D math.
+ *
+ * @todo Default initializer set (x, y, z) = (0, 0 ,0)?
+ */
 class	vec3
-// 3-element vec3 class, for 3D math.
 {
 public:
 	vec3() {}
@@ -86,7 +90,7 @@ public:
 	vec3&	normalize();
 	vec3&	operator=(const vec3& v) { x[0] = v.x[0]; x[1] = v.x[1]; x[2] = v.x[2]; return *this; }
 	vec3&	operator+=(const vec3& v);
-	vec3& operator-=(const vec3& v);
+	vec3&	operator-=(const vec3& v);
 	vec3&	operator*=(float f);
 	vec3&	operator/=(float f) { return this->operator*=(1.0f / f); }
 
@@ -97,7 +101,7 @@ public:
 //	float	minabs() const;
 //	float	maxabs() const;
 
-	bool	checknan() const;	// Returns true if any component is nan.
+	bool	checknan() const;
 private:
 	float	x[3];
 };
@@ -109,8 +113,11 @@ private:
 #ifdef INLINE_VECTOR
 
 
-inline float	vec3::operator*(const vec3& v) const
-// Dot product.
+/**
+ * Dot product.
+ */
+inline float
+vec3::operator*(const vec3& v) const
 {
 	float	result;
 	result = x[0] * v.x[0];
@@ -120,8 +127,11 @@ inline float	vec3::operator*(const vec3& v) const
 }
 
 
-inline vec3&	vec3::operator+=(const vec3& v)
-// Adds a vec3 to *this.
+/**
+ * Adds a vec3 to *this.
+ */
+inline vec3&
+vec3::operator+=(const vec3& v)
 {
 	x[0] += v.x[0];
 	x[1] += v.x[1];
@@ -130,8 +140,11 @@ inline vec3&	vec3::operator+=(const vec3& v)
 }
 
 
-inline vec3&	vec3::operator-=(const vec3& v)
-// Subtracts a vec3 from *this.
+/**
+ * Subtracts a vec3 from *this.
+ */
+inline vec3&
+vec3::operator-=(const vec3& v)
 {
 	x[0] -= v.x[0];
 	x[1] -= v.x[1];

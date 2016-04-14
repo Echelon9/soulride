@@ -372,7 +372,7 @@ Play(const char* ResourceName, const Controls& Parameters)
 		// Load resource into locked buffer ...
 		void*	Buffer = NULL;
 		unsigned long	BufferBytes = 0;
-		c.DSBuffer->Lock(0, 0, &Buffer, &BufferBytes, NULL, NULL, DSBLOCK_ENTIREBUFFER);;
+		c.DSBuffer->Lock(0, 0, &Buffer, &BufferBytes, NULL, NULL, DSBLOCK_ENTIREBUFFER);
 
 		unsigned	ActuallyRead = 0;
 		WaveReadFile(IOIn, BufferBytes, (BYTE*) Buffer, &CKIn, &ActuallyRead);

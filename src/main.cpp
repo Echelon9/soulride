@@ -149,7 +149,7 @@ void	Open(char* CommandLine)
 	Config::SetBool("RecordMoviePause", true);
 	
 	// Read global preload script, if any.
-	lua_dofile("../data/preload.lua");
+	lua_dofile("preload.lua");
 
 	// Read values from config.txt.
 	FILE*	fp = fopen(".." PATH_SEPARATOR "config.txt", "r");

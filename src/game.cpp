@@ -340,8 +340,17 @@ void	ClearMountain()
 static GG_Player*	LoadingPlayer = NULL;
 
 
-void	LoadMountain(const char* MountainName)
-// Loads mountain info from the file formed by adding ".srt" to the given mountain name.
+/**
+ * Loads mountain info
+ *
+ * Settings loaded from file formed by adding ".srt" to the given mountain name
+ * within data/MountainName/.
+ * Setup a number of default settings and run preload and postload Lua scripts.
+ *
+ * @param MountainName Name of mountain to load
+ */
+void
+LoadMountain(const char* MountainName)
 {
 	GameLoop::AutoPauseInput	autoPause;	// Turn off the input thread inside this function.
 
@@ -375,7 +384,11 @@ void	LoadMountain(const char* MountainName)
 	{
 		const int	SCRIPTFILE_MAXLEN = 1000;
 		char	scriptfile[SCRIPTFILE_MAXLEN];
-		snprintf(scriptfile, SCRIPTFILE_MAXLEN, "../data/%s/preload.lua", MountainName);
+		snprintf(scriptfile, SCRIPTFILE_MAXLEN, ".." PATH_SEPARATOR
+							"data" PATH_SEPARATOR
+							"%s" PATH_SEPARATOR
+							"preload.lua",
+							MountainName);
 		lua_dofile(scriptfile);
 	}
 	
@@ -565,7 +578,11 @@ void	LoadMountain(const char* MountainName)
 	{
 		const int	SCRIPTFILE_MAXLEN = 1000;
 		char	scriptfile[SCRIPTFILE_MAXLEN];
-		snprintf(scriptfile, SCRIPTFILE_MAXLEN, "../data/%s/postload.lua", MountainName);
+		snprintf(scriptfile, SCRIPTFILE_MAXLEN, ".." PATH_SEPARATOR
+							"data" PATH_SEPARATOR
+							"%s" PATH_SEPARATOR
+							"postload.lua",
+							MountainName);
 		lua_dofile(scriptfile);
 	}
 

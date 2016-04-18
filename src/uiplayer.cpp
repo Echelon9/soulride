@@ -187,7 +187,7 @@ public:
 #ifdef MACOSX_CARBON
 		DIR*	dir = opendir(MacOSX::PlayerData_directory());
 #else // not MACOSX_CARBON -> LINUX
-		DIR*	dir = opendir("../PlayerData");
+		DIR*	dir = opendir(".." PATH_SEPARATOR "PlayerData");
 #endif	      
 
 		struct dirent*	ent;
@@ -199,7 +199,10 @@ public:
 			}
 #else // not LINUX
 		_finddata_t	d;
-		long	handle = _findfirst("../PlayerData/*.srp", &d);
+		long	handle = _findfirst(".." PATH_SEPARATOR
+					    "PlayerData" PATH_SEPARATOR
+					    "*.srp",
+					    &d);
 		int	result = handle;
 		while (result != -1) {
 			char*	filename = d.name;

@@ -363,13 +363,19 @@ static bool	MountainMatch(const char* MtnName, const char* RecName)
 }
 
 
-void	EnumerateRecordings(const char* MtnName, void (*callback)(const char* RecName))
-// Goes through each recording file, finds the ones which were made at
-// the given mountain, and passes each qualifying file name to the given
-// callback function.
+/**
+ * Goes through each recording file, finds the ones which were made at
+ * the given mountain, and passes each qualifying file name to the given
+ * callback function.
+ *
+ * @param MtnName Mountain name to filter for
+ * @param RecName Callback function
+ */
+void
+EnumerateRecordings(const char* MtnName, void (*callback)(const char* RecName))
 {
 #ifdef LINUX
-	DIR*	dir = opendir("../Recordings");
+	DIR*	dir = opendir(".." PATH_SEPARATOR "Recordings");
 	struct dirent*	ent;
 	while (ent = readdir(dir)) {
 		char*	filename = ent->d_name;

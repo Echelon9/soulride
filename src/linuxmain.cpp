@@ -104,7 +104,7 @@ int	main(int argc, char** argv)
 	try {
 		// Concatenate all the args into one big string.  It'll be re-parsed into Lua
 		// assignments by Main::Open().
-		int	cl_size = 0;
+		int	cl_size = 1;
 		int	i;
 		for (i = 1; i < argc; i++) {
 			cl_size += strlen(argv[i]) + 1;

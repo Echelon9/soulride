@@ -46,8 +46,13 @@ public:
 		CalculatedStats = false;
 	}
 
-	void	Update(const UpdateState& u)
-	// Advance the PerfTester along the path.
+	/**
+	 * Advance the PerfTester along the path.
+	 *
+	 * @param u State object.
+	 */
+	void
+	Update(const UpdateState& u)
 	{
 		if (StartTicks == 0) {
 			StartTicks = u.Ticks + 2000;
@@ -69,9 +74,11 @@ public:
 				int	TotalFrames = GameLoop::GetFrameNumber() - StartFrame;
 				float	AvgFrameRate = TotalFrames * 1000.0f / float(TotalTicks);
 
-//				Game::ShowPerfTestStats(AvgFrameRate);
-//				PerfTestUIInstance.ShowAverageFPS(AvgFrameRate);
 				ShowAverageFPS(AvgFrameRate);
+
+				if (Config::GetBoolValue("PerfTestExit") == true) {
+					Main::SetQuit(true);
+				}
 				
 				CalculatedStats = true;
 			}
@@ -167,12 +174,19 @@ public:
 		}
 	}
 
-	void	ShowAverageFPS(float AvgFPS)
-	// Tells this UI handler to start displaying the given fps value as the
-	// average fps.
+	/**
+	 * Tells this UI handler to start displaying the given FPS value as the
+	 * average FPS, and print value to stdout.
+	 *
+	 * @param AvgFPS Pre-calculated average FPS for relevant period of time.
+	 */
+	void
+	ShowAverageFPS(float AvgFPS)
 	{
 		ShowFPS = true;
 		AverageFPS = AvgFPS;
+
+		printf("Average FPS: %3.1f\n", AverageFPS);
 	}
 	
 } PerfTestUIInstance;

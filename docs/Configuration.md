@@ -132,6 +132,7 @@ console.
 | LimitUpdateRate                                | Boolean     |                                                   |
 | MultiplayerEnabled                             | Boolean     | Enable local multiplayer mode menu (incomplete)   |
 | PerfTest                                       | Boolean     | Enable benchmark mode (requires PerfTestPath.dat) |
+| PerfTestExit                                   | Boolean     | Exit and print FPS to stdout after benchmark mode |
 | PlayerCameraMode                               | Integer     |                                                   |
 | RewindsAllowed                                 | Integer     |                                                   |
 | ShowBoarderFeet                                | Boolean     | Show boarder's feet friction points               |

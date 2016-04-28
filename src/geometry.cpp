@@ -183,6 +183,28 @@ vec3::operator*=(float f)
 
 
 /**
+ * Equality operator.
+ */
+bool
+vec3::operator==(const vec3& rhs)
+{
+	return ( (*this).X() == rhs.X() &&
+		 (*this).Y() == rhs.Y() &&
+		 (*this).Z() == rhs.Z() );
+}
+
+
+/**
+ * Inequality operator.
+ */
+bool
+vec3::operator!=(const vec3& rhs)
+{
+	return !((*this) == rhs);
+}
+
+
+/**
  * Returns the length of *this.
  */
 float

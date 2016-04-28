@@ -93,6 +93,8 @@ public:
 	vec3&	operator-=(const vec3& v);
 	vec3&	operator*=(float f);
 	vec3&	operator/=(float f) { return this->operator*=(1.0f / f); }
+	bool	operator==(const vec3& rhs);
+	bool	operator!=(const vec3& rhs);
 
 	float	magnitude() const;
 	float	sqrmag() const;

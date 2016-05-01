@@ -166,42 +166,48 @@ extern vec3	ZeroVector, XAxis, YAxis, ZAxis;
 class	quaternion;
 
 
+/**
+ * 3x3 matrix class, for 3D rotations and inertia tensors.
+ *
+ */
 class matrix33
-// 3x3 matrix class, for 3D rotations and inertia tensors.
 {
 public:
-	matrix33() { Identity(); }
+	matrix33() 	{ Identity(); }
+	matrix33(vec3& v1,vec3& v2, vec3& v3) { m[0] = v1; m[1] = v2; m[2] = v3; }
+	matrix33(float v1X, float v1Y, float v1Z,
+	         float v2X, float v2Y, float v2Z,
+	         float v3X, float v3Y, float v3Z)
+	         {
+			m[0] = vec3(v1X, v1Y, v1Z);
+			m[1] = vec3(v2X, v2Y, v2Z);
+			m[2] = vec3(v3X, v3Y, v3Z);
+	         }
+	matrix33(const matrix33& m1) { m[0] = m1[0]; m[1] = m1[1]; m[2] = m1[2]; }
 
-	void	Identity();
-	void	SetColumns(const vec3& col0, const vec3& col1, const vec3& col2) {
-		m[0] = col0;	m[1] = col1;	m[2] = col2;
-	}
-	
-	void	Orient(const vec3& dir, const vec3& up);
-
-	static void	Compose(matrix33* dest, const matrix33& left, const matrix33& right);
-	vec3	operator*(const vec3& v) const;
-	matrix33	operator*(const matrix33& m) const;
-//	operator*=(const quaternion& q);
-
-	matrix33&	operator*=(float f);
-	matrix33&	operator+=(const matrix33& m);
-
-	matrix33&	operator*=(const matrix33& m);
-	matrix33&	MultTranspose(const matrix33& m);
-	
-	void	Invert();
-	void	Apply(vec3* result, const vec3& v) const;
-	void	ApplyTranspose(vec3* result, const vec3& v) const;
-
-	void	SetOrientation(const quaternion& q);
-	quaternion	GetOrientation() const;
-	
-	void	SetColumn(int column, const vec3& v) { m[column] = v; }
-	const vec3&	GetColumn(int column) const { return m[column]; }
-
-	vec3&	operator[](int i) { return m[i]; }
+	vec3&		operator[](int i) { return m[i]; }
 	const vec3&	operator[](int i) const { return m[i]; }
+
+	void		SetColumn(int column, const vec3& v) { m[column] = v; }
+	const vec3&	GetColumn(int column) const { return m[column]; }
+	void		SetColumns(const vec3& col0, const vec3& col1, const vec3& col2);
+
+	vec3		operator*(const vec3& v) const;
+	matrix33	operator*(const matrix33& m) const;
+
+	matrix33&	operator=(const matrix33& rhs) { m[0] = rhs[0]; m[1] = rhs[1]; m[2] = rhs[2]; return *this; }
+	matrix33&	operator*=(float f);
+	matrix33&	operator/=(float f) { return this->operator*=(1.0f / f); }
+	matrix33&	operator+=(const matrix33& m);
+	matrix33&	operator-=(const matrix33& m);
+	matrix33&	operator*=(const matrix33& m);
+	bool		operator==(const matrix33& rhs);
+	bool		operator!=(const matrix33& rhs);
+	
+	void		Identity();
+	void		Invert();
+	matrix33&	MultTranspose(const matrix33& m);
+	void		Orient(const vec3& dir, const vec3& up);
 	
 private:
 	vec3	m[3];

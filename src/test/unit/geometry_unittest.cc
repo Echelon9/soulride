@@ -325,7 +325,6 @@ TEST(GeometryTest, Vec3Cross)
     EXPECT_EQ(output.Z(), up.Z());
 }
 
-
 TEST(GeometryTest, Vec3CheckNaN)
 {
     vec3 v0(0.0f, 0.0f, 0.0f);
@@ -335,5 +334,372 @@ TEST(GeometryTest, Vec3CheckNaN)
     EXPECT_FALSE(v0.checknan());
     EXPECT_FALSE(v1.checknan());
     EXPECT_FALSE(v2.checknan());
+}
+
+// matrix33
+
+TEST(GeometryTest, Matrix33Basic)
+{
+    matrix33 m;
+
+    EXPECT_EQ(sizeof(m), sizeof(float)*3*3);
+}
+
+TEST(GeometryTest, Matrix33CreationDefault)
+{
+    matrix33 m;
+
+    vec3 col0(1, 0, 0);
+    vec3 col1(0, 1, 0);
+    vec3 col2(0, 0, 1);
+
+    EXPECT_TRUE(col0 == m.GetColumn(0));
+    EXPECT_TRUE(col1 == m.GetColumn(1));
+    EXPECT_TRUE(col2 == m.GetColumn(2));
+}
+
+TEST(GeometryTest, Matrix33CreateInitializedVec3)
+{
+    vec3 v1(1, 1, 1);
+    vec3 v2(2, 2, 2);
+    vec3 v3(3, 3, 3);
+
+    matrix33 m(v1, v2, v3);
+
+    EXPECT_TRUE(v1 == m.GetColumn(0));
+    EXPECT_TRUE(v2 == m.GetColumn(1));
+    EXPECT_TRUE(v3 == m.GetColumn(2));
+}
+
+TEST(GeometryTest, Matrix33CreateInitializedFloat)
+{
+    matrix33 m1(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+
+    EXPECT_EQ(1.0f, m1[0].X());
+    EXPECT_EQ(1.0f, m1[0].Y());
+    EXPECT_EQ(1.0f, m1[0].Z());
+    EXPECT_EQ(3.0f, m1[1].X());
+    EXPECT_EQ(3.0f, m1[1].Y());
+    EXPECT_EQ(3.0f, m1[1].Z());
+    EXPECT_EQ(5.0f, m1[2].X());
+    EXPECT_EQ(5.0f, m1[2].Y());
+    EXPECT_EQ(5.0f, m1[2].Z());
+}
+
+TEST(GeometryTest, Matrix33CopyConstructor)
+{
+    vec3 v1(1, 1, 1);
+    vec3 v2(2, 2, 2);
+    vec3 v3(3, 3, 3);
+
+    matrix33 m1(v1, v2, v3);
+    // Call copy constructor via direct initialization
+    matrix33 m2(m1);
+
+    EXPECT_TRUE(v1 == m2.GetColumn(0));
+    EXPECT_TRUE(v2 == m2.GetColumn(1));
+    EXPECT_TRUE(v3 == m2.GetColumn(2));
+}
+
+TEST(GeometryTest, Matrix33AssignmentOperator)
+{
+    vec3 v1(1, 1, 1);
+    vec3 v2(2, 2, 2);
+    vec3 v3(3, 3, 3);
+
+    matrix33 m1(v1, v2, v3);
+    matrix33 m2;
+
+    m2 = m1;
+
+    EXPECT_TRUE(v1 == m2.GetColumn(0));
+    EXPECT_TRUE(v2 == m2.GetColumn(1));
+    EXPECT_TRUE(v3 == m2.GetColumn(2));
+}
+
+TEST(GeometryTest, Matrix33SubscriptOperator)
+{
+    vec3 v1(1, 1, 1);
+    vec3 v2(2, 2, 2);
+    vec3 v3(3, 3, 3);
+
+    matrix33 m1(v1, v2, v3);
+
+    EXPECT_TRUE(v1 == m1[0]);
+    EXPECT_TRUE(v2 == m1[1]);
+    EXPECT_TRUE(v3 == m1[2]);
+}
+
+TEST(GeometryTest, Matrix33SubscriptOperatorWrite)
+{
+    matrix33 m1(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+
+    m1[1] = vec3(10.0f, 20.0f, 30.0f);
+
+    EXPECT_EQ( 1.0f, m1[0].X());
+    EXPECT_EQ( 1.0f, m1[0].Y());
+    EXPECT_EQ( 1.0f, m1[0].Z());
+    EXPECT_EQ(10.0f, m1[1].X());
+    EXPECT_EQ(20.0f, m1[1].Y());
+    EXPECT_EQ(30.0f, m1[1].Z());
+    EXPECT_EQ( 5.0f, m1[2].X());
+    EXPECT_EQ( 5.0f, m1[2].Y());
+    EXPECT_EQ( 5.0f, m1[2].Z());
+}
+
+TEST(GeometryTest, Matrix33Setters)
+{
+    matrix33 m1(0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f);
+
+    m1.SetColumn(0, vec3(1.0f, 1.0f, 1.0f));
+    m1.SetColumn(2, vec3(100.0f, 200.0f, 300.0f));
+
+    matrix33 m2(1.0f, 1.0f, 1.0f,
+                0.0f, 0.0f, 0.0f,
+                100.0f, 200.0f, 300.0f);
+
+    EXPECT_TRUE(m1 == m2);
+}
+
+TEST(GeometryTest, Matrix33CombinedSetter)
+{
+    matrix33 m1(0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f);
+
+    m1.SetColumns(vec3(1.0f, 1.0f, 1.0f),
+                  vec3(1.0f, 1.0f, 1.0f),
+                  vec3(1.0f, 1.0f, 1.0f));
+
+    matrix33 m2(1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f);
+
+    EXPECT_TRUE(m1 == m2);
+}
+
+TEST(GeometryTest, Matrix33Getters)
+{
+    matrix33 m1(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+
+    EXPECT_TRUE(vec3(1.0f, 1.0f, 1.0f) == m1.GetColumn(0));
+    EXPECT_TRUE(vec3(3.0f, 3.0f, 3.0f) == m1.GetColumn(1));
+    EXPECT_TRUE(vec3(5.0f, 5.0f, 5.0f) == m1.GetColumn(2));
+}
+
+TEST(GeometryTest, Matrix33UnaryOperators)
+{
+    matrix33 m0(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+
+    m0 *= 2.0f;
+    EXPECT_TRUE(vec3( 2.0f,  2.0f,  2.0f) == m0[0]);
+    EXPECT_TRUE(vec3( 6.0f,  6.0f,  6.0f) == m0[1]);
+    EXPECT_TRUE(vec3(10.0f, 10.0f, 10.0f) == m0[2]);
+
+    m0 /= 2.0f;
+    EXPECT_TRUE(vec3(1.0f, 1.0f, 1.0f) == m0[0]);
+    EXPECT_TRUE(vec3(3.0f, 3.0f, 3.0f) == m0[1]);
+    EXPECT_TRUE(vec3(5.0f, 5.0f, 5.0f) == m0[2]);
+
+    matrix33 m1(10.0f, 10.0f, 10.0f,
+                20.0f, 20.0f, 20.0f,
+                30.0f, 30.0f, 30.0f);
+
+    m0 += m1;
+    EXPECT_TRUE(vec3(11.0f, 11.0f, 11.0f) == m0[0]);
+    EXPECT_TRUE(vec3(23.0f, 23.0f, 23.0f) == m0[1]);
+    EXPECT_TRUE(vec3(35.0f, 35.0f, 35.0f) == m0[2]);
+
+    m0 -= m1;
+    EXPECT_TRUE(vec3(1.0f, 1.0f, 1.0f) == m0[0]);
+    EXPECT_TRUE(vec3(3.0f, 3.0f, 3.0f) == m0[1]);
+    EXPECT_TRUE(vec3(5.0f, 5.0f, 5.0f) == m0[2]);
+
+    m0 *= m1;
+    EXPECT_TRUE(vec3( 90.0f,  90.0f,  90.0f) == m0[0]);
+    EXPECT_TRUE(vec3(180.0f, 180.0f, 180.0f) == m0[1]);
+    EXPECT_TRUE(vec3(270.0f, 270.0f, 270.0f) == m0[2]);
+
+//  m0 /= m1;
+}
+
+/**
+TEST(GeometryTest, Matrix33ArithmeticOperators)
+{
+    matrix33 m0(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+    matrix33 m1(10.0f, 10.0f, 10.0f,
+                20.0f, 20.0f, 20.0f,
+                30.0f, 30.0f, 30.0f);
+
+//  m0 = m0 + m1;
+
+//  m0 = m0 - m1;
+
+//  m0 = m1 * 2.0f;
+
+//  m0 = 2.0f * m1;
+
+//  m0 = m0 / 2.0f;
+
+//  m0 = -m0;
+}
+*/
+
+TEST(GeometryTest, Matrix33ComparisonOperators)
+{
+    matrix33 m0(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+    matrix33 m1(2.0f, 2.0f, 2.0f,
+                4.0f, 4.0f, 4.0f,
+                6.0f, 6.0f, 6.0f);
+
+    EXPECT_TRUE(m0 == m0);
+    EXPECT_TRUE(m0 != m1);
+    EXPECT_FALSE(m0 != m0);
+    EXPECT_FALSE(m0 == m1);
+}
+
+TEST(GeometryTest, Matrix33Identity)
+{
+    matrix33 m0(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+    matrix33  I(1.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 1.0f);
+
+    m0.Identity();
+
+    EXPECT_TRUE(m0 == I);
+}
+
+TEST(GeometryTest, Matrix33Invert)
+{
+    matrix33 m0(10.0f, 15.0f, 10.0f,
+                 8.0f,  7.0f,  6.0f,
+                 3.0f,  2.0f,  1.0f);
+
+    m0.Invert();
+
+    EXPECT_FLOAT_EQ(-0.1f, m0[0].X());
+    EXPECT_FLOAT_EQ( 0.1f, m0[0].Y());
+    EXPECT_FLOAT_EQ( 0.4f, m0[0].Z());
+    EXPECT_FLOAT_EQ( 0.2f, m0[1].X());
+    EXPECT_FLOAT_EQ(-0.4f, m0[1].Y());
+    EXPECT_FLOAT_EQ( 0.4f, m0[1].Z());
+    EXPECT_FLOAT_EQ(-0.1f, m0[2].X());
+    EXPECT_FLOAT_EQ( 0.5f, m0[2].Y());
+    EXPECT_FLOAT_EQ(-1.0f, m0[2].Z());
+}
+
+TEST(GeometryTest, Matrix33InvertInvert)
+{
+    matrix33 m0(10.0f,  5.0f, 10.0f,
+                 8.0f,  7.0f,  6.0f,
+                 3.0f,  2.0f,  1.0f);
+    matrix33 m1(m0);
+
+    m0.Invert();
+    m0.Invert();
+
+    EXPECT_FLOAT_EQ(m1[0].X(), m0[0].X());
+    EXPECT_FLOAT_EQ(m1[0].Y(), m0[0].Y());
+    EXPECT_FLOAT_EQ(m1[0].Z(), m0[0].Z());
+    EXPECT_FLOAT_EQ(m1[1].X(), m0[1].X());
+    EXPECT_FLOAT_EQ(m1[1].Y(), m0[1].Y());
+    EXPECT_FLOAT_EQ(m1[1].Z(), m0[1].Z());
+    EXPECT_FLOAT_EQ(m1[2].X(), m0[2].X());
+    EXPECT_FLOAT_EQ(m1[2].Y(), m0[2].Y());
+    EXPECT_FLOAT_EQ(m1[2].Z(), m0[2].Z());
+}
+
+TEST(GeometryTest, Matrix33InvertIdentity)
+{
+    matrix33 m0(1.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 1.0f);
+    matrix33  I(1.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 1.0f);
+
+    m0.Invert();
+
+    EXPECT_TRUE(m0 == I);
+}
+
+TEST(GeometryTest, Matrix33InvertSingularMatrix)
+{
+    matrix33 m0(1.0f, 1.0f, 1.0f,
+                3.0f, 3.0f, 3.0f,
+                5.0f, 5.0f, 5.0f);
+
+    m0.Invert();
+
+    EXPECT_FLOAT_EQ( 1.0f, m0[0].X());
+    EXPECT_FLOAT_EQ( 0.0f, m0[0].Y());
+    EXPECT_FLOAT_EQ( 0.0f, m0[0].Z());
+    EXPECT_FLOAT_EQ( 0.0f, m0[1].X());
+    EXPECT_FLOAT_EQ( 1.0f, m0[1].Y());
+    EXPECT_FLOAT_EQ( 0.0f, m0[1].Z());
+    EXPECT_FLOAT_EQ( 0.0f, m0[2].X());
+    EXPECT_FLOAT_EQ( 0.0f, m0[2].Y());
+    EXPECT_FLOAT_EQ( 1.0f, m0[2].Z());
+}
+
+TEST(GeometryTest, Matrix33MultTranspose)
+{
+    matrix33 m0(10.0f, 15.0f, 10.0f,
+                 8.0f,  7.0f,  6.0f,
+                 3.0f,  2.0f,  1.0f);
+    matrix33 m1( 1.0f,  1.0f,  1.0f,
+                 3.0f,  3.0f,  3.0f,
+                 5.0f,  5.0f,  5.0f);
+
+    m0.MultTranspose(m1);
+
+    EXPECT_FLOAT_EQ(49.0f, m0[0].X());
+    EXPECT_FLOAT_EQ(46.0f, m0[0].Y());
+    EXPECT_FLOAT_EQ(33.0f, m0[0].Z());
+    EXPECT_FLOAT_EQ(49.0f, m0[1].X());
+    EXPECT_FLOAT_EQ(46.0f, m0[1].Y());
+    EXPECT_FLOAT_EQ(33.0f, m0[1].Z());
+    EXPECT_FLOAT_EQ(49.0f, m0[2].X());
+    EXPECT_FLOAT_EQ(46.0f, m0[2].Y());
+    EXPECT_FLOAT_EQ(33.0f, m0[2].Z());
+}
+
+TEST(GeometryTest, Matrix33Orient)
+{
+    matrix33 m0(10.0f, 15.0f, 10.0f,
+                 8.0f,  7.0f,  6.0f,
+                 3.0f,  2.0f,  1.0f);
+
+    vec3 east(1.0f, 0.0f, 0.0f);
+    vec3 up(0.0f, 0.0f, 1.0f);
+
+    m0.Orient(east, up);
+
+    EXPECT_FLOAT_EQ( 1.0f, m0[0].X());
+    EXPECT_FLOAT_EQ( 0.0f, m0[0].Y());
+    EXPECT_FLOAT_EQ( 0.0f, m0[0].Z());
+    EXPECT_FLOAT_EQ( 0.0f, m0[1].X());
+    EXPECT_FLOAT_EQ( 0.0f, m0[1].Y());
+    EXPECT_FLOAT_EQ( 1.0f, m0[1].Z());
+    EXPECT_FLOAT_EQ( 0.0f, m0[2].X());
+    EXPECT_FLOAT_EQ(-1.0f, m0[2].Y());
+    EXPECT_FLOAT_EQ( 0.0f, m0[2].Z());
 }
 

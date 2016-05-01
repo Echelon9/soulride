@@ -228,7 +228,7 @@ public:
 			}
 			
 			// Move the camera based on inputs.
-			vec3	Right = GetMatrix().GetColumn(2);
+			vec3	Right = GetRight();
 			
 			float	SlideSpeed = expf((WarpFactor - 4.0f) / 1.0f) * 100.0f;
 			if (u.Inputs.Button[2].State) SlideSpeed *= 5.0f;

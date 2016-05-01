@@ -318,7 +318,7 @@ public:
 		SetVelocity(ZeroVector);
 		SetAngMomentum(ZeroVector);
 		SetLocation(ResetLocation);
-		Matrix.SetOrientation(ResetOrientation);
+		SetOrientation(ResetOrientation);
 
 		Bouyancy = 0;
 		BoardShadow = false;
@@ -1281,7 +1281,7 @@ public:
 			o += delt_o;
 			o.normalize();
 			
-			Matrix.SetOrientation(o);
+			SetOrientation(o);
 		}
 
 		SetVelocity(NewVel);

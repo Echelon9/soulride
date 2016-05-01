@@ -256,24 +256,50 @@ vec3	ZAxis(0, 0, 1);
 // class matrix33
 
 
-void	matrix33::Identity()
-// Sets this matrix to the identity matrix.
+/**
+ * Sets this matrix to the identity matrix.
+ */
+void
+matrix33::Identity()
 {
 	SetColumns(XAxis, YAxis, ZAxis);
 }
 
 
-void	matrix33::Orient(const vec3& dir, const vec3& up)
-// Constructs an orientation matrix which maps from object space to world space.
-// The world-space direction and up vectors of the object are given.
+/**
+ * Sets the matrix columns (zero based indexing).
+ *
+ * @param col0 Column 0
+ * @param col1 Column 1
+ * @param col2 Column 2
+ */
+void
+matrix33::SetColumns(const vec3& col0, const vec3& col1, const vec3& col2)
+{
+	SetColumn(0, col0);
+	SetColumn(1, col1);
+	SetColumn(2, col2);
+}
+
+/**
+ * Constructs an orientation matrix which maps from object space to world space.
+ *
+ * @param dir World space direction.
+ * @param up Up vectors of the object.
+ */
+void
+matrix33::Orient(const vec3& dir, const vec3& up)
 {
 	vec3	z = dir.cross(up);
 	SetColumns(dir, up, z);
 }
 
 
-vec3	matrix33::operator*(const vec3& v) const
-// Multiplies the given vector by this matrix, and returns the resulting vector.
+/**
+ * Multiplies the given vector by this matrix, and returns the resulting vector.
+ */
+vec3
+matrix33::operator*(const vec3& v) const
 {
 	vec3	t;
 
@@ -285,8 +311,11 @@ vec3	matrix33::operator*(const vec3& v) const
 }
 
 
-matrix33&	matrix33::operator*=(float f)
-// Multiplies this matrix by the given scalar.
+/**
+ * Multiplies this matrix by the given scalar.
+ */
+matrix33&
+matrix33::operator*=(float f)
 {
 	int	i;
 	for (i = 0; i < 3; i++) m[i] *= f;
@@ -295,8 +324,11 @@ matrix33&	matrix33::operator*=(float f)
 }
 
 
-matrix33&	matrix33::operator+=(const matrix33& mat)
-// Matrix memberwise accumulate.
+/**
+ * Matrix memberwise accumulate.
+ */
+matrix33&
+matrix33::operator+=(const matrix33& mat)
 {
 	int	i;
 	for (i = 0; i < 3; i++) {
@@ -307,8 +339,26 @@ matrix33&	matrix33::operator+=(const matrix33& mat)
 }
 
 
-matrix33&	matrix33::operator*=(const matrix33& mat)
-// Matrix multiply.
+/**
+ * Matrix memberwise subtraction.
+ */
+matrix33&
+matrix33::operator-=(const matrix33& mat)
+{
+	int	i;
+	for (i = 0; i < 3; i++) {
+		m[i] -= mat.m[i];
+	}
+
+	return *this;
+}
+
+
+/**
+ * Matrix multiplication assignment.
+ */
+matrix33&
+matrix33::operator*=(const matrix33& mat)
 {
 	matrix33	t;
 	int	i, j, k;
@@ -327,8 +377,11 @@ matrix33&	matrix33::operator*=(const matrix33& mat)
 }
 
 
-matrix33	matrix33::operator*(const matrix33& mat) const
-// Matrix multiply.
+/**
+ * Matrix multiply.
+ */
+matrix33
+matrix33::operator*(const matrix33& mat) const
 {
 	matrix33	t;
 	int	i, j, k;
@@ -346,8 +399,32 @@ matrix33	matrix33::operator*(const matrix33& mat) const
 }
 
 
-matrix33&	matrix33::MultTranspose(const matrix33& mat)
-// Multiplies *this by the transpose of the given matrix.
+/**
+ * Equality operator.
+ */
+bool
+matrix33::operator==(const matrix33& rhs)
+{
+	return ( (*this)[0] == rhs[0] &&
+		 (*this)[1] == rhs[1] &&
+		 (*this)[2] == rhs[2] );
+}
+
+
+/**
+ * Inequality operator.
+ */
+bool
+matrix33::operator!=(const matrix33& rhs)
+{
+	return !((*this) == rhs);
+}
+
+/**
+ * Multiplies *this by the transpose of the given matrix.
+ */
+matrix33&
+matrix33::MultTranspose(const matrix33& mat)
 {
 	matrix33	t;
 	int	i, j, k;
@@ -366,8 +443,14 @@ matrix33&	matrix33::MultTranspose(const matrix33& mat)
 }
 
 
-void	matrix33::Invert()
-// Inverts this matrix.
+/**
+ * Inverts *this matrix.
+ *
+ * For a singular matrix, set the the identity.
+ * A square matrix is singular if and only if its determinant is zero.
+ */
+void
+matrix33::Invert()
 {
 	matrix33 a(*this);
 	matrix33 b;

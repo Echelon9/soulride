@@ -832,7 +832,7 @@ public:
 				// Record a point.
 				vec3	v = GetLocation();
 				fwrite(&v, sizeof(vec3), 1, PathFile);
-				quaternion	q = GetMatrix().GetOrientation();
+				quaternion	q = GetOrientation();
 				fwrite(&q, sizeof(quaternion), 1, PathFile);
 
 				NextPointTicks += 100;	// 10 Hz.
@@ -848,7 +848,7 @@ public:
 		if (!SampledResetValues) {
 			SampledResetValues = true;
 			ResetLocation = GetLocation();
-			ResetOrientation = GetMatrix().GetOrientation();
+			ResetOrientation = GetOrientation();
 		}
 		
 		if (UI::GetMode() == UI::CAMERA && u.Inputs.Button[2].State) {
@@ -1275,7 +1275,7 @@ public:
 		if (OmegaMag > 0.000001f) {
 			vec3	OmegaDir(AvgOmega / OmegaMag);
 
-			quaternion	o(GetMatrix().GetOrientation());
+			quaternion	o(GetOrientation());
 			quaternion	delt_o(quaternion(0, AvgOmega * 0.5f) * o);
 			delt_o *= u.DeltaT;
 			o += delt_o;

@@ -706,7 +706,7 @@ static void	ViewpointPathUpdate(const UpdateState& u, MOriented* o)
 			// Record a point.
 			vec3	v = o->GetLocation();
 			fwrite(&v, sizeof(vec3), 1, PathFile);
-			quaternion	q = o->GetMatrix().GetOrientation();
+			quaternion	q = o->GetOrientation();
 			fwrite(&q, sizeof(quaternion), 1, PathFile);
 			
 			NextPointTicks += 100;	// 10 Hz.

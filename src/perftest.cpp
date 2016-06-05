@@ -66,7 +66,7 @@ public:
 			Path::Point	p;
 			path.GetInterpolatedPoint(&p, PathParameter);
 			SetLocation(p.Location);
-			Matrix.SetOrientation(p.Orientation);
+			SetOrientation(p.Orientation);
 		} else {
 			if (!CalculatedStats) {
 				// We've reached the end of the path.  Compute and display framerate stats.

@@ -318,7 +318,7 @@ public:
 		SetVelocity(ZeroVector);
 		SetAngMomentum(ZeroVector);
 		SetLocation(ResetLocation);
-		Matrix.SetOrientation(ResetOrientation);
+		SetOrientation(ResetOrientation);
 
 		Bouyancy = 0;
 		BoardShadow = false;
@@ -832,7 +832,7 @@ public:
 				// Record a point.
 				vec3	v = GetLocation();
 				fwrite(&v, sizeof(vec3), 1, PathFile);
-				quaternion	q = GetMatrix().GetOrientation();
+				quaternion	q = GetOrientation();
 				fwrite(&q, sizeof(quaternion), 1, PathFile);
 
 				NextPointTicks += 100;	// 10 Hz.
@@ -848,7 +848,7 @@ public:
 		if (!SampledResetValues) {
 			SampledResetValues = true;
 			ResetLocation = GetLocation();
-			ResetOrientation = GetMatrix().GetOrientation();
+			ResetOrientation = GetOrientation();
 		}
 		
 		if (UI::GetMode() == UI::CAMERA && u.Inputs.Button[2].State) {
@@ -1275,13 +1275,13 @@ public:
 		if (OmegaMag > 0.000001f) {
 			vec3	OmegaDir(AvgOmega / OmegaMag);
 
-			quaternion	o(GetMatrix().GetOrientation());
+			quaternion	o(GetOrientation());
 			quaternion	delt_o(quaternion(0, AvgOmega * 0.5f) * o);
 			delt_o *= u.DeltaT;
 			o += delt_o;
 			o.normalize();
 			
-			Matrix.SetOrientation(o);
+			SetOrientation(o);
 		}
 
 		SetVelocity(NewVel);
@@ -1553,14 +1553,14 @@ public:
 			Foot[0].Location = GetMatrix() * (BoardCenter + BoardAxis * BOARD_CONTACT_SAMPLE_SEPARATION * 0.5);
 			Foot[1].Location = GetMatrix() * (BoardCenter - BoardAxis * BOARD_CONTACT_SAMPLE_SEPARATION * 0.5);
 
-//			vec3	BoarderDown = -GetMatrix().GetColumn(1);
+//			vec3	BoarderDown = -GetUp();
 			
 			// Fixup 'foot' pos's to legal values; set foot statuses & normals.
 			bool	Contact = false;
 			for (i = 0; i < 2; i++) {
 				vec3	LegDown = GetMatrix() * BoardCenter - (GetLocation() + Offset);
 				LegDown.normalize();
-				LegDown = -GetMatrix().GetColumn(1);//xxxx
+				LegDown = -GetUp();//xxxx
 //				LegDown = -Foot[i].BoardNormal;
 
 				float	maxext = FigureState[LEFT_LEG_MAX_EXT + i];
@@ -1650,7 +1650,7 @@ public:
 		Foot[0].BoardForceCoeff = 0.5f + 0.5f * (Foot[0].BoardNormal * Foot[0].SurfaceNormal);
 		Foot[1].BoardForceCoeff = 0.5f + 0.5f * (Foot[1].BoardNormal * Foot[1].SurfaceNormal);
 		
-		vec3	BoarderDown = -GetMatrix().GetColumn(1);
+		vec3	BoarderDown = -GetUp();
 
 		for (i = 0; i < 2; i++) {
 //			float	y = TerrainModel::GetHeight(Foot[i].Location);

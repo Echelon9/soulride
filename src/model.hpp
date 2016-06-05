@@ -117,7 +117,10 @@ protected:
 };
 
 
-// Base class for oriented objects.
+/**
+ * @class MOriented
+ * @brief Base class for oriented objects.
+ */
 class MOriented : virtual public MObject {
 public:
 	MOriented();
@@ -142,7 +145,7 @@ public:
 	bool	CheckForContact(Collide::ContactInfo* result, const Collide::SegmentInfo& seg, const Collide::CylinderInfo& cyl);
 	virtual void	Render(ViewState& s, int ClipHint);
 
-protected:	
+private:
 	matrix	Matrix;
 };
 

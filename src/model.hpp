@@ -142,7 +142,7 @@ public:
 	bool	CheckForContact(Collide::ContactInfo* result, const Collide::SegmentInfo& seg, const Collide::CylinderInfo& cyl);
 	virtual void	Render(ViewState& s, int ClipHint);
 
-protected:	
+private:
 	matrix	Matrix;
 };
 

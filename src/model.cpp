@@ -938,15 +938,18 @@ float	MObject::GetRadius() const
 
 
 MOriented::MOriented()
-// Init members.
 {
 	Matrix.Identity();
 }
 
-
-void	MOriented::LoadOrientation(FILE* fp)
-// Loads and sets the orientation from the given file.
-// Currently orientation in the file only consists of yaw (rotation about y axis).
+/**
+ * Loads and sets the orientation from the given file.
+ * Currently orientation in the file only consists of yaw (rotation about y axis).
+ *
+ * @param fp File to load
+ */
+void
+MOriented::LoadOrientation(FILE* fp)
 {
 	// Load yaw angle.  It's in degrees.
 	float	yaw = ReadFloat(fp);
@@ -958,10 +961,12 @@ void	MOriented::LoadOrientation(FILE* fp)
 	SetUp(YAxis);
 }
 
-
-void	MOriented::Render(ViewState& s, int ClipHint)
-// Default implementation.  Compose the object matrix with the viewing
-// transform, and render using the Visual.
+/**
+ * Default implementation. Compose the object matrix with the viewing transform,
+ * and render using the Visual.
+ */
+void
+MOriented::Render(ViewState& s, int ClipHint)
 {
 	if (Visual == NULL) return;
 
@@ -996,12 +1001,20 @@ void	MOriented::Render(ViewState& s, int ClipHint)
 	s.ViewMatrix = m;
 }
 
-
-bool	MOriented::CheckForContact(Collide::ContactInfo* result, const Collide::SegmentInfo& seg, const Collide::CylinderInfo& cyl)
-// Checks for a collision between the given cylinder going through the
-// motion described by seg, and the solid of this object.  The segment motion
-// is in world coordinates.
-// Returns true and fills *result if there's a contact; otherwise returns false.
+/**
+ * Checks for a collision between the given \p cyl going through the motion
+ * described by \p seg, and the solid of this object.
+ *
+ * The segment motion is in world coordinates.
+ *
+ * @param result Result variable
+ * @param seg Segment info, including describing the motion
+ * @param cyl Collision cylinder information
+ *
+ * @return True and fills \p result if there's a contact; otherwise returns false.
+ */
+bool
+MOriented::CheckForContact(Collide::ContactInfo* result, const Collide::SegmentInfo& seg, const Collide::CylinderInfo& cyl)
 {
 	if (Solid == NULL) return false;
 

@@ -117,7 +117,10 @@ protected:
 };
 
 
-// Base class for oriented objects.
+/**
+ * @class MOriented
+ * @brief Base class for oriented objects.
+ */
 class MOriented : virtual public MObject {
 public:
 	MOriented();

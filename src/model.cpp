@@ -1047,13 +1047,27 @@ MOriented::CheckForContact(Collide::ContactInfo* result, const Collide::SegmentI
 // GModel base class functions.
 //
 
+GModel::GModel()
+{
+	Radius = 0;
+}
+
+GModel::~GModel() {}
 
 void	GModel::Render(ViewState& s, int ClipHint)
 // Default null implementation.
 {
 }
 
-GModel::~GModel() {}
+
+//
+// SModel base class functions.
+//
+
+SModel::SModel()
+{
+	Radius = 0;
+}
 
 SModel::~SModel() {}
 

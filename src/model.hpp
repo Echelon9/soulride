@@ -40,6 +40,7 @@ struct UpdateState;
 // Base class for geometric models.
 class GModel {
 public:
+	GModel();
 	virtual ~GModel();
 	
 	virtual void	Render(ViewState& s, int ClipHint);
@@ -65,6 +66,7 @@ public:
 // Base class for collision models.
 class SModel {	// "S" for "Solid"
 public:
+	SModel();
 	virtual ~SModel();
 	
 	virtual bool	CheckForContact(Collide::ContactInfo* result, const Collide::SegmentInfo& seg, const Collide::CylinderInfo& cyl) = 0;

@@ -274,7 +274,7 @@ void	WriteDriverList(const char* filename)
 
 
 // Maintain a list of available modes, and a currently selected mode.
-const int	MAX_MODES = 10;
+const int	MAX_MODES = 15;
 int	ModeCount = MAX_MODES;
 ModeInfo	Mode[MAX_MODES] = {
 //	{ 160, 120, 16, false },
@@ -288,6 +288,11 @@ ModeInfo	Mode[MAX_MODES] = {
 	{ 800, 600, 32, false },
 	{ 1024, 768, 32, false },
 	{ 1280, 1024, 32, false },
+	{ 1366, 768, 32, false },
+	{ 1440, 900, 32, false },
+	{ 1600, 900, 32, false },
+	{ 1920, 1080, 32, false },
+	{ 3840, 2160, 32, false },
 };
 
 	

@@ -17,9 +17,21 @@ addons:
     - build-essential
     - libsdl1.2-dev
     - libsdl-mixer1.2-dev
+  coverity_scan:
+    project:
+      name: "Echelon9/soulride"
+      description: soulride
+    notification_email: rhyskidd@gmail.com
+    build_command: make
+    # must match TRAVIS_BRANCH check below
+    branch_pattern: coverity_scan
 
 # Use brew on OS X to install dependencies
 before_install:
+  # ugly hack; if running a coverity scan abort all except the 1st build
+  # note that branch_pattern & the TRAVIS_BRANCH check must match, unfortunately
+  # COVERITY_SCAN_BRANCH isn't defined until later in the build process
+  - if ([[ "${TRAVIS_JOB_NUMBER##*.}" != "1" ]] && [[ "$TRAVIS_BRANCH" == "coverity_scan" ]]); then false ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update               ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sdl sdl_mixer; fi
 
@@ -33,6 +45,10 @@ env:
   matrix:
     - DEBUG=1
     - DEBUG=0
+  global:
+    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    #   via the "travis encrypt" command using the project repo's public key
+    - secure: "j1w41BeWlSOGPuQsdZ+EXM3XfPL09UnddnDN1YS/obcSXFviDtNZEB2ekHG7y6cj4tuokh0wI/KtgJtq1p2IbSYNSbdy+QzvQvSrkFhyfVaBBp/NTkpVJFf4d0dtImZvzLmOuPdnBLdZtPRER81EJ4l6VPcosfzvIo4K4voAj+WbGjXOd50xTEJCNKpqdxqcCnhdcF8trW9glsy4DhKoe8VvBAc8TCeleqCTv/KFuvA+C5dSeHBOovVDfRVsGj8HhU/y4T0Y/WYqGmmdMyKX8CceyNKhVSJLDvjTc2MdaxF6sFQyg3ZkP+xW7rWbTAYNLGv/uH0/cU3DtmRq0RBRORubITYvxbGGfY1wVYpfDM0PWPENWW6rI+DU9NChtLYk9a4CAY0Y9xg+AiJvmGMJJiyLLd7oHbku38DavWfYvAFn3gJoxHVclZqZ5Z1iRYQUBzKOChTBJ/9KqhbxUM4nD3vknkwTxEMEnwqNId9NiJk7LNBFbbvsCkWVvFE5XxqcwqvqXq2zuJzmTrtN7EtqwSYdiwzIzKTuEmH58PHhIz04TDof5uYuM8RYS1cdVdzhudjANRLqzHiCJGzrHgqxmTeayeZYhAcjeJKwQuEkenHGlcVL6gRrsPsgP3H801SFyonQ5wNv8+ZGbTy6sDuylpwE0c7yVRbr7lUrwsPXgvs="
 
 #
 # Build and run test suite

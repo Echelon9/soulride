@@ -1,6 +1,7 @@
 # Soul Ride #
 
 [![Build Status](https://travis-ci.org/Echelon9/soulride.svg?branch=master)](https://travis-ci.org/Echelon9/soulride)
+[![Coverity Scan Build Status](https://img.shields.io/coverity/scan/9846.svg)](https://scan.coverity.com/projects/echelon9-soulride)
 [![GitHub License](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/Echelon9/soulride/master/COPYING)
 
 Welcome to **Soul Ride**, a GPL physics-based snowboarding simulator, with an

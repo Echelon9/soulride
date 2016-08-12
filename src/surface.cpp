@@ -366,19 +366,23 @@ void	DeleteNodes(int count, int FrameNumber)
 	}
 }
 
-
-int	CountActiveImages(int FrameNumber)
-// Returns the number of surface images in the cache that have been used
-// for rendering since the specified frame.
+/**
+ * Returns the number of surface images in the cache that have been used
+ * for rendering since the specified frame.
+ *
+ * @todo Implement properly
+ */
+int
+CountActiveImages(int FrameNumber)
 {
 	return 0;	//xxxxxxxxx
 	
-	int	i;
+	/*int	i;
 	int	count = 0;
 	for (i = 0; i < CACHE_SIZE; i++) {
 		if (Cache[i].FrameLastUsed >= FrameNumber) count++;
 	}
-	return count;
+	return count;*/
 }
 
 

@@ -154,8 +154,7 @@ public:
 		PlayRate = 1.0;
 		GameLoop::SetSpeedScale(PlayRate);
 
-		FirstUpdate = true;
-		FirstUpdate = false;	//xxxxxxx
+		FirstUpdate = false;
 
 //		char	buf[300];
 		VCRBackground->getMovie()->setActorText(GUI_VCR_DISPLAY, (char*) Recording::GetPlayerName());

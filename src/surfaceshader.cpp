@@ -89,7 +89,7 @@ struct SurfaceTypeInfo {
 };
 
 
-const int	MAX_SURFACE_TYPES = 16;
+const int	MAX_SURFACE_TYPES = 10;
 SurfaceTypeInfo	SurfaceType[MAX_SURFACE_TYPES];
 int	SurfaceTypeCount = 0;
 

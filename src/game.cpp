@@ -2441,11 +2441,13 @@ public:
 			ScoretextID = Overlay::PlayMovie("scoresheet_text.ggm", 1, GG_PLAYMODE_HANG);
 
 			GG_Movie*	m = Overlay::GetMovie(ScoretextID);
-			m->setActorText(GGID_PARTIME_CAPTION, UI::String("par_time_caption", "Par Time:"));
-			m->setActorText(GGID_YOURTIME_CAPTION, UI::String("your_time_caption", "Your Time:"));
-			m->setActorText(GGID_DIFFERENCE_CAPTION, UI::String("difference_caption", "Difference"));
-			m->setActorText(GGID_YOURHIGHSCORE_CAPTION, UI::String("your_high_caption", "Your High"));
-			m->setActorText(GGID_LOCALHIGHSCORE_CAPTION, UI::String("local_high_caption", "Local High"));
+			if (m) {
+				m->setActorText(GGID_PARTIME_CAPTION, UI::String("par_time_caption", "Par Time:"));
+				m->setActorText(GGID_YOURTIME_CAPTION, UI::String("your_time_caption", "Your Time:"));
+				m->setActorText(GGID_DIFFERENCE_CAPTION, UI::String("difference_caption", "Difference"));
+				m->setActorText(GGID_YOURHIGHSCORE_CAPTION, UI::String("your_high_caption", "Your High"));
+				m->setActorText(GGID_LOCALHIGHSCORE_CAPTION, UI::String("local_high_caption", "Local High"));
+			}
 		}
 		
 		if (Phase == COUNTDOWN_DIFFERENCE) {

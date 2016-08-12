@@ -625,6 +625,7 @@ GG_Rval GG_Act_TextBox::doFrame( const GG_ActorState &state, int32 t0, int32 dt 
     switch( m_align )
     {
       case GG_TEXTALIGN_LEFT:
+      default:
         x = m_rect.x1;
         break;
       case GG_TEXTALIGN_CENTER:

@@ -89,7 +89,7 @@ struct SurfaceTypeInfo {
 };
 
 
-const int	MAX_SURFACE_TYPES = 10;
+const int	MAX_SURFACE_TYPES = 16;
 SurfaceTypeInfo	SurfaceType[MAX_SURFACE_TYPES];
 int	SurfaceTypeCount = 0;
 
@@ -108,6 +108,12 @@ struct surfaceInitInfoType {
 	{ "sand0.psd", "sand1.psd", { 0, 0.200f, 0.0030f, 0, 1, 0.8f } },
 	{ "asphalt0.psd", "asphalt1.psd", { 0, 0.80f, 0, 0, 1, 0.2f } },
 	{ "water0.psd", "water1.psd", { 2, 0.05f, 0.0070f, 500, 8, 0.8f } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
+	{ NULL, NULL, { 0, 0, 0, 0, 0 } },
 	{ NULL, NULL, { 0, 0, 0, 0, 0 } }
 
 	// Corn snow, more types of rock, ice, windblown crap, mixtures...
@@ -325,8 +331,8 @@ void	GenerateTexture(bitmap32* output, int xindex, int zindex, int level,
 	int	cutoff = level - TEXTURE_BITS;
 	
 	// Set up source texture pointers.
-	uint32*	SourceData[16][2];
-	for (i = 0; i < 16; i++) {
+	uint32*	SourceData[MAX_SURFACE_TYPES][2];
+	for (i = 0; i < MAX_SURFACE_TYPES; i++) {
 		SourceData[i][0] = SurfaceType[iclamp(0, i, SurfaceTypeCount-1)].Tile[0].Image[index]->GetData();
 		SourceData[i][1] = SurfaceType[iclamp(0, i, SurfaceTypeCount-1)].Tile[1].Image[index]->GetData();
 	}
@@ -336,7 +342,7 @@ void	GenerateTexture(bitmap32* output, int xindex, int zindex, int level,
 	for (j = 0; j < TEXTURE_SIZE; j++) {
 		int	RowOffset = (sz & mask) * size;
 		for (i = 0; i < TEXTURE_SIZE; i++) {
-			int	t = ((*typesrc++)/* >> 4 */) & 15;
+			int	t = ((*typesrc++)/* >> 4 */) & (MAX_SURFACE_TYPES - 1);
 			uint32	type0pixel = SourceData[t][((*noisesrc++) & 0x8000) ? 1 : 0][RowOffset + ((sx + i) & mask)];
 			
 			*dest++ = type0pixel;

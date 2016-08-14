@@ -26,6 +26,8 @@
 #define RENDER_HPP
 
 
+#include <SDL.h>
+
 #include "types.hpp"
 #include "geometry.hpp"
 #include "error.hpp"
@@ -73,6 +75,7 @@ namespace Render {
 	int	GetWindowHeight();
 
 	HGLRC	GetMainContext();
+	SDL_Window*	GetSDLWindow();
 	
 	// Mode control.
 	struct ModeInfo {

@@ -45,7 +45,7 @@ help: makefile
 
 ## installdeps : install dependencies on Debian-based system
 installdeps:
-	apt-get install build-essential libsdl1.2-dev libsdl-mixer1.2-dev
+	apt-get install build-essential libsdl2-dev libsdl2-mixer-dev
 
 ## doxygen     : generate documentation of the C++ code
 doxygen: docs/doxygen/html/index.html

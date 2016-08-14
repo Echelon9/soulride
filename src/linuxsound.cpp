@@ -91,7 +91,7 @@ void	Open()
 	}
 	
 	mixer_open();
-	cd::open();
+	// cd::open();
 	
 	IsOpen = true;
 
@@ -106,8 +106,8 @@ void	Close()
 {
 	if (!IsOpen) return;
 	
-	cd::stop();
-	cd::close();
+	// cd::stop();
+	// cd::close();
 	mixer_close();
 	
 	Mix_CloseAudio();
@@ -233,27 +233,28 @@ int	GetStatus(int EventID)
 CDMode	GetCDMode()
 // Returns the current mode of the cd player.
 {
-	return cd::get_mode();
+	// return cd::get_mode();
 }
 
 
 int	GetCDTrackCount()
 // Returns the number of available audio tracks on the current cd.
 {
-	return cd::track_count();
+	// return cd::track_count();
+	return 0;
 }
 
 void	GetCDDriveName(char* result)
 // Returns the drive name of the cd drive.
 {
-	cd::get_drive_name(result);
+	// cd::get_drive_name(result);
 }
 
 
 void	PlayCDTrack(int TrackID)
 // Plays the specified cd-audio track.  Track numbering starts with 1.
 {
-	cd::play(TrackID);
+	// cd::play(TrackID);
 }
 
 
@@ -569,7 +570,7 @@ int WaveCloseReadFile(
 // cd stuff
 //
 
-
+/**
 namespace cd {
 ;
 
@@ -709,7 +710,7 @@ void	get_drive_name(char* result)
 
 
 };	// end namespace cd
-
+*/
 
 
 #ifdef NOT

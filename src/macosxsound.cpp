@@ -87,7 +87,7 @@ void	Open()
 	}
 	
 	mixer_open();
-	cd::open();
+	// cd::open();
 	
 	IsOpen = true;
 	
@@ -102,8 +102,8 @@ void	Close()
 {
 	if (!IsOpen) return;
 	
-	cd::stop();
-	cd::close();
+	// cd::stop();
+	// cd::close();
 	mixer_close();
 	
 	Mix_CloseAudio();
@@ -311,6 +311,7 @@ void	SetMusicVolume(uint8 vol)
 // cd stuff
 //
 
+/**
 namespace cd {
 
 bool	CDIsOpen = false;
@@ -463,7 +464,7 @@ void	get_drive_name(char* result)
 
 
 };	// end namespace cd
-
+*/
 
 // #include <sys/soundcard.h>
 

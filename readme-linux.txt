@@ -1,10 +1,10 @@
 You must have 3D hardware, with a working OpenGL driver (e.g. Mesa,
-NVidia's proprietary driver, etc).  You must also have SDL installed
+NVidia's proprietary driver, etc).  You must also have SDL 2.0 installed
 (http://www.libsdl.org) to run the "soulride" executable, although the
-"soulride-static" executable does not require SDL to be installed.
+"soulride-static" executable does not require SDL 2.0 to be installed.
 
 The executables "soulride" and "soulride-static" are the same, except
-that "soulride" is dynamically linked against SDL, SDL_mixer and the
+that "soulride" is dynamically linked against SDL2, SDL2_mixer and the
 C++ standard library, while "soulride-static" is statically linked
 against those libraries.
 

@@ -69,11 +69,11 @@ LIB_PRE :=
 OBJ_EXT := obj
 EXE_EXT := .exe
 DLL_EXT := dll
-SDL_DIR := $(TOP)/../SDL-1.2.5
+SDL_DIR := $(TOP)/../SDL-2.0.4
 SDL_INCLUDE := -I "$(SDL_DIR)/include"
 SDL_LIBS := winmm.lib dxguid.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib
 ifeq "$(USE_SDL)" "1"
-MEDIA_LIBS := $(SDL_DIR)/SDL.lib
+MEDIA_LIBS := $(SDL_DIR)/SDL2.lib
 else
 MEDIA_LIBS := dinput.lib dsound.lib
 endif
@@ -119,10 +119,10 @@ LIB_EXT := a
 OBJ_EXT := o
 EXE_EXT :=
 DLL_EXT := so
-LIBS := -lSDL_mixer -lSDL -lGL -lm -lpthread -lstdc++
+LIBS := -lSDL2_mixer -lSDL2 -lGL -lm -lpthread -lstdc++
 DLL_LIBS := -ldl
-SDL_CFLAGS := $(shell sdl-config --cflags)
-SDL_LDFLAGS := $(shell sdl-config --libs)
+SDL_CFLAGS := $(shell sdl2-config --cflags)
+SDL_LDFLAGS := $(shell sdl2-config --libs)
 
 ifeq ($(DEBUG), 1)
 	# gcc debug flags

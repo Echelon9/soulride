@@ -1,8 +1,9 @@
 # See https://docs.travis-ci.com/user/languages/cpp for defaults
 language: cpp
 
-# Send builds to the container-based infrastructure
-sudo: false
+# Send builds to the Trusty-based beta infrastructure
+sudo: required
+dist: trusty
 
 # Add Linux and macOS to build matrix
 os:
@@ -15,8 +16,8 @@ addons:
   apt:
     packages:
     - build-essential
-    - libsdl1.2-dev
-    - libsdl-mixer1.2-dev
+    - libsdl2-dev
+    - libsdl2-mixer-dev
   coverity_scan:
     project:
       name: "Echelon9/soulride"
@@ -32,8 +33,8 @@ before_install:
   # note that branch_pattern & the TRAVIS_BRANCH check must match, unfortunately
   # COVERITY_SCAN_BRANCH isn't defined until later in the build process
   - if ([[ "${TRAVIS_JOB_NUMBER##*.}" != "1" ]] && [[ "$TRAVIS_BRANCH" == "coverity_scan" ]]); then false ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update               ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sdl sdl_mixer; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                 ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sdl2 sdl2_mixer; fi
 
 # Add clang and gcc compiler to build matrix
 compiler:

@@ -140,12 +140,12 @@ ifeq "$(SOULRIDE_COMPILER)" "gcc"
 ifeq "$USE_SDL" "1"
 ifeq "$(static)" "1"
 stdlibs := /usr/lib/libstdc++-libc6.2-2.a.3
-SDL_MIXER_LIBS := /usr/lib/libSDL_mixer.a /usr/lib/libsmpeg.a /usr/lib/libvorbisfile.a /usr/lib/libvorbis.a /usr/lib/libogg.a
-SDL_LDFLAGS := $(SDL_MIXER_LIBS) $(shell sdl-config --static-libs)
-SDL_LDFLAGS := $(patsubst -lSDL, /usr/lib/libSDL.a, $(SDL_LDFLAGS))
+SDL_MIXER_LIBS := /usr/lib/libSDL2_mixer.a /usr/lib/libsmpeg.a /usr/lib/libvorbisfile.a /usr/lib/libvorbis.a /usr/lib/libogg.a
+SDL_LDFLAGS := $(SDL_MIXER_LIBS) $(shell sdl2-config --static-libs)
+SDL_LDFLAGS := $(patsubst -lSDL2, /usr/lib/libSDL2.a, $(SDL_LDFLAGS))
 else
 stdlibs := -lstdc++
-SDL_LDFLAGS := -lSDL_mixer $(shell sdl-config --libs)
+SDL_LDFLAGS := -lSDL2_mixer $(shell sdl2-config --libs)
 endif
 endif
 endif

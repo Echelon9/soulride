@@ -726,6 +726,7 @@ void	CheckOGLError(const char* FuncName);
 
 
 HGLRC	RenderingContext = 0;
+SDL_Window *sdl_window;
 
 
 void	OpenOGL()
@@ -744,13 +745,6 @@ void	OpenOGL()
 
 #ifdef LINUX
 
-	const SDL_VideoInfo* info = NULL;
-	info = SDL_GetVideoInfo();
-	if (!info) {
-		Error e; e << "SDL_GetVideoInfo() failed.";
-		throw e;
-	}
-
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
@@ -758,14 +752,22 @@ void	OpenOGL()
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
 	ModeInfo&	m = Mode[CurrentMode];
-	int	bpp = info->vfmt->BitsPerPixel;
-	int	flags = SDL_OPENGL | (Fullscreen ? SDL_FULLSCREEN : 0);
+	int	flags = SDL_WINDOW_OPENGL | (Fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 
 	// Set the video mode.
-	if (SDL_SetVideoMode(m.Width, m.Height, bpp, flags) == 0) {
-		Error e; e << "SDL_SetVideoMode() failed.";
+	sdl_window = SDL_CreateWindow("soulride SDL2",
+	                              SDL_WINDOWPOS_CENTERED,
+	                              SDL_WINDOWPOS_CENTERED,
+	                              m.Width,
+	                              m.Height,
+	                              flags);
+	if (sdl_window == 0) {
+		Error e; e << "SDL_CreateWindow() failed: %s.", SDL_GetError();
 		throw e;
 	}
+
+	// Create an OpenGL context associated with the window.
+        SDL_GLContext glcontext = SDL_GL_CreateContext(sdl_window);
 
 #else // not LINUX
 	
@@ -878,6 +880,8 @@ void	CloseOGL()
 #endif // not LINUX
 
 #ifdef LINUX
+        // SDL_GL_DeleteContext(glcontext);
+        // SDL_DestroyWindow(sdl_window);
 #else // not LINUX
 	Result = OGL::DeleteContext(RenderingContext);
 	if (Result == false) {
@@ -894,12 +898,21 @@ HGLRC	GetMainContext()
 	return RenderingContext;
 }
 
+/**
+ * Return the main SDL window.
+ */
+SDL_Window*
+GetSDLWindow()
+{
+	return sdl_window;
+}
+
 
 void	ShowFrame()
 // Show what's in the rendering frame.
 {
 #ifdef LINUX
-	SDL_GL_SwapBuffers( );
+	SDL_GL_SwapWindow(sdl_window);
 #else // not LINUX
 	bool	Result = OGL::SwapBuffers(GetDC(Main::GetGameWindow()));
 	if (Result == false) {

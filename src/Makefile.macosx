@@ -161,19 +161,17 @@ clean:
 mrproper:
 	rm *.o */*.o */*/*.o */*/*/*.o */*.lib */*/*.lib $(proj)
 
-macosx_shared: MACOSX_FRAMEWORKS += -framework Carbon
 macosx_shared: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
 	$(link) $(linkdebug) -o $(proj) \
 		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
-		-lSDL -lSDL_mixer -framework Cocoa -framework Carbon -framework OpenGL
+		-lSDL -lSDL_mixer -framework Cocoa -framework OpenGL
 
-macosx_carbon: MACOSX_FRAMEWORKS += -framework Carbon
-macosx_carbon: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
+macosx_static: $(OBJ_LIST) $(lua) $(lualib) $(gamegui)
 	$(link) $(linkdebug) -o $(proj) \
 		$(OBJ_LIST) $(gamegui) $(lua) $(lualib) \
 		$(MACOSX_FRAMEWORKS) 
 
-SoulRide.app : macosx_carbon
+SoulRide.app : macosx_static
 	     @rm -rf ../SoulRide.app
 	     @mkdir -p ../SoulRide.app/Contents/MacOS
 	     @mkdir -p ../SoulRide.app/Contents/Resources
@@ -184,6 +182,6 @@ SoulRide.app : macosx_carbon
 	     cp -r ../Recordings ../SoulRide.app/Contents/Resources
 	     cp soulride ../SoulRide.app/Contents/MacOS/SoulRide
 
-all: macosx_carbon
+all: macosx_static
 
 # need to recurse into gamegui and lua

@@ -27,18 +27,10 @@
 #ifndef LINUXMAIN_HPP
 #define LINUXMAIN_HPP
 
-#include <Carbon/Carbon.h>
 
 namespace Main {
 	// Use of SDL has pretty much obviated any need for back-door OS info.
 };
 
-#ifdef MACOSX_CARBON
-void getWindowOptions();
-OSStatus SoulRideOptionWindowEventHandler(EventHandlerCallRef myHandler,
-                                                 EventRef event,
-                                                 void *userData);
-int	main2(int argc, char** argv);
-#endif // MACOSX_CARBON
 
 #endif // LINUXMAIN_HPP

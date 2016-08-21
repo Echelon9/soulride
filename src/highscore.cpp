@@ -76,12 +76,7 @@ void	Read()
 	char	filename[200];
 
 	// Read the local high-score table.
-#ifndef MACOSX_CARBON
 	strcpy(filename, ".." PATH_SEPARATOR "PlayerData" PATH_SEPARATOR);
-#else
-	strcpy(filename, MacOSX::PlayerData_directory());
-	strcat(filename, PATH_SEPARATOR);
-#endif
 
 	strcat(filename, Game::GetCurrentMountain());
 	strcat(filename, ".local-hs.txt");
@@ -118,11 +113,7 @@ void	Read()
 
 #if 0
 	// Read the world high-score table.
-#ifndef MACOSX_CARBON
 	strcpy(filename, ".." PATH_SEPARATOR "PlayerData" PATH_SEPARATOR);
-#else
-	strcpy(filename, MacOSX::PlayerData_directory());
-#endif
 
 	strcat(filename, Game::GetCurrentMountain());
 	strcat(filename, ".world-hs.txt");
@@ -178,12 +169,9 @@ void	RegisterScore(const char* PlayerName, int run, int score)
 
 		// Write out the new dataset.
 		char	filename[200];
-#ifndef MACOSX_CARBON
+
 		strcpy(filename, ".." PATH_SEPARATOR "PlayerData" PATH_SEPARATOR);
-#else
-		strcpy(filename, MacOSX::PlayerData_directory());
-		strcat(filename, PATH_SEPARATOR);
-#endif
+
 		strcat(filename, Game::GetCurrentMountain());
 		strcat(filename, ".local-hs.txt");
 

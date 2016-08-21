@@ -50,182 +50,6 @@
 #include "timer.hpp"
 #include "render.hpp"
 
-// This is used for the GUI part of MacOSX 
-// (option window before starting opengl)
-#ifdef MACOSX_CARBON
-#include <Carbon/Carbon.h>
-#include "config.hpp" // used to set default mountain
-
-#define kSRApplicationSignature		'BjSR'
-#define kSRStart			'STRT'
-#define kSRDisplayError		        'ERR1'
-#define kSRDefaultMountainPopUp		1	
-#define kSRScreenResolutionPopUp	2
-#define kSRScreenDepthPopUp		3
-#define kSRFullScreenCheckbox		4
-
-#define MACOSX_WINDOW_PROBLEM -1
-
-int argC;
-char** argV;
-
-static WindowRef window;
-static WindowRef windowErrorDisplay;
-
-// definded using interface builder, file main.nib
-static int screenWidth[]  = {0, 320, 640, 800, 1024, 1152, 1280, 1600};
-static int screenHeight[] = {0, 240, 480, 600,  768,  864, 1024, 1200};
-static int screenDepth[]  = {0, 8, 16, 24};
-
-// This should be automatic later
-static char *mountains[]  = {"", "testing", "Jay_Peak", "Stratton", "Breckenridge"};
-
-static int defaultMountain = 1;
-static int screenResolution = 2;
-static int depth = 2;
-static int fullscreen = 1;
-
-
-OSStatus SoulRideOptionWindowEventHandler (EventHandlerCallRef myHandler, 
-                                                  EventRef event,
-                                                  void *userData)
-{
-    OSStatus 	result = eventNotHandledErr;
-    HICommand	command;
-
-    int main2result;
-
-    GetEventParameter (event, kEventParamDirectObject, typeHICommand, NULL, 
-                       sizeof (HICommand), NULL, &command);
-    switch (command.commandID)
-      {
-      case kSRStart:
-	getWindowOptions();
-	result = noErr;
-	HideWindow(window);
-	main2result = main2(argC, argV);
-	if (main2result == MACOSX_WINDOW_PROBLEM){
-	  SDL_Quit();
-	  ShowWindow(windowErrorDisplay);
-	}
-	else
-	  exit(0);
-	break;
-      case kSRDisplayError:
-	HideWindow(windowErrorDisplay);
-	ShowWindow(window);
-	std::cout << "kSRDisplayError\n" << std::endl;
-	break;
-      case 'quit':
-	exit(0);
-	break;
-	//default:
-	//printf("Command = %d\n", command.commandID);
-      }
-    return result;
-}
-
-int main(int argc, char** argv)
-{
-  argC = argc;
-  argV = argv;
-
-
-    IBNibRef 		nibRef;
-    //WindowRef 		window;
-    
-    OSStatus		err;
-
-    EventTypeSpec	mainSpec = {kEventClassCommand, kEventCommandProcess};
-
-    // Create a Nib reference passing the name of the nib file (without the .nib extension)
-    // CreateNibReference only searches into the application bundle.
-    err = CreateNibReference(CFSTR("main"), &nibRef);
-    require_noerr( err, CantGetNibRef );
-    
-    // Once the nib reference is created, set the menu bar. "MainMenu" is the name of the menu bar
-    // object. This name is set in InterfaceBuilder when the nib is created.
-    err = SetMenuBarFromNib(nibRef, CFSTR("MenuBar"));
-    require_noerr( err, CantSetMenuBar );
-    
-    // Then create a window. "MainWindow" is the name of the window object. This name is set in 
-    // InterfaceBuilder when the nib is created.
-    err = CreateWindowFromNib(nibRef, CFSTR("MainWindow"), &window);
-    require_noerr( err, CantCreateWindow );
-
-    // Create display error window
-    err = CreateWindowFromNib(nibRef, CFSTR("ErrorDisplay"), &windowErrorDisplay);
-    require_noerr( err, CantCreateWindow );
-
-    // We don't need the nib reference anymore.
-    DisposeNibReference(nibRef);
-        
-    // Install event handlers
-    err =  InstallWindowEventHandler (window, NewEventHandlerUPP (SoulRideOptionWindowEventHandler),
-                                      1, &mainSpec, 
-                                      (void *) window, NULL);
-    err =  InstallWindowEventHandler (windowErrorDisplay, NewEventHandlerUPP (SoulRideOptionWindowEventHandler),
-                                      1, &mainSpec, 
-                                      (void *) window, NULL);
-    
-    // The window was created hidden so show it.
-    ShowWindow( window );
-    
-    // Call the event loop
-    RunApplicationEventLoop();
-
-CantCreateWindow:
-CantSetMenuBar:
-CantGetNibRef:
-	return err;
-}
-
-void getWindowOptions ()
-{
-
-    ControlHandle 	defaultMountainControlHandle;
-    ControlHandle	screenResolutionTimeControlHandle;
-    ControlHandle	colourDepthControlHandle;
-    ControlHandle	fullscreenControlHandle;
-
-    ControlID		defaultMountainControlID = { kSRApplicationSignature, kSRDefaultMountainPopUp };
-    ControlID		screenResolutionTimeControlID = { kSRApplicationSignature, kSRScreenResolutionPopUp };
-    ControlID		screenDepthControlID = { kSRApplicationSignature, kSRScreenDepthPopUp };
-    ControlID		fullscreenControlID = { kSRApplicationSignature, kSRFullScreenCheckbox };
-
-    GetControlByID (window, &defaultMountainControlID, &defaultMountainControlHandle);
-    GetControlByID (window, &screenResolutionTimeControlID, &screenResolutionTimeControlHandle);
-    GetControlByID (window, &screenDepthControlID, &colourDepthControlHandle);
-    GetControlByID (window, &fullscreenControlID, &fullscreenControlHandle);
-    
-    
-    defaultMountain = 	GetControl32BitValue (defaultMountainControlHandle);
-    screenResolution = 	GetControl32BitValue (screenResolutionTimeControlHandle);
-    depth = 		GetControl32BitValue (colourDepthControlHandle);
-    fullscreen = 	GetControl32BitValue (fullscreenControlHandle);
-     
-    printf("DefaultMountain = %s\nResolution = %dx%d, %d bpp, fullscreen: ",
-           mountains[defaultMountain],
-           screenWidth[screenResolution],
-           screenHeight[screenResolution],
-           screenDepth[depth]);
-
-    if (fullscreen)
-      printf("yes\n");
-    else 
-      printf("no\n");
-
-    Config::Open();
-    Config::Set("DefaultMountain", mountains[defaultMountain]);
-    Config::SetInt("OGLDriverIndex", 0);
-    Render::SetWindowFullscreen(fullscreen);
-    Render::SetWindowWidth(screenWidth[screenResolution]);
-    Render::SetWindowHeight(screenHeight[screenResolution]);
-    Render::SetWindowDepth(screenDepth[depth]);
-        
-}
-#endif // MACOSX_CARBON
-
 
 void	ProcessEvent(SDL_Event* event);
 
@@ -261,16 +85,11 @@ static void	MeasureMouseSpeed()
 	}
 }
 
-// MacOSX uses a different main to start for its GUI
-// main2(...) is called at the end of the other main(...)
-
-#ifndef MACOSX_CARBON
-int	main(int argc, char** argv)
-#else
-int	main2(int argc, char** argv)
-#endif // MACOSX_CARBON
-
-// Main program entry point for Soul Ride.
+/**
+ * Main program entry point for Soul Ride.
+ */
+int
+main(int argc, char** argv)
 {
 	bool	CaughtError = false;
 	char	ErrorMessage[1000];
@@ -382,13 +201,6 @@ int	main2(int argc, char** argv)
 		printf("Out Of Memory.\n");
 		exit(1);
 	}
-#ifdef MACOSX_CARBON
-	// problem initializing window (maybe too large resolution) 
-	catch (Render::RenderError& e) {
-		printf("Caught RenderError: %s\n", e.GetMessage());
-		return MACOSX_WINDOW_PROBLEM;
-	}
-#endif // MACOSX_CARBON
 	catch (Error& e) {
 //		CaughtError = true;
 //		strcpy(ErrorMessage, e.GetMessage());

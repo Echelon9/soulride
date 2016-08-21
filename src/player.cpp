@@ -104,24 +104,6 @@ static void	MakeFilename(char* buf, int bufsize, const char* Name)
 	char*	p = buf;
 	int count = 0;
 
-#ifdef MACOSX_CARBON
-
-	std::string filename("");
-	filename += MacOSX::PlayerData_directory();
-	filename += PATH_SEPARATOR;
-	filename += Name;
-	filename += ".srp";
-	
-	int stringlength;
-	if (filename.length() > bufsize-1)
-	  stringlength = filename.length();
-	else
-	  stringlength = bufsize-1;
-
-	strncpy(buf, filename.c_str(), stringlength);
-	
-#else // not MACOSX_CARBON
-
 	// Start with "..\PlayerData\".
 	const char*	s = ".." PATH_SEPARATOR "PlayerData" PATH_SEPARATOR;
 	while (count < bufsize-1) {
@@ -147,8 +129,6 @@ static void	MakeFilename(char* buf, int bufsize, const char* Name)
 	}
 
 	*p = 0;
-#endif // not MACOSX_CARBON
-	
 }
 
 
@@ -226,9 +206,6 @@ void	Save()
 	char	temp[1000];
 	MakeFilename(temp, 1000, Name);
 
-// MacOSX: We already know that PlayerData subdirectory exists.
-#ifndef MACOSX_CARBON
-
 	// Make sure PlayerData subdirectory exists.
 	chdir("..");
 	if (chdir("PlayerData") != 0) {
@@ -242,7 +219,6 @@ void	Save()
 		chdir("..");
 	}
 	chdir("data");
-#endif // not MACOSX_CARBON
 
 	// Try to open the file for output.
 	FILE* fp = fopen(temp, "wb");
@@ -406,11 +382,7 @@ bool	Player::GetSavedPlayersAvailable()
 
 #ifdef LINUX
 
-#ifdef MACOSX_CARBON
-  DIR*  d = opendir(MacOSX::PlayerData_directory());
-#else  // not MACOSX_CARBON
   DIR*	d = opendir(".." PATH_SEPARATOR "PlayerData");
-#endif // not MACOSX_CARBON
 
   if (d) {
 		struct dirent*	dir;

@@ -39,11 +39,6 @@
 #include "main.hpp"
 #include "music.hpp"
 
-#ifdef MACOSX_CARBON
-#include <string>
-#include <iostream>
-#endif
-
 
 class PlayerQuery : public UI::ModeHandler {
 public:
@@ -184,11 +179,7 @@ public:
 
 #ifdef LINUX
 
-#ifdef MACOSX_CARBON
-		DIR*	dir = opendir(MacOSX::PlayerData_directory());
-#else // not MACOSX_CARBON -> LINUX
-		DIR*	dir = opendir(".." PATH_SEPARATOR "PlayerData");
-#endif	      
+		DIR*	dir = opendir(".." PATH_SEPARATOR "PlayerData");     
 
 		struct dirent*	ent;
 		while (ent = readdir(dir)) {

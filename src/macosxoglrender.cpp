@@ -405,22 +405,11 @@ void	OpenOGL()
 	int	bpp = info->vfmt->BitsPerPixel;
 	int	flags = SDL_OPENGL | (Fullscreen ? SDL_FULLSCREEN : 0);
 
-#ifndef MACOSX_CARBON
 	// Set the video mode.
 	if (SDL_SetVideoMode(m.Width, m.Height, bpp, flags) == 0) {
 		Error e; e << "SDL_SetVideoMode() failed.";
 		throw e;
 	}
-#else
-	// Set the video mode in MacOSX Carbon Mode
-	if (SDL_SetVideoMode(GetWindowWidth(), 
-			     GetWindowHeight(), 
-			     GetWindowDepth(), 
-			     flags) == 0) {
-		RenderError e; e << "SDL_SetVideoMode() failed.";
-		throw e;
-	}
-#endif // MACOSX_CARBON
 
 
 #else // not LINUX

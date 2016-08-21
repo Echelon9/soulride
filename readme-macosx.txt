@@ -2,9 +2,9 @@
         Notes on the Mac OS X port 
 --------------------------------------------
 
-The MacOSX port is very similar to the Linux version. It is possible to only use X11 instead of Carbon/Cocoa, which is how I started. This port uses the native Carbon/Cocoa/OpenGL Frameworks. It also requires SDL and SDL_mixer to be installed or distributed with the game (see below).
+The MacOSX port is very similar to the Linux version. It is possible to only use X11 instead of Cocoa, which is how I started. This port uses the native Cocoa/OpenGL Frameworks. It also requires SDL and SDL_mixer to be installed or distributed with the game (see below).
 
-The Carbon version behaves like any MacOSX application. There is a clickable icon in the Finder and an initial options window.
+The Cocoa version behaves like any MacOSX application. There is a clickable icon in the Finder and an initial options window.
 
 Joysticks are supported through SDL. I believe most HID compliant USB joysticks will work.
 

@@ -74,26 +74,20 @@ void	Open(char* CommandLine)
 	Config::Open();
 
 	// Set some default config variable values, now that Config:: is open.
-	// Graphical options are set using the Carbon GUI version for MacOSX
-#ifndef MACOSX_CARBON
 	Config::SetBool("Fullscreen", true);
 	Config::SetInt("OGLDriverIndex", 0);
 	Config::SetInt("OGLModeIndex", 1);
-#endif // MACOSX_CARBON
 	Config::SetFloat("ViewAngle", 97);
 	Config::SetFloat("TerrainMeshSlider", 6);
 	Config::SetInt("TextureDetailSlider", 6);
 	Config::SetFloat("MIPMapLODBias", 0);
 	Config::SetInt("OGLCheckErrorLevel", 1);
 
-// DefaultMountain is set using the Carbon GUI version for MacOSX
-#ifndef MACOSX_CARBON
 #ifdef STATIC_MOUNTAIN
 	Config::Set("DefaultMountain", STATIC_MOUNTAIN);
 #else
 	Config::Set("DefaultMountain", "Mammoth");
 #endif // STATIC_MOUNTAIN
-#endif // MACOSX_CARBON
 
 	Config::Set("Language", "en");
 	Config::SetBool("DetailMapping", true);

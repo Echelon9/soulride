@@ -61,8 +61,14 @@ proj=soulride
 endif
 
 
-OBJ_LIST = \
-	$(OBJ_DIR)/SDLMain.o \
+MACOSX_OBJ_LIST = \
+        $(OBJ_DIR)/macosxmain.o \
+        $(OBJ_DIR)/macosxoglrender.o   \
+        $(OBJ_DIR)/macosxsound.o\
+        $(OBJ_DIR)/macosxworkaround.o\
+        $(OBJ_DIR)/SDLMain.o \
+
+GENERIC_OBJ_LIST = \
         $(OBJ_DIR)/attractmode.o        \
         $(OBJ_DIR)/avi_tools.o  \
         $(OBJ_DIR)/boarder.o    \
@@ -81,14 +87,11 @@ OBJ_LIST = \
         $(OBJ_DIR)/imageoverlay.o       \
         $(OBJ_DIR)/input.o      \
         $(OBJ_DIR)/lift.o	\
-	$(OBJ_DIR)/macosxmain.o \
-        $(OBJ_DIR)/macosxoglrender.o   \
-        $(OBJ_DIR)/macosxsound.o\
-        $(OBJ_DIR)/macosxworkaround.o\
         $(OBJ_DIR)/main.o       \
         $(OBJ_DIR)/mdynamic.o   \
         $(OBJ_DIR)/mesh.o       \
         $(OBJ_DIR)/model.o      \
+        $(OBJ_DIR)/multiplayer.o \
         $(OBJ_DIR)/music.o      \
         $(OBJ_DIR)/ogl.o        \
         $(OBJ_DIR)/orientedstatic.o     \
@@ -121,8 +124,10 @@ OBJ_LIST = \
         $(OBJ_DIR)/usercamera.o \
         $(OBJ_DIR)/utility.o    \
         $(OBJ_DIR)/view.o       \
-        $(OBJ_DIR)/weather.o    \
-        $(OBJ_DIR)/multiplayer.o       
+        $(OBJ_DIR)/weather.o
+
+OBJ_LIST = $(MACOSX_OBJ_LIST) $(GENERIC_OBJ_LIST)
+
 
 .cpp.o :
 	$(cc) $(cdebug) $(cflags) -o $*.o $(version_switches) $*.cpp

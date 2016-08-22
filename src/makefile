@@ -42,11 +42,13 @@ WINDOWS_OBJ_LIST =				\
 	$(OBJ_DIR)/winmain.$(OBJ_EXT)		\
 	$(OBJ_DIR)/exceptionhandler.$(OBJ_EXT)	\
 	$(OBJ_DIR)/crashtest.$(OBJ_EXT)		\
-	$(OBJ_DIR)/winsound.$(OBJ_EXT)
+	$(OBJ_DIR)/winsound.$(OBJ_EXT)        \
+	$(OBJ_DIR)/oglrender.$(OBJ_EXT)
 
 LINUX_OBJ_LIST =				\
 	$(OBJ_DIR)/linuxmain.$(OBJ_EXT)		\
-	$(OBJ_DIR)/linuxsound.$(OBJ_EXT)
+	$(OBJ_DIR)/linuxsound.$(OBJ_EXT)      \
+	$(OBJ_DIR)/oglrender.$(OBJ_EXT)
 
 GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/attractmode.$(OBJ_EXT)	\
@@ -74,7 +76,6 @@ GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/multiplayer.$(OBJ_EXT)	\
 	$(OBJ_DIR)/music.$(OBJ_EXT)		\
 	$(OBJ_DIR)/ogl.$(OBJ_EXT)		\
-	$(OBJ_DIR)/oglrender.$(OBJ_EXT)       \
 	$(OBJ_DIR)/orientedstatic.$(OBJ_EXT)	\
 	$(OBJ_DIR)/overlay.$(OBJ_EXT)		\
 	$(OBJ_DIR)/particle.$(OBJ_EXT)		\

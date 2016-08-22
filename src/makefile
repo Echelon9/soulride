@@ -49,14 +49,8 @@ LINUX_OBJ_LIST =				\
 	$(OBJ_DIR)/linuxsound.$(OBJ_EXT)
 
 GENERIC_OBJ_LIST =				\
-	$(OBJ_DIR)/oglrender.$(OBJ_EXT)		\
-	$(OBJ_DIR)/ogl.$(OBJ_EXT)		\
-	$(OBJ_DIR)/timer.$(OBJ_EXT)		\
-	$(OBJ_DIR)/input.$(OBJ_EXT)		\
-	$(OBJ_DIR)/psdread.$(OBJ_EXT)		\
-	$(OBJ_DIR)/avi_tools.$(OBJ_EXT)		\
-						\
 	$(OBJ_DIR)/attractmode.$(OBJ_EXT)	\
+	$(OBJ_DIR)/avi_tools.$(OBJ_EXT)       \
 	$(OBJ_DIR)/boarder.$(OBJ_EXT)		\
 	$(OBJ_DIR)/boarderctl.$(OBJ_EXT)	\
 	$(OBJ_DIR)/camera.$(OBJ_EXT)		\
@@ -71,6 +65,7 @@ GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/gstamp.$(OBJ_EXT)		\
 	$(OBJ_DIR)/highscore.$(OBJ_EXT)		\
 	$(OBJ_DIR)/imageoverlay.$(OBJ_EXT)	\
+	$(OBJ_DIR)/input.$(OBJ_EXT)		\
 	$(OBJ_DIR)/lift.$(OBJ_EXT)		\
 	$(OBJ_DIR)/main.$(OBJ_EXT)		\
 	$(OBJ_DIR)/mdynamic.$(OBJ_EXT)		\
@@ -78,6 +73,8 @@ GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/model.$(OBJ_EXT)		\
 	$(OBJ_DIR)/multiplayer.$(OBJ_EXT)	\
 	$(OBJ_DIR)/music.$(OBJ_EXT)		\
+	$(OBJ_DIR)/ogl.$(OBJ_EXT)		\
+	$(OBJ_DIR)/oglrender.$(OBJ_EXT)       \
 	$(OBJ_DIR)/orientedstatic.$(OBJ_EXT)	\
 	$(OBJ_DIR)/overlay.$(OBJ_EXT)		\
 	$(OBJ_DIR)/particle.$(OBJ_EXT)		\
@@ -85,6 +82,7 @@ GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/perftest.$(OBJ_EXT)		\
 	$(OBJ_DIR)/player.$(OBJ_EXT)		\
 	$(OBJ_DIR)/polygonregion.$(OBJ_EXT)	\
+	$(OBJ_DIR)/psdread.$(OBJ_EXT)		\
 	$(OBJ_DIR)/recording.$(OBJ_EXT)		\
 	$(OBJ_DIR)/sbox.$(OBJ_EXT)		\
 	$(OBJ_DIR)/screenshot.$(OBJ_EXT)	\
@@ -96,6 +94,7 @@ GENERIC_OBJ_LIST =				\
 	$(OBJ_DIR)/terrainmesh.$(OBJ_EXT)	\
 	$(OBJ_DIR)/terrainmodel.$(OBJ_EXT)	\
 	$(OBJ_DIR)/text.$(OBJ_EXT)		\
+	$(OBJ_DIR)/timer.$(OBJ_EXT)		\
 	$(OBJ_DIR)/tree.$(OBJ_EXT)		\
 	$(OBJ_DIR)/ui.$(OBJ_EXT)		\
 	$(OBJ_DIR)/uihelidrop.$(OBJ_EXT)	\

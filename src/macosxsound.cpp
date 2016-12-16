@@ -20,7 +20,7 @@
 // linuxsound.hpp	-thatcher 1/28/2001 Copyright Thatcher Ulrich
 // macosxsound.cpp      Bjorn Leffler 8/28/2003
 
-// Interface code to Mac OS X sound stuff.  Implements the interface defined by the Sound namespace.
+// Interface code to macOS sound stuff.  Implements the interface defined by the Sound namespace.
 
 
 #include <SDL.h>

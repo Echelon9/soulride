@@ -22,7 +22,7 @@
 // Rendering wrapper using OpenGL for rasterization.
 
 // Bjorn Leffler 31/8/2003:
-// There is a special file for OpenGL rendering for Mac OS X.
+// There is a special file for OpenGL rendering for macOS.
 // This is because The interfaces are different compared to X windows (Linux)
 // The windows part of the code has been removed.
 
@@ -170,7 +170,7 @@ void	WriteDriverList(const char* filename)
 }
 
 
-// *** Note that the MacOSX version will overide these ***
+// *** Note that the macOS version will overide these ***
 // *** modes through the graphical user interface      ***
 
 // Maintain a list of available modes, and a currently selected mode.
@@ -197,7 +197,7 @@ ModeInfo	Mode[MAX_MODES] = {
 
 #ifdef MACOSX
 
-// MacOSX Set functions, changing window/screen options from GUI 
+// macOS Set functions, changing window/screen options from GUI
 
 void SetWindowWidth(int width){
   windowWidth = width;

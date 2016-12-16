@@ -21,7 +21,7 @@
 // macosxmain.cpp      - Bjorn Leffler 31/8/2003
 // after linuxmain.cpp by thatcher 1/26/2001 Copyright Thatcher Ulrich 
 
-// Main program for MacOSX version of Soul Ride.
+// Main program for macOS version of Soul Ride.
 
 #include <SDL.h>
 #include <SDL_Main.h>
@@ -98,7 +98,7 @@ main(int argc, char** argv)
 	printf("Soul Ride %s\n(c) Copyright 2003 Slingshot Game Technology\nhttp://soulride.com\n", Main::GetVersionString());
 
 #ifdef MACOSX
-	printf ("Mac OSX port by Bjorn Leffler \n");
+	printf ("macOS port by Bjorn Leffler \n");
 
 	// if started from the Finder, change directory to Resources
         std::string path(argv[0]);
@@ -119,7 +119,7 @@ main(int argc, char** argv)
 
 	}
 	
-	// On MacOSX PlayerData files are saved in the users home directory:
+	// On macOS PlayerData files are saved in the users home directory:
 	// $HOME/Documents/SoulRide/Playerdata
 	// This is for SoulRide.app to be installed in a system-wide location
 	// We now make sure these directories exist

@@ -1,6 +1,6 @@
 # makefile.macosx	-thatcher 1/22/2001 Copyright Thatcher Ulrich
 
-# Changed for MacOSX by Bjorn Leffler 31/8/2003
+# Changed for macOS by Bjorn Leffler 31/8/2003
 
 #    Copyright 2000, 2001, 2002, 2003 Slingshot Game Technology, Inc.
 #
@@ -20,12 +20,12 @@
 #    along with Foobar; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-# Soul Ride makefile, for MacOSX.
+# Soul Ride makefile, for macOS.
 
 #-------------------------------------------------------------------------------
-# Mac OS X specific stuff (by Bjorn Leffler)
+# macOS specific stuff (by Bjorn Leffler)
 
-# SDLMain MUST be included for the linker (see SDL/MacOSX FAQ)
+# SDLMain MUST be included for the linker (see SDL/macOS FAQ)
 
 # Location of SDL Headers as installed using the SDL-devel.pkg
 # The usual way to do this is $(shell sdl-config --cflags)

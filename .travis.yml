@@ -4,7 +4,7 @@ language: cpp
 # Send builds to the container-based infrastructure
 sudo: false
 
-# Add Linux and OS X to build matrix
+# Add Linux and macOS to build matrix
 os:
   - linux
   - osx
@@ -26,7 +26,7 @@ addons:
     # must match TRAVIS_BRANCH check below
     branch_pattern: coverity_scan
 
-# Use brew on OS X to install dependencies
+# Use brew on macOS to install dependencies
 before_install:
   # ugly hack; if running a coverity scan abort all except the 1st build
   # note that branch_pattern & the TRAVIS_BRANCH check must match, unfortunately
@@ -55,7 +55,7 @@ env:
 #
 script: make && make test
 
-# Exclude gcc on OS X, it maps to clang on that platform
+# Exclude gcc on macOS, it maps to clang on that platform
 matrix:
   exclude:
     - os: osx

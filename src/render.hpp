@@ -46,7 +46,7 @@ namespace Render {
 	void	RefreshWindow();	// ?? good name? It's for resetting the viewport when window moves...
 	void	MakeUIVisible();
 
-// MacOSX Set functions, changing window/screen options from GUI 
+// macOS Set functions, changing window/screen options from GUI
 #ifdef MACOSX
   void SetWindowWidth(int width);
   void SetWindowHeight(int height);

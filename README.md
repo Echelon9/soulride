@@ -24,7 +24,7 @@ the player makes is recorded on a virtual VCR.
 Soul Ride has been ported to a variety of platforms:
 
   * Linux (current primary development platform)
-  * OS X
+  * macOS
   * Windows
 
 ## Development ##
@@ -41,12 +41,12 @@ make
 make DEBUG=1 # for debug build
 ```
 
-### OS X ###
+### macOS ###
 
-*OS X build support remains preliminary*
+*macOS build support remains preliminary*
 
 [Homebrew](http://brew.sh/) is recommended to install and manage the necessary
-dependencies on OS X:
+dependencies on macOS:
 ```
 brew update
 brew install sdl sdl_mixer
@@ -73,7 +73,7 @@ Further unit test coverage would be appreciated!
 
 [readme.txt](readme.txt)
 [readme-linux.txt](readme-linux.txt)
-[readme-macosx.txt](readme-macosx.txt)
+[readme-macos.txt](readme-macos.txt)
 
 ## License ##
 

@@ -79,7 +79,7 @@ namespace Sound {
 	void	SetMusicVolume(uint8 vol);
 	void	GetCDDriveName(char* returnbuffer);
 
-// MacOSX mp3/ogg playback instead of CD
+// macOS mp3/ogg playback instead of CD
 #ifdef MACOSX
 	void	PlayMusicFile(int TrackID);
 #endif

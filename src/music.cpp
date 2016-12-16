@@ -132,7 +132,7 @@ void	GetDiscInfo()
 		strcat(filename, "cdaindex.txt");
 
 #ifdef MACOSX
-		// macosx workaround FIX ME LATER
+		// macOS workaround FIX ME LATER
 		strcpy(filename, "/tmp/cdaindex.txt");
 #endif
 

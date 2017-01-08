@@ -600,43 +600,42 @@ public:
 		if (Config::GetBoolValue("ShowBoarderRays")) {
 			//xxxxxx some force vec3s, for debugging.
 			int	i;
+			vec3	temp_points[2];
+
 			// Red rays.
-			glColor3f(1, 0, 0);
 			for (i = 0; i < RedRayCount; i++) {
-				glBegin(GL_LINES);
-				glVertex3fv(RedRayStart[i]);
-				glVertex3fv(RedRayStart[i] + RedRay[i]);
-				glEnd();
+				temp_points[0] = RedRayStart[i];
+				temp_points[1] = RedRayStart[i] + RedRay[i];
+
+				Render::DrawPrimitiveLines(temp_points, 2, 1, 0, 0);
 			}
 			// Green rays.
-			glColor3f(0, 1, 0);
-			glBegin(GL_LINES);
 			for (i = 0; i < GreenRayCount; i++) {
-				glVertex3fv(GreenRayStart[i]);
-				glVertex3fv(GreenRayStart[i] + GreenRay[i]);
+				temp_points[0] = GreenRayStart[i];
+				temp_points[1] = GreenRayStart[i] + GreenRay[i];
+
+				Render::DrawPrimitiveLines(temp_points, 2, 0, 1, 0);
 			};
-			glEnd();
-			
 			//xxxxxx
 		}
 
 		if (Config::GetBoolValue("ShowBoarderFeet")) {
 			//xxxxxxxxx Boarder feet friction points, for debugging
 			// Red stars
-			glColor3f(1, 0, 0);
 			for (int i = 0; i < 2; i++) {
 				vec3	v = Foot[i].Location;
-			
-				glBegin(GL_LINES);
-				glVertex3fv(v + vec3(0, 0.1, 0));
-				glVertex3fv(v + vec3(0, -0.1, 0));
+				vec3	temp_points[6];
 
-				glVertex3fv(v + vec3(0.1, 0, 0));
-				glVertex3fv(v + vec3(-0.1, 0, 0));
+				temp_points[0] = v + vec3(0, 0.1, 0);
+				temp_points[1] = v + vec3(0, -0.1, 0);
 
-				glVertex3fv(v + vec3(0, 0, 0.1));
-				glVertex3fv(v + vec3(0, 0, -0.1));
-				glEnd();
+				temp_points[2] = v + vec3(0.1, 0, 0);
+				temp_points[3] = v + vec3(-0.1, 0, 0);
+
+				temp_points[4] = v + vec3(0, 0, 0.1);
+				temp_points[5] = v + vec3(0, 0, -0.1);
+
+				Render::DrawPrimitiveLines(temp_points, 6, 1, 0, 0);
 			}
 			//xxxxxxxx
 		}

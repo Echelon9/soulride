@@ -161,13 +161,15 @@ public:
 #if 0
 			//xxxx
 			// Show probe ray.
+			vec3	temp_points[2];
+
 			Render::SetTexture(NULL);
 			Render::CommitRenderState();
-			glColor3f(1, 0, 0);
-			glBegin(GL_LINES);
-			glVertex3fv(ProbeOrg);
-			glVertex3fv(ProbeEnd);
-			glEnd();
+
+			temp_points[0] = ProbeOrg;
+			temp_points[1] = ProbeEnd;
+
+			Render::DrawPrimitiveLines(temp_points, 2, 1, 0, 0);
 			//xxxx
 #endif // 0
 		}

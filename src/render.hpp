@@ -130,6 +130,20 @@ namespace Render {
 	void	EnableLightmapBlend();
 	void	DisableLightmapBlend();
 
+	/**
+	 * Draws one or more line primitives with the specified color.
+	 *
+	 * Up to the caller to ensure that \p vertex_layout array has an even number of
+	 * vec3 elements.
+	 *
+	 * @param vertex_layout	Vertex elements in an ordered array (pairs of two)
+	 * @param n_vert	Number of vertices in \p vertex_layout
+	 * @param r		Color: red
+	 * @param g		Color: green
+	 * @param b		Color: blue
+	 */
+	void    DrawPrimitiveLines(vec3* vertex_layout, size_t n_vert, int r, int g, int b);
+
 	void	CommitRenderState();
 
 	void	BlitImage(int x, int y, int width, int height, Texture* im, int u, int v, uint32 ARGBColor = 0xFFFFFFFF, float scale = 1);

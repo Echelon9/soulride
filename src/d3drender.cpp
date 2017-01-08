@@ -1683,6 +1683,8 @@ void	Render::DisableLightmapBlend()
 
 //void    DrawPrimitiveLines(vec3* vertex_layout, size_t n_vert, int r, int g, int b)
 
+//void    DrawPrimitiveLineStrip(vec3* vertex_layout, size_t n_vert, int r, int g, int b)
+
 
 void	Render::CommitRenderState()
 // Communicates any rendering state changes to the D3D driver.  Compares

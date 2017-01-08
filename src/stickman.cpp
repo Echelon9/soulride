@@ -554,49 +554,49 @@ public:
 			Board[2] = f.BoardCenter - f.BoardAxis * 0.5 * BoardLength - CrossBoardAxis * 0.5 * BoardWidth;
 			Board[3] = f.BoardCenter - f.BoardAxis * 0.5 * BoardLength + CrossBoardAxis * 0.5 * BoardWidth;
 			
-			glBegin(GL_LINE_STRIP);
-			glVertex3fv(Board[0]);
-			glVertex3fv(Board[1]);
-			glVertex3fv(Board[2]);
-			glVertex3fv(Board[3]);
-			glVertex3fv(Board[0]);
-			glEnd();
-			
+			vec3	temp_points1[5];
+			temp_points1[0] = Board[0];
+			temp_points1[1] = Board[1];
+			temp_points1[2] = Board[2];
+			temp_points1[3] = Board[3];
+			temp_points1[4] = Board[0];
+			Render::DrawPrimitiveLineStrip(temp_points1, 5, 0, 1, 0);
+
 			// Legs and hips.
-			glBegin(GL_LINE_STRIP);
-			glVertex3fv(f.LeftToe);
-			glVertex3fv(f.LeftHeel);
-			glVertex3fv(f.LeftKnee);
-			glVertex3fv(f.LeftHip);
-			glVertex3fv(f.MiddleHip);
-			glVertex3fv(f.RightHip);
-			glVertex3fv(f.RightKnee);
-			glVertex3fv(f.RightHeel);
-			glVertex3fv(f.RightToe);
-			glEnd();
+			vec3	temp_points2[9];
+			temp_points2[0] = f.LeftToe;
+			temp_points2[1] = f.LeftHeel;
+			temp_points2[2] = f.LeftKnee;
+			temp_points2[3] = f.LeftHip;
+			temp_points2[4] = f.MiddleHip;
+			temp_points2[5] = f.RightHip;
+			temp_points2[6] = f.RightKnee;
+			temp_points2[7] = f.RightHeel;
+			temp_points2[8] = f.RightToe;
+			Render::DrawPrimitiveLineStrip(temp_points2, 9, 0, 1, 0);
 			
 			// Back.
-			glBegin(GL_LINE_STRIP);
-			glVertex3fv(f.MiddleHip);
-			glVertex3fv(f.MiddleShoulder);
-			glEnd();
+			vec3	temp_points3[2];
+			temp_points3[0] = f.MiddleHip;
+			temp_points3[1] = f.MiddleShoulder;
+			Render::DrawPrimitiveLineStrip(temp_points3, 2, 0, 1, 0);
 			
 			// Arms & shoulders.
-			glBegin(GL_LINE_STRIP);
-			glVertex3fv(f.LeftHand);
-			glVertex3fv(f.LeftElbow);
-			glVertex3fv(f.LeftShoulder);
-			glVertex3fv(f.MiddleShoulder);
-			glVertex3fv(f.RightShoulder);
-			glVertex3fv(f.RightElbow);
-			glVertex3fv(f.RightHand);
-			glEnd();
+			vec3	temp_points4[7];
+			temp_points4[0] = f.LeftHand;
+			temp_points4[1] = f.LeftElbow;
+			temp_points4[2] = f.LeftShoulder;
+			temp_points4[3] = f.MiddleShoulder;
+			temp_points4[4] = f.RightShoulder;
+			temp_points4[5] = f.RightElbow;
+			temp_points4[6] = f.RightHand;
+			Render::DrawPrimitiveLineStrip(temp_points4, 7, 0, 1, 0);
 			
-			// head
-			glBegin(GL_LINE_STRIP);
-			glVertex3fv(f.MiddleShoulder);
-			glVertex3fv(f.HeadTop);
-			glEnd();
+			// Head.
+			vec3	temp_points5[2];
+			temp_points5[0] = f.MiddleShoulder;
+			temp_points5[1] = f.HeadTop;
+			Render::DrawPrimitiveLineStrip(temp_points5, 2, 0, 1, 0);
 
 		} else {
 

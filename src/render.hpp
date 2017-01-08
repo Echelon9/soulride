@@ -144,6 +144,17 @@ namespace Render {
 	 */
 	void    DrawPrimitiveLines(vec3* vertex_layout, size_t n_vert, int r, int g, int b);
 
+	/**
+	 * Draws one line strip primitive with the specified color.
+	 *
+	 * @param vertex_layout	Vertex elements in an ordered array
+	 * @param n_vert	Number of vertices in \p vertex_layout
+	 * @param r		Color: red
+	 * @param g		Color: green
+	 * @param b		Color: blue
+	 */
+	void    DrawPrimitiveLineStrip(vec3* vertex_layout, size_t n_vert, int r, int g, int b);
+
 	void	CommitRenderState();
 
 	void	BlitImage(int x, int y, int width, int height, Texture* im, int u, int v, uint32 ARGBColor = 0xFFFFFFFF, float scale = 1);

@@ -1040,6 +1040,18 @@ void    DrawPrimitiveLines(vec3* vertex_layout, size_t n_vert, int r, int g, int
 }
 
 
+void    DrawPrimitiveLineStrip(vec3* vertex_layout, size_t n_vert, int r, int g, int b)
+{
+	glColor3f(r, g, b);
+
+	glBegin(GL_LINE_STRIP);
+	for (size_t i = 0; i < n_vert; i++) {
+		glVertex3fv(vertex_layout[i]);
+	}
+	glEnd();
+}
+
+
 void	BlitImage(int x, int y, int width, int height, Texture* im, int u, int v, uint32 ARGBColor, float scale)
 // Blits the given image to the screen.  No rotation allowed.
 {

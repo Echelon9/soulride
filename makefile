@@ -56,6 +56,6 @@ docs/doxygen/html/index.html: $(CPPSOURCES)
 ## cppcheck    : run static analysis on C++ source code
 cppcheck: $(CPPSOURCES)
 	cppcheck $(CPPSOURCES) --enable=all --platform=unix64 \
-	--std=c++11 --inline-suppr --quiet --force \
+	--std=c++03 --inline-suppr --quiet --force \
 	$(addprefix -I,$(INCLUDE_DIRS)) \
 	-I/usr/include -I/usr/include/linux

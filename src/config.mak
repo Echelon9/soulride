@@ -110,7 +110,7 @@ else
 
 # GCC
 USE_SDL := 1
-CC := $(SOULRIDE_COMPILER)
+CC := $(SOULRIDE_COMPILER) -std=c++03
 AR := ar -r
 CC_OUT_FLAG := -o
 LIB_OUT_FLAG :=

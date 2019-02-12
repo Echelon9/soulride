@@ -24,7 +24,7 @@
 // Main program for macOS version of Soul Ride.
 
 #include <SDL.h>
-#include <SDL_Main.h>
+#include <SDL_main.h>
 
 #ifdef MACOSX
 #include <OpenGL/gl.h>

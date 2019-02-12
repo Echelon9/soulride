@@ -1,16 +1,12 @@
 # See https://docs.travis-ci.com/user/languages/cpp for defaults
 language: cpp
 
-# Send builds to the container-based infrastructure
-sudo: false
-
 # Add Linux and macOS to build matrix
 os:
   - linux
   - osx
 
-# As using container-based infrastructure, unable to use
-# sudo make installdeps
+# Use apt addon on Linux to install dependencies
 addons:
   apt:
     packages:

@@ -37,7 +37,7 @@ SDL_MIXER_HEADERS = /Library/Frameworks/SDL_mixer.framework/Headers
 MACOSX_FRAMEWORKS = -framework Cocoa -framework OpenGL -framework SDL -framework SDL_mixer
 #-------------------------------------------------------------------------------
 
-cc = g++ -c
+cc = g++ -c -std=c++11
 debugflags = -g
 link = g++ $(debugflags) -fexceptions
 cflags = -I $(SDL_MIXER_HEADERS) $(shell sdl-config --cflags) -DLINUX=1 $(debugflags) -O3 -fomit-frame-pointer -fexceptions -ffast-math -DMACOSX

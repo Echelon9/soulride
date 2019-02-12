@@ -50,7 +50,9 @@ T	tmin(T a, T b)
 	else return b;
 }
 
+#if __cplusplus <= 199711L
 inline float	fmin(float a, float b) { return tmin(a, b); }
+#endif
 inline int	imin(int a, int b) { return tmin(a, b); }
 
 
@@ -62,7 +64,9 @@ T	tmax(T a, T b)
 	else return b;
 }
 
+#if __cplusplus <= 199711L
 inline float	fmax(float a, float b) { return tmax(a, b); }
+#endif
 inline int	imax(int a, int b) { return tmax(a, b); }
 
 

@@ -6,13 +6,20 @@ os:
   - linux
   - osx
 
-# Use apt addon on Linux to install dependencies
+# Install Linux and macOS dependencies
 addons:
   apt:
     packages:
     - build-essential
     - libsdl1.2-dev
     - libsdl-mixer1.2-dev
+    update: true
+  homebrew:
+    packages:
+    - sdl
+    - sdl_mixer
+    update: true
+  # Coverity configuration
   coverity_scan:
     project:
       name: "Echelon9/soulride"
@@ -22,14 +29,11 @@ addons:
     # must match TRAVIS_BRANCH check below
     branch_pattern: coverity_scan
 
-# Use brew on macOS to install dependencies
 before_install:
   # ugly hack; if running a coverity scan abort all except the 1st build
   # note that branch_pattern & the TRAVIS_BRANCH check must match, unfortunately
   # COVERITY_SCAN_BRANCH isn't defined until later in the build process
   - if ([[ "${TRAVIS_JOB_NUMBER##*.}" != "1" ]] && [[ "$TRAVIS_BRANCH" == "coverity_scan" ]]); then false ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update               ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sdl sdl_mixer; fi
 
 # Add clang and gcc compiler to build matrix
 compiler:
